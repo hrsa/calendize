@@ -1,0 +1,91 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/php.Dockerfile
+        image: hrsa/calendize:php
+        container_name: app
+        volumes:
+            - ./:/var/www/
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-app.conf" ]
+        networks:
+            - calendize-network
+
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/nginx.Dockerfile
+        image: hrsa/calendize:nginx
+        container_name: nginx
+        volumes:
+            - ./:/var/www/
+        ports:
+            - 8080:80
+        depends_on:
+            - app
+        networks:
+            - calendize-network
+
+    artisan:
+        build:
+            context: .
+            dockerfile: ./docker/php.Dockerfile
+        image: hrsa/calendize:php
+        container_name: artisan
+        volumes:
+            - ./:/var/www/
+        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-artisan.conf" ]
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        networks:
+            - calendize-network
+
+    db:
+        image: postgres:latest
+        container_name: postgres
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=${DB_DATABASE}
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        ports:
+            - 5432:5432
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+        networks:
+            - calendize-network
+
+    redis:
+        image: redis:latest
+        container_name: redis
+        volumes:
+            - redis_data:/data
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            interval: 30s
+            timeout: 30s
+            retries: 3
+        networks:
+            - calendize-network
+
+networks:
+    calendize-network:
+        driver: bridge
+
+volumes:
+    postgres_data:
+        driver: local
+    redis_data:
+        driver: local
