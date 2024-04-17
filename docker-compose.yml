@@ -1,50 +1,102 @@
+networks:
+    calendize-network:
+        driver: bridge
+
+volumes:
+    postgres_data:
+        driver: local
+    redis_data:
+        driver: local
+
+
 services:
-    app:
-        build:
-            context: .
-            dockerfile: ./docker/php.Dockerfile
-        image: hrsa/calendize:php
-        container_name: app
-        volumes:
-            - ./:/var/www/
-        depends_on:
-            db:
-                condition: service_healthy
-            redis:
-                condition: service_healthy
-        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-app.conf" ]
-        networks:
-            - calendize-network
 
     nginx:
         build:
             context: .
-            dockerfile: ./docker/nginx.Dockerfile
-        image: hrsa/calendize:nginx
+            dockerfile: ./docker/nginx.dockerfile
+            target: dev
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        restart: unless-stopped
         container_name: nginx
         volumes:
             - ./:/var/www/
         ports:
-            - 8080:80
+            - 8000:8000
         depends_on:
-            - app
+            - php
+            - redis
+            - db
+            - queue
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         networks:
             - calendize-network
 
-    artisan:
+    php:
         build:
             context: .
-            dockerfile: ./docker/php.Dockerfile
-        image: hrsa/calendize:php
-        container_name: artisan
+            dockerfile: ./docker/php.dockerfile
+            target: php
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        container_name: php
         volumes:
             - ./:/var/www/
-        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-artisan.conf" ]
         depends_on:
             db:
                 condition: service_healthy
             redis:
                 condition: service_healthy
+        ports:
+            - ":9000"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            - calendize-network
+
+    queue:
+        build:
+            context: .
+            dockerfile: ./docker/php.dockerfile
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        container_name: queue
+        ports:
+            - 8080:8080
+        volumes:
+            - ./:/var/www/
+        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-queue.conf" ]
+        depends_on:
+            db:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        networks:
+            - calendize-network
+
+
+    cron:
+        build:
+            context: .
+            dockerfile: ./docker/php.dockerfile
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        container_name: cron
+        volumes:
+            - ./:/var/www/
+        depends_on:
+            - db
+        entrypoint: [ 'php', '/var/www/artisan', 'schedule:work' ]
         networks:
             - calendize-network
 
@@ -80,12 +132,82 @@ services:
         networks:
             - calendize-network
 
-networks:
-    calendize-network:
-        driver: bridge
 
-volumes:
-    postgres_data:
-        driver: local
-    redis_data:
-        driver: local
+    migrate:
+        build:
+            context: .
+            dockerfile: ./docker/php.dockerfile
+            target: base
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-laravel}
+        container_name: migrate
+        volumes:
+            - ./:/var/www/
+        depends_on:
+            - db
+        profiles: [ "migrate" ]
+        working_dir: /var/www
+        entrypoint: [ "/bin/sh","-c" ]
+        command:
+            - |
+                php artisan migrate
+        networks:
+            - calendize-network
+
+
+    composer:
+        build:
+            context: .
+            dockerfile: ./docker/composer.dockerfile
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        container_name: composer
+        volumes:
+            - ./:/var/www
+        working_dir: /var/www
+        depends_on:
+            - php
+        user: ${USER:-anton} #system user
+        profiles: [ "composer" ]
+        entrypoint: [ 'composer', '--ignore-platform-reqs' ]
+        networks:
+            - calendize-network
+
+
+    artisan:
+        build:
+            context: .
+            dockerfile: ./docker/php.dockerfile
+            target: base
+            args:
+                - UID=${UID:-1000}
+                - GID=${GID:-1000}
+                - USER=${USER:-anton}
+        container_name: artisan
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - db
+        working_dir: /var/www
+        profiles: [ "artisan" ]
+        entrypoint: [ 'php', '/var/www/artisan' ]
+        networks:
+            - calendize-network
+
+
+    npm:
+        image: node:latest
+        container_name: npm
+        volumes:
+            - ./:/var/www
+        ports:
+            - 5173:5173
+        working_dir: /var/www
+        profiles: [ "npm" ]
+        entrypoint: [ 'npm' ]
+        networks:
+            - calendize-network

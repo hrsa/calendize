@@ -3,14 +3,35 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
+use LemonSqueezy\Laravel\Billable;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property int $credits
+ * @property Carbon|null $email_verified_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property int $failed_requests
+ * @property boolean $blocked
+ * @property string|null $remember_token
+ *
+ * @property IcsEvent $icsEvents
+ */
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +42,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'credits',
+        'email_verified_at',
+        'failed_requests',
+        'blocked',
+        'remember_token',
     ];
 
     /**
@@ -44,5 +70,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function icsEvents(): HasMany
+    {
+        return $this->hasMany(IcsEvent::class);
+    }
+
+    public function can($abilities, $arguments = [])
+    {
     }
 }
