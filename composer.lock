@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e02c3cf51da7fae667547ed0229eec82",
+    "content-hash": "1658eaa63d859a5550e0484ac34d3f41",
     "packages": [
         {
             "name": "beyondcode/laravel-mailbox",

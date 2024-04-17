@@ -15,7 +15,7 @@ onMounted(() => {
     }
 });
 
-defineExpose({ focus: () => input.value?.focus() });
+defineExpose({ focus: () => textarea.value?.focus() });
 </script>
 
 <template>

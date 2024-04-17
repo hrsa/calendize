@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {watchDebounced} from "@vueuse/core";
+import {ref} from 'vue';
 import axios from "axios";
+import type {FormKitNode} from '@formkit/core'
 
 const model = defineModel<string>({required: true});
 
 const emit = defineEmits<{
-  clearError
-  hasError: [value: string]
+    clearError: []
+    emailExistsError: []
+    somethingWentWrongError: []
 }>();
 
 withDefaults(defineProps<{
-    placeholder?: string;
-    delay?: number;
-    validation?: string;
-    validationVisibility?: string;
+    placeholder?: string | undefined;
+    delay?: number | undefined;
+    validation?: string | undefined;
+    validationVisibility?: "submit" | "blur" | "live" | "dirty" | undefined;
 }>(), {
-    placeholder: null,
+    placeholder: '',
     delay: 1000,
     validation: "required|email",
     validationVisibility: "blur"
@@ -24,17 +25,17 @@ withDefaults(defineProps<{
 
 const input = ref(null);
 
-const checkIfEmailExists = (node) => {
-    axios.post(route('user.check-email'),{ "email":node.value }).then((res) => {
+const checkIfEmailExists = (node: FormKitNode): Promise<boolean> => {
+    return axios.post(route('user.check-email'), {"email": node.value}).then(() => {
         emit('clearError')
         return true;
     }).catch((error) => {
-       if (error.response.status === 403) {
-           emit('hasError', "You have already used your free credit. Please sign up to get more!");
-       } else {
-           emit('hasError', "Something went wrong... I'll fix it soon!");
-       }
-       return false;
+        if (error.response.status === 403) {
+            emit('emailExistsError');
+        } else {
+            emit('somethingWentWrongError');
+        }
+        return false;
     });
 }
 
@@ -43,8 +44,6 @@ const checkIfEmailExists = (node) => {
 //         input.value?.focus();
 //     }
 // });
-
-defineExpose({focus: () => input.value?.focus()});
 </script>
 
 <template>
@@ -61,6 +60,9 @@ defineExpose({focus: () => input.value?.focus()});
         :delay=delay
         validation="required|email|(100)checkIfEmailExists"
         :validation-rules="{ checkIfEmailExists }"
+        :validation-messages="{
+            checkIfEmailExists: 'You have already used your free credit. Please sign up to get more!'
+        }"
         :validation-visibility=validationVisibility
     />
 </template>

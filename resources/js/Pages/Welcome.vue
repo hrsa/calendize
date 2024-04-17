@@ -22,7 +22,7 @@ const emailIsUnique = ref<boolean>(false);
 
 const sendCalendarEvent = () => {
     loading.value = true;
-    axios.post(route('guest-generate-calendar'),
+    window.axios.post(route('guest-generate-calendar'),
         {"email": email.value,
         "calendarEvent": calendarEvent.value,
         "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone ?? null
@@ -34,14 +34,19 @@ const sendCalendarEvent = () => {
 }
 
 
-const handleEmailError = (value) => {
-    if (!value) {
-        errorMessage.value = '';
-        emailIsUnique.value = true;
-    } else {
-        errorMessage.value = value;
-        emailIsUnique.value = false;
-    }
+const handleClearError = () => {
+    errorMessage.value = '';
+    emailIsUnique.value = true;
+}
+
+const handleEmailExistsError = () => {
+    errorMessage.value = "";
+    emailIsUnique.value = false;
+}
+
+const handleSomethingWentWrongError = () => {
+    errorMessage.value = "Something went wrong... I'll fix it soon!";
+    emailIsUnique.value = false;
 }
 
 
@@ -119,8 +124,9 @@ function handleImageError() {
                                 </div>
                             </div>
                             <EmailInput class="m-auto" placeholder="email" v-model="email" :class="loading ? 'blur-lg' : ''"
-                                        @clearError="handleEmailError"
-                                        @hasError="handleEmailError"
+                                        @clearError="handleClearError"
+                                        @somethingWentWrongError="handleSomethingWentWrongError"
+                                        @emailExistsError="handleEmailExistsError"
                             />
                             <h3
                                 v-if="errorMessage"

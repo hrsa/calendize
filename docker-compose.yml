@@ -65,6 +65,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/php.dockerfile
+            target: queue
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -178,14 +179,35 @@ services:
 
 
     npm:
-        image: node:latest
+        build:
+            context: .
+            dockerfile: ./docker/npm.dockerfile
+            target: npm
+            args:
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
+                - USER=${USER:-anton}
         container_name: npm
         volumes:
             - ./:/var/www
         ports:
             - 5173:5173
-        working_dir: /var/www
         profiles: [ "npm" ]
-        entrypoint: [ 'npm' ]
+        networks:
+            - calendize-network
+
+
+    ncu:
+        build:
+            context: .
+            dockerfile: ./docker/npm.dockerfile
+            target: ncu
+            args:
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
+                - USER=${USER:-anton}
+        container_name: ncu
+        volumes:
+            - ./:/var/www
         networks:
             - calendize-network

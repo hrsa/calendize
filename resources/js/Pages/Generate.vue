@@ -5,7 +5,8 @@ import LoadingSpinner from "@/Components/LoadingSpinner.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
 import {ref} from "vue";
-import axios from "axios";
+import {IcsEventProcessed} from "@/types";
+
 
 const calendarEvent = ref<string>('');
 const loading = ref<boolean>(false);
@@ -24,7 +25,7 @@ const sendCalendarEvent = () => {
     loading.value = true;
     clearNotifications(true, true);
 
-    axios.post(route('generate-calendar'),
+    window.axios.post(route('generate-calendar'),
         {
             "email": usePage().props.auth.user.email,
             "calendarEvent": calendarEvent.value,
@@ -33,7 +34,7 @@ const sendCalendarEvent = () => {
         .then(res => {
             console.log(res.data.icsId);
             window.Echo.private('ics-event-' + res.data.icsId)
-                .listen('IcsEventProcessed', (event) => {
+                .listen('IcsEventProcessed', (event: IcsEventProcessed) => {
                     loading.value = false;
                     console.log(event);
                     router.get(route('generate'), {
@@ -43,6 +44,7 @@ const sendCalendarEvent = () => {
                 })
         })
         .catch(error => {
+            console.error(error);
             loading.value = false;
         });
 }
