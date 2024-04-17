@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install -y \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     locales \
+    libbz2-dev \
+    libsodium-dev \
+    zlib1g-dev \
     libzip-dev \
     libonig-dev \
     zip \
@@ -36,7 +39,7 @@ RUN pecl install redis \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip
 
 
 FROM base AS php
@@ -48,3 +51,6 @@ CMD ["php", "/var/www/artisan", "schedule:work"]
 
 FROM base AS queue
 COPY ./docker/supervisord-queue.conf /etc/supervisor/conf.d/supervisord-queue.conf
+
+FROM base AS composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

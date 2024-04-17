@@ -31,6 +31,7 @@ services:
             - redis
             - db
             - queue
+            - cron
         extra_hosts:
             - "host.docker.internal:host-gateway"
         networks:
@@ -87,6 +88,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/php.dockerfile
+            target: cron
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -96,7 +98,6 @@ services:
             - ./:/var/www/
         depends_on:
             - db
-        entrypoint: [ 'php', '/var/www/artisan', 'schedule:work' ]
         networks:
             - calendize-network
 
@@ -133,34 +134,11 @@ services:
             - calendize-network
 
 
-    migrate:
-        build:
-            context: .
-            dockerfile: ./docker/php.dockerfile
-            target: base
-            args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
-                - USER=${USER:-laravel}
-        container_name: migrate
-        volumes:
-            - ./:/var/www/
-        depends_on:
-            - db
-        profiles: [ "migrate" ]
-        working_dir: /var/www
-        entrypoint: [ "/bin/sh","-c" ]
-        command:
-            - |
-                php artisan migrate
-        networks:
-            - calendize-network
-
-
     composer:
         build:
             context: .
-            dockerfile: ./docker/composer.dockerfile
+            dockerfile: ./docker/php.dockerfile
+            target: composer
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -171,9 +149,9 @@ services:
         working_dir: /var/www
         depends_on:
             - php
-        user: ${USER:-anton} #system user
+        user: ${USER:-anton}
         profiles: [ "composer" ]
-        entrypoint: [ 'composer', '--ignore-platform-reqs' ]
+        entrypoint: [ 'composer' ]
         networks:
             - calendize-network
 
