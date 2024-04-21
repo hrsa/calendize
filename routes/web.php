@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CalendarGeneratorController;
 use App\Http\Controllers\ProfileController;
+use App\Models\IcsEvent;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,13 +26,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-
     Route::get('/generate', function () {
         return Inertia::render('Generate', [
-    'serverErrorMessage' => request('serverErrorMessage'), // you can access these on your Generate.vue component as props.serverErrorMessage
-    'serverSuccess' => request('serverSuccess'), // you can access these on your Generate.vue component as props.serverSuccess
-]);
+            'serverErrorMessage' => request('serverErrorMessage'),
+            'serverSuccess' => request('serverSuccess'),
+        ]);
     })->name('generate');
+
+    Route::get('/checkout', function() {
+        $checkout = request()->user()->subscribe('341208')->url();
+        return Inertia::render('Dashboard', compact('checkout'));
+    })->name('checkout');
 });
 
 Route::middleware('auth')->group(function () {
@@ -38,5 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::view('/ics', 'mail.ics_success', ['ics' => IcsEvent::find(25)]);
+Route::view('/icserror', 'mail.ics_error', ['ics' => IcsEvent::find(11)]);
+
+Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
 
 require __DIR__ . '/auth.php';

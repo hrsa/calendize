@@ -4,12 +4,16 @@ import {Head, router, usePage} from '@inertiajs/vue3';
 import LoadingSpinner from "@/Components/LoadingSpinner.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextArea from "@/Components/TextArea.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {IcsEventProcessed} from "@/types";
 
 
 const calendarEvent = ref<string>('');
 const loading = ref<boolean>(false);
+
+const noCreditsLeft = computed(() => {
+    return usePage().props.auth.user.credits === 0
+});
 
 const props = withDefaults(defineProps<{
     serverErrorMessage?: string;
@@ -37,9 +41,10 @@ const sendCalendarEvent = () => {
                 .listen('IcsEventProcessed', (event: IcsEventProcessed) => {
                     loading.value = false;
                     console.log(event);
+                    let message = event.ics ? "Cool, check your email for calendar invitation!" : null;
                     router.get(route('generate'), {
                             serverErrorMessage: event.error,
-                            serverSuccess: event.ics
+                            serverSuccess: message
                         }, {preserveState: true, preserveScroll:true});
                 })
         })
@@ -64,27 +69,23 @@ const clearNotifications = (clearError: boolean, clearSuccess: boolean) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Dashboard</h2>
+            <h2 class="text-xl font-semibold leading-tight text-center text-gray-800 dark:text-gray-200">Generate</h2>
         </template>
 
-        <div class="py-12">
-            <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-                <!--        <img-->
-                <!--            id="background" alt="background"-->
-                <!--            class="absolute top-0 -left-20 max-w-[877px]"-->
-                <!--            src="https://laravel.com/assets/img/welcome/background.svg"-->
-                <!--        />-->
+            <div class="bg-gray-50 text-black/50 dark:bg-gray-900 dark:text-white/50">
                 <div
-                    class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
+                    class="relative min-h-screen flex flex-col items-center pt-16 justify-start selection:text-white"
                 >
                     <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <div class="flex flex-col gap-6 lg:gap-8">
                             <div
                                 id="docs-card"
+                                v-if="!noCreditsLeft"
                                 class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6
                             shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300
                             hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
-                            lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                            lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700
+                            dark:focus-visible:ring-[#FF2D20]"
                             >
                                 <h3
                                     v-if="props.serverErrorMessage"
@@ -119,11 +120,24 @@ const clearNotifications = (clearError: boolean, clearSuccess: boolean) => {
                                 </div>
 
                             </div>
+
+                            <div
+                                id="docs-card"
+                                v-if="noCreditsLeft"
+                                class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6
+                            shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300
+                            hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
+                            lg:p-10 lg:pb-10 dark:bg-gray-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                            >
+                                <h3
+                                    @click="console.log('create checkout page')"
+                                    class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-red-600/50 bg-red-600/50 px-8 py-2 text-center text-white"
+                                >You have no credits left! Let's get you some more...</h3>
+                            </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
     </AuthenticatedLayout>
 </template>

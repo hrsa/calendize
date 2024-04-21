@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
-use App\Jobs\GenerateCalendar;
+use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class MailProcessingService
 {
@@ -27,7 +28,7 @@ class MailProcessingService
                 'prompt' => strip_tags($message->html())
             ]);
 
-            GenerateCalendar::dispatch($icsEvent);
+            GenerateCalendarJob::dispatch($icsEvent);
         }
     }
 }

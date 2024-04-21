@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use OpenAI\Laravel\Facades\OpenAI;
 
-class GenerateCalendar implements ShouldQueue
+class GenerateCalendarJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -39,15 +39,21 @@ class GenerateCalendar implements ShouldQueue
             $systemPrompt .= "User's timezone: " . $this->icsEvent->timezone;
         }
 
-        $result = OpenAI::chat()->create([
-            'model' => 'gpt-4-turbo-2024-04-09',
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $this->icsEvent->prompt],
-            ],
-            'max_tokens' => 2800,
-            'response_format' => ['type' => 'json_object']
-        ]);
+        try {
+            $result = OpenAI::chat()->create([
+                'model' => 'gpt-4-turbo-2024-04-09',
+                'messages' => [
+                    ['role' => 'system', 'content' => $systemPrompt],
+                    ['role' => 'user', 'content' => $this->icsEvent->prompt],
+                ],
+                'max_tokens' => 2800,
+                'response_format' => ['type' => 'json_object']
+            ]);
+        } catch (\Exception $e) {
+            $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+            IcsEventProcessed::dispatch($this->icsEvent);
+            $this->fail($e);
+        }
 
         $reply = $result?->choices[0]->message->content;
 
@@ -71,6 +77,7 @@ class GenerateCalendar implements ShouldQueue
 
         ray('Got a reply', $reply)->green();
         ray($result->usage->totalTokens)->blue();
+        $this->icsEvent->update('token_usage', $result->usage->totalTokens);
         IcsEventProcessed::dispatch($this->icsEvent);
         ray('broadcasting')->orange();
     }

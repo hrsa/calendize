@@ -39,11 +39,6 @@ const checkIfEmailExists = (node: FormKitNode): Promise<boolean> => {
     });
 }
 
-// onMounted(() => {
-//     if (input.value?.hasAttribute('autofocus')) {
-//         input.value?.focus();
-//     }
-// });
 </script>
 
 <template>
@@ -61,7 +56,7 @@ const checkIfEmailExists = (node: FormKitNode): Promise<boolean> => {
         validation="required|email|(100)checkIfEmailExists"
         :validation-rules="{ checkIfEmailExists }"
         :validation-messages="{
-            checkIfEmailExists: 'You have already used your free credit. Please sign up to get more!'
+            checkIfEmailExists: 'You already have an account. Please log in to get more!'
         }"
         :validation-visibility=validationVisibility
     />

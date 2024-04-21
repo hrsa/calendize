@@ -20,7 +20,7 @@ const form = useForm({
 
 <template>
     <section>
-        <header>
+        <header class="text-center">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Profile Information</h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -67,7 +67,9 @@ const form = useForm({
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                        class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900
+                        dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2
+                        focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                     >
                         Click here to re-send the verification email.
                     </Link>
@@ -81,7 +83,7 @@ const form = useForm({
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex justify-center gap-4">
                 <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
 
                 <Transition

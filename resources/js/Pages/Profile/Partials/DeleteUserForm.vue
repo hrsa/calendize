@@ -41,7 +41,7 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
-        <header>
+        <header class="text-center">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -50,11 +50,13 @@ const closeModal = () => {
             </p>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+        <div class="flex justify-center">
+            <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+        </div>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <h2 class="text-lg font-medium text-center text-gray-900 dark:text-gray-100">
                     Are you sure you want to delete your account?
                 </h2>
 
@@ -71,15 +73,15 @@ const closeModal = () => {
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-3/4"
+                        class="mt-1 block w-3/4 mx-auto"
                         placeholder="Password"
                         @keyup.enter="deleteUser"
                     />
 
-                    <InputError :message="form.errors.password" class="mt-2" />
+                    <InputError :message="form.errors.password" class="mt-2 mx-auto flex justify-center" />
                 </div>
 
-                <div class="mt-6 flex justify-end">
+                <div class="mt-6 flex justify-center">
                     <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
 
                     <DangerButton

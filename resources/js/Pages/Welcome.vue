@@ -5,6 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {ref} from "vue";
 import EmailInput from "@/Components/EmailInput.vue";
 import LoadingSpinner from "@/Components/LoadingSpinner.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 
 defineProps<{
@@ -23,9 +24,10 @@ const emailIsUnique = ref<boolean>(false);
 const sendCalendarEvent = () => {
     loading.value = true;
     window.axios.post(route('guest-generate-calendar'),
-        {"email": email.value,
-        "calendarEvent": calendarEvent.value,
-        "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone ?? null
+        {
+            "email": email.value,
+            "calendarEvent": calendarEvent.value,
+            "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone ?? null
         })
         .then(res => {
             loading.value = false;
@@ -72,10 +74,9 @@ function handleImageError() {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="flex lg:col-start-2 lg:justify-center">
-                        <img
-                            class="h-12 w-auto text-white lg:h-16 lg:text-[#FF2D20]"
-                            src="/calendar.png" alt="Calendize logo"
-                        />
+                        <Link href="/">
+                            <ApplicationLogo class="size-36 fill-current text-gray-500"/>
+                        </Link>
                     </div>
                     <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
                         <Link
@@ -116,14 +117,15 @@ function handleImageError() {
                         >
                             <div class="relative w-full h-48">
                                 <TextArea class="h-48 w-full resize-none text-lg" :class="loading ? 'blur-lg' : ''"
-                                         placeholder="Share your calendar details!"
-                                         v-model="calendarEvent"/>
+                                          placeholder="Share your calendar details!"
+                                          v-model="calendarEvent"/>
                                 <div v-if="loading"
-                                    role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                                     role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                     <LoadingSpinner/>
                                 </div>
                             </div>
-                            <EmailInput class="m-auto" placeholder="email" v-model="email" :class="loading ? 'blur-lg' : ''"
+                            <EmailInput class="m-auto" placeholder="email" v-model="email"
+                                        :class="loading ? 'blur-lg' : ''"
                                         @clearError="handleClearError"
                                         @somethingWentWrongError="handleSomethingWentWrongError"
                                         @emailExistsError="handleEmailExistsError"
@@ -138,7 +140,7 @@ function handleImageError() {
 
                                 <PrimaryButton v-else :class="{ 'opacity-25': !emailIsUnique || !calendarEvent }"
                                                :disabled="!emailIsUnique || !calendarEvent"
-                                                @click="sendCalendarEvent"
+                                               @click="sendCalendarEvent"
                                 >
                                     Generate
                                 </PrimaryButton>

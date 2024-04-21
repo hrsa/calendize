@@ -1,7 +1,7 @@
 {
     "name": "hrsa/calendize",
     "type": "project",
-    "description": "The easy way to turn e-mails into ICS files.",
+    "description": "The easiest way to turn e-mails into ICS files.",
     "keywords": ["calendize", "ics", "calendar", "email"],
     "license": "MIT",
     "require": {

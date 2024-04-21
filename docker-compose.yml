@@ -17,8 +17,8 @@ services:
             dockerfile: ./docker/nginx.dockerfile
             target: dev
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         restart: unless-stopped
         container_name: nginx
@@ -43,12 +43,13 @@ services:
             dockerfile: ./docker/php.dockerfile
             target: php
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: php
         volumes:
             - ./:/var/www/
+        command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord-php.conf" ]
         depends_on:
             db:
                 condition: service_healthy
@@ -67,8 +68,8 @@ services:
             dockerfile: ./docker/php.dockerfile
             target: queue
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: queue
         ports:
@@ -91,8 +92,8 @@ services:
             dockerfile: ./docker/php.dockerfile
             target: cron
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: cron
         volumes:
@@ -141,8 +142,8 @@ services:
             dockerfile: ./docker/php.dockerfile
             target: composer
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: composer
         volumes:
@@ -163,8 +164,8 @@ services:
             dockerfile: ./docker/php.dockerfile
             target: base
             args:
-                - UID=${UID:-1000}
-                - GID=${GID:-1000}
+                - UID=${UID:-1001}
+                - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: artisan
         volumes:

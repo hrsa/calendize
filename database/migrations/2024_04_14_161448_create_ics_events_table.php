@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->text('error')->nullable()->default(null);
             $table->text('ics')->nullable()->default(null);
             $table->integer('token_usage')->nullable()->default(null);
+            $table->string('secret')->nullable()->default(null);
             $table->softDeletes();
             $table->timestamps();
         });

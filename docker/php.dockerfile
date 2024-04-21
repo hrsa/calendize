@@ -41,10 +41,12 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip
 
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+RUN apt-get install -y nodejs
 
 FROM base AS php
 COPY ./docker/php-fpm.conf /usr/local/etc
-CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+COPY ./docker/supervisord-php.conf /etc/supervisor/conf.d/supervisord-php.conf
 
 FROM base AS cron
 CMD ["php", "/var/www/artisan", "schedule:work"]
