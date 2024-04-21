@@ -29,7 +29,9 @@ class IcsEventProcessed implements ShouldBroadcast
     {
         return [
             'id' => $this->icsEvent->id,
+            'summary' => $this->icsEvent->ics ? $this->icsEvent->getSummary() : null,
             'ics' => $this->icsEvent->ics,
+            'secret' => $this->icsEvent->secret,
             'error' => $this->icsEvent->error,
         ];
     }
