@@ -8,6 +8,7 @@ ENV UID=${UID}
 ENV GID=${GID}
 ENV USER=${USER}
 
+WORKDIR /var/www
 RUN addgroup --gid ${GID} --system ${USER}
 RUN adduser --system --home /home/${USER} --shell /bin/sh --uid ${UID} --ingroup ${USER} ${USER}
 
