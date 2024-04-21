@@ -30,6 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Generate', [
             'serverErrorMessage' => request('serverErrorMessage'),
             'serverSuccess' => request('serverSuccess'),
+            'eventId' => request('eventId'),
+            'eventSecret' => request('eventSecret')
         ]);
     })->name('generate');
 
