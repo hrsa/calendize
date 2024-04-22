@@ -6,12 +6,15 @@ use App\Exceptions\NoSummaryException;
 use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
 use App\Models\User;
+use App\Resources\IcsEventsResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CalendarGeneratorController extends Controller
 {
@@ -67,7 +70,7 @@ class CalendarGeneratorController extends Controller
     /**
      * @throws NoSummaryException
      */
-    public function downloadEvent(int $id, string $secret)
+    public function downloadEvent(int $id, string $secret): StreamedResponse
     {
         $icsEvent = IcsEvent::findOrFail($id);
 
@@ -76,5 +79,15 @@ class CalendarGeneratorController extends Controller
         return response()->streamDownload(static function () use ($icsEvent) {
             echo $icsEvent->ics;
         }, $icsEvent->getSummary() . '.ics', ['Content-Type' => 'text/calendar']);
+    }
+
+    public function usersEvents(): \Inertia\Response
+    {
+        $icsEvents = IcsEvent::whereUserId(request()->user()->id)
+            ->whereNotNull('ics')
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        return Inertia::render('MyEvents', ['events' => IcsEventsResource::collection($icsEvents)]);
     }
 }

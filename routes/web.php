@@ -35,6 +35,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('generate');
 
+    Route::get('/my-events', [CalendarGeneratorController::class, 'usersEvents'])->name('my-events');
+
     Route::get('/checkout', function() {
         $checkout = request()->user()->subscribe('341208')->url();
         return Inertia::render('Dashboard', compact('checkout'));
