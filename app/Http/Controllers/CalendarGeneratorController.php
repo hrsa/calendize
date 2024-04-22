@@ -7,16 +7,23 @@ use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class CalendarGeneratorController extends Controller
 {
-    public function generate(Request $request)
+    public function generate(Request $request): JsonResponse
     {
-        ray("Got a auth request", $request->all())->red();
-        ray($request->session());
+        if (Gate::denies('is-not-blocked')) {
+            return response()->json(["error" => "Your account was put on hold!"], Response::HTTP_FORBIDDEN);
+        }
+
+        if (Gate::denies('has-credits')) {
+            return response()->json(['error' => 'You have no credits left!'], Response::HTTP_FORBIDDEN);
+        }
 
         $icsEvent = IcsEvent::create([
             'user_id' => $request->user()->id,

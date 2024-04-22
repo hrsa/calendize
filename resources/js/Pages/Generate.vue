@@ -56,6 +56,9 @@ const sendCalendarEvent = () => {
         })
         .catch(error => {
             console.error(error);
+            router.get(route('generate'), {
+                        serverErrorMessage: error.response.data.error,
+                    }, {preserveState: true, preserveScroll: true});
             loading.value = false;
         });
 }

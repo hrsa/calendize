@@ -23,18 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('generate-ics', function (User $user) {
+        Gate::define('has-credits', fn(User $user) => $user->credits > 0);
 
-            if ($user->credits = 0) {
-                Response::deny("You don't have enough credits");
-            }
-
-            if ($user->blocked) {
-                Response::deny('You were blocked for too many false requests');
-            }
-
-            Response::allow();
-        });
+        Gate::define('is-not-blocked', fn(User $user) => !$user->blocked);
 
         Http::macro('mistral', function () {
             return Http::withHeaders([

@@ -19,7 +19,9 @@ class MailProcessingService
             return;
         }
 
-        if (Gate::forUser($user)->allows('generate-ics')) {
+        if (Gate::forUser($user)->allows('has-credits')
+            && Gate::forUser($user)->allows('is-not-blocked')
+        ) {
 
             ray("We've got mail", "FROM", $message->from(), $message->fromName(), "ABOUT", $message->html(), "The User has credits:", $user->credits);
 
