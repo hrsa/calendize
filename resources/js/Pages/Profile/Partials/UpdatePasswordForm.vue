@@ -21,9 +21,9 @@ const updatePassword = () => {
             form.reset();
         },
         onError: () => {
-            if (form.errors.current_password) {
-                form.reset('current_password');
-                currentPasswordInput.value?.focus();
+            if (form.errors.password) {
+                form.reset('password', 'password_confirmation');
+                passwordInput.value?.focus();
             }
         },
     });

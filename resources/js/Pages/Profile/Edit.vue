@@ -7,7 +7,7 @@ import { Head } from '@inertiajs/vue3';
 
 defineProps<{
     mustVerifyEmail?: boolean;
-    status?: string | null;
+    status?: string | undefined;
 }>();
 </script>
 
