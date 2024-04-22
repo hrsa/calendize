@@ -61,8 +61,8 @@ const form = useForm({
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                    Your email address is unverified.
+                <p class="text-sm mt-2 text-center text-orange-700 dark:text-orange-400">
+                    Your email address is not confirmed.
                     <Link
                         :href="route('verification.send')"
                         method="post"
@@ -84,16 +84,16 @@ const form = useForm({
             </div>
 
             <div class="flex justify-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
                 <Transition
                     enter-active-class="transition ease-in-out"
                     enter-from-class="opacity-0"
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-green-700 dark:text-green-600">Your profile was updated!</p>
                 </Transition>
+
+                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
             </div>
         </form>
     </section>

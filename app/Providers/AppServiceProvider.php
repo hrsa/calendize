@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,18 @@ class AppServiceProvider extends ServiceProvider
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . config('mistral.api_key')
             ])->baseUrl('https://api.mistral.ai/v1/');
+        });
+
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
+            return (new MailMessage)
+                ->subject(config('app.name') . ' - verify your email address')
+                ->greeting('Hi and thanks for your interest in Calendize!')
+                ->line("I'll be able to process your events as soon as we confirm you're a real human! 😊")
+                ->line('Please, click the button below to verify your email address.')
+                ->action('Verify Email Address', $url)
+                ->line("I'm already looking forward to working with you.")
+                ->line('With the warmest regards,')
+                ->salutation('Cally');
         });
     }
 }

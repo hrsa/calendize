@@ -21,13 +21,22 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     <GuestLayout>
         <Head title="Email Verification" />
 
+        <div class="mb-4 text-lg font-semibold text-center text-gray-600 dark:text-gray-400">
+            Thanks for your interest in Calendize!
+        </div>
+
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            Thanks for signing up! Before getting started, could you verify your email address by clicking on the link
-            we just emailed to you? If you didn't receive the email, we will gladly send you another.
+            Before I send you the calendized event, <b>we need to confirm that you're a real human</b>.
+            I know, it's a hassle - but there are so many bots nowadays...
+        </div>
+
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+            Could you please verify your email address by clicking on the link I've just emailed to you?
+            If you didn't get it, feel free to get another.
         </div>
 
         <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400" v-if="verificationLinkSent">
-            A new verification link has been sent to the email address you provided during registration.
+            All done, the verification link has been sent to your email!
         </div>
 
         <form @submit.prevent="submit">

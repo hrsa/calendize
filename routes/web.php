@@ -16,14 +16,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/start', function () {
-    return Inertia::render('Start');
-});
-
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', ['message' => request('message')]);
     })->name('dashboard');
 
     Route::get('/generate', function () {

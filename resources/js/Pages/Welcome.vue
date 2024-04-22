@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Head, Link} from '@inertiajs/vue3';
+import {Head, Link, router} from '@inertiajs/vue3';
 import TextArea from "@/Components/TextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {ref} from "vue";
@@ -29,9 +29,8 @@ const sendCalendarEvent = () => {
             "calendarEvent": calendarEvent.value,
             "timeZone": Intl.DateTimeFormat().resolvedOptions().timeZone ?? null
         })
-        .then(res => {
-            loading.value = false;
-            calendarEvent.value = res.data.reply;
+        .then(() => {
+            router.get(route('verification.notice'));
         });
 }
 

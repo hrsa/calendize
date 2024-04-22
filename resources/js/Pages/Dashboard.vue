@@ -6,6 +6,7 @@ import NavLink from "@/Components/NavLink.vue";
 
 defineProps<{
     checkout?: string;
+    message?: string;
 }>();
 </script>
 
@@ -21,6 +22,7 @@ defineProps<{
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
+                    <h2 class="text-xl" v-if="message">{{message}}</h2>
                     <NavLink :href="route('checkout')">
                     <SecondaryButton
                     >Checkout</SecondaryButton></NavLink>

@@ -10,6 +10,7 @@ use App\Resources\IcsEventsResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -55,14 +56,16 @@ class CalendarGeneratorController extends Controller
 
         $user = $userService->createWithCredits(email: request('email'));
 
-        $icsEvent = IcsEvent::create([
+        Auth::login($user);
+
+        IcsEvent::create([
             'user_id' => $user->id,
             'secret' => Str::random(32),
             'prompt' => request('calendarEvent'),
             'timezone' => request('timeZone')
         ]);
 
-        GenerateCalendarJob::dispatch($icsEvent);
+        $user->sendEmailVerificationNotification();
 
         return response()->json(['reply' => 'ok']);
     }

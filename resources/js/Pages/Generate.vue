@@ -19,7 +19,7 @@ const noCreditsLeft = computed(() => {
 const props = withDefaults(defineProps<{
     serverErrorMessage?: string;
     serverSuccess?: string;
-    eventId?: string;
+    eventId?: string | null;
     eventSecret?: string;
 }>(), {
     serverErrorMessage: '',

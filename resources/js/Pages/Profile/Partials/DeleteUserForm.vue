@@ -56,6 +56,7 @@ const closeModal = () => {
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
+                <img alt="Calendize logo" class="m-auto mb-6 size-24" src='/calendar-sad.png' />
                 <h2 class="text-lg font-medium text-center text-gray-900 dark:text-gray-100">
                     Are you sure you want to delete your account?
                 </h2>

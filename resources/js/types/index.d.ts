@@ -14,14 +14,8 @@ export interface IcsEventProcessed extends Event {
   id: number;
   ics: string;
   error: string;
-}
-
-declare global {
-  interface Window {
-    Echo: {
-      private(channel: string): any;
-    };
-  }
+  secret: string;
+  summary: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
