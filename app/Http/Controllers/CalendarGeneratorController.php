@@ -54,6 +54,7 @@ class CalendarGeneratorController extends Controller
 
         $icsEvent = IcsEvent::create([
             'user_id' => $user->id,
+            'secret' => Str::random(32),
             'prompt' => request('calendarEvent'),
             'timezone' => request('timeZone')
         ]);

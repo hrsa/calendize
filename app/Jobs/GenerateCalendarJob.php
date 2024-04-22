@@ -42,7 +42,7 @@ class GenerateCalendarJob implements ShouldQueue
         try {
             $result = $this->generateOpenAIResponse($systemPrompt);
         } catch (Exception $e) {
-            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}");
+            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
         }
 
         if (!$result) {
@@ -50,6 +50,7 @@ class GenerateCalendarJob implements ShouldQueue
                 $result = $this->generateMistralResponse($systemPrompt);
             } catch (Exception $e) {
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+                Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
                 IcsEventProcessed::dispatch($this->icsEvent);
                 $this->fail($e);
             }
