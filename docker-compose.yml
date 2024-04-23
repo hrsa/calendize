@@ -212,3 +212,20 @@ services:
             - ./:/var/www
         networks:
             - calendize-network
+
+
+    ngrok:
+        image: ngrok/ngrok:latest
+        restart: unless-stopped
+        container_name: ngrok
+        command:
+            - "start"
+            - "--all"
+            - "--config"
+            - "/etc/ngrok.yml"
+        volumes:
+            - ./docker/ngrok.yml:/etc/ngrok.yml
+        ports:
+            - 4040:4040
+        extra_hosts:
+            - "host.docker.internal:host-gateway"

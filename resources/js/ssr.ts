@@ -6,7 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import {defaultConfig, plugin as formkitPlugin} from "@formkit/vue";
 
-const appName = import.meta.env.VITE_APP_NAME || 'SSR';
+const appName = import.meta.env.VITE_APP_NAME || 'Calendize SSR';
 createServer((page) =>
     createInertiaApp({
         page,

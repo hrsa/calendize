@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalendarGeneratorController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Models\IcsEvent;
 use Illuminate\Foundation\Application;
@@ -14,13 +15,11 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard', ['message' => request('message')]);
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/generate', function () {
         return Inertia::render('Generate', [
@@ -32,11 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('generate');
 
     Route::get('/my-events', [CalendarGeneratorController::class, 'usersEvents'])->name('my-events');
-
-    Route::get('/checkout', function() {
-        $checkout = request()->user()->subscribe('341208')->url();
-        return Inertia::render('Dashboard', compact('checkout'));
-    })->name('checkout');
 });
 
 Route::middleware('auth')->group(function () {

@@ -53,6 +53,24 @@ return [
     */
 
     'store' => env('LEMON_SQUEEZY_STORE'),
+    'sales' => [
+        'beginner' => [
+            'product' => env('LEMON_SQUEEZY_PRODUCT_BEGINNER', null),
+            'variant' => env('LEMON_SQUEEZY_VARIANT_BEGINNER', null),
+        ],
+        'classic' => [
+            'product' => env('LEMON_SQUEEZY_PRODUCT_CLASSIC', null),
+            'variant' => env('LEMON_SQUEEZY_VARIANT_CLASSIC', null),
+        ],
+        'power' => [
+            'product' => env('LEMON_SQUEEZY_PRODUCT_POWER', null),
+            'variant' => env('LEMON_SQUEEZY_VARIANT_POWER', null),
+        ],
+        'topup' => [
+            'product' => env('LEMON_SQUEEZY_PRODUCT_TOPUP', null),
+            'variant' => env('LEMON_SQUEEZY_VARIANT_TOPUP', null),
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
