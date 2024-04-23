@@ -14,5 +14,8 @@ class LemonSqueezyEventListener
     public function handle(WebhookHandled $event): void
     {
         ray($event)->blue();
+        ray($event->payload['meta']['event_name'])->blue();
+        ray($event->payload['meta']['custom_data']['billable_id'])->orange();
+
     }
 }

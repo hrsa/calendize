@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index(bool $paymentSucceeded = false): \Inertia\Response
+    public function index(string $paymentSucceeded = ''): \Inertia\Response
     {
         $paymentSucceeded = request('payment');
 
@@ -26,7 +26,7 @@ class DashboardController extends Controller
                                 ->redirectTo(route('dashboard', ['payment' => 'success']))
                                 ->url();
 
-        $paymentConfirmation = $paymentSucceeded
+        $paymentConfirmation = $paymentSucceeded === 'success'
             ? [
             'title' => 'Your payment was successful!',
             'content' => "Thanks! I'm looking forward to working with you!",

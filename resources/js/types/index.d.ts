@@ -8,6 +8,7 @@ export interface User {
     credits: number;
     failed_requests: number;
     blocked: boolean;
+    active_subscription: string;
 }
 
 export interface IcsEventProcessed extends Event {

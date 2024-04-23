@@ -1,0 +1,24 @@
+version: "2"
+authtoken: 2f8MfpyqdZHVQAy9Y7NKwdhjCRZ_6HyTHHQibk1LDbxEzPKuS
+connect_timeout: 30s
+console_ui: true
+console_ui_color: transparent
+dns_resolver_ips:
+  - 1.1.1.1
+  - 8.8.8.8
+heartbeat_interval: 1m
+heartbeat_tolerance: 5s
+log_level: info
+log: /dev/stdout
+update_channel: stable
+update_check: false
+web_addr: localhost:4040
+tunnels:
+  website:
+    addr: host.docker.internal:8000
+    proto: http
+    host_header: rewrite
+    domain: plainly-deep-maggot.ngrok-free.app
+    response_header:
+      add:
+        - "Access-Control-Allow-Origin: *"

@@ -60,6 +60,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $appends = ['active_subscription'];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -78,7 +80,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(IcsEvent::class);
     }
 
-    public function can($abilities, $arguments = [])
+    public function getActiveSubscriptionAttribute(): string
     {
+        return match ($this->subscriptions()?->active()?->first()?->variant_id) {
+            config('lemon-squeezy.sales.beginner.variant') => 'beginner',
+            config('lemon-squeezy.sales.classic.variant') => 'classic',
+            config('lemon-squeezy.sales.power.variant') => 'power',
+            default => 'none',
+        };
     }
+
 }

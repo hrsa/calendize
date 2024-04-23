@@ -15,4 +15,12 @@ class UserService
             'credits' => $credits
         ]);
     }
+
+    public function createSubscriptionLink(User $user, string $subscriptionType): string
+    {
+        return $user->subscribe(config("lemon-squeezy.sales.{$subscriptionType}.variant"))
+                    ->withThankYouNote('Thanks for trusting us!')
+                    ->redirectTo(route('dashboard', ['payment' => 'success']))
+                    ->url();
+    }
 }
