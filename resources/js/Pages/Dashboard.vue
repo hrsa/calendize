@@ -99,7 +99,7 @@ const swapSubscription = (swapDate: string) => {
             swapDate: swapDate
         }).then(() => {
             modalOpen.value = '';
-            router.reload();
+            router.reload({ preserveState: false });
         }).catch((err) => {
             console.error(err);
         });
