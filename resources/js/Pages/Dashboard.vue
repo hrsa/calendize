@@ -23,8 +23,6 @@ const props = defineProps<{
 
 const hover = ref('');
 const modalOpen = ref('');
-const modalImageSrc = ref(false);
-const modalImageAlt = ref(false);
 const newSubscription = ref("");
 const subscriptionRenewalDate = ref("");
 const subscriptionEndDate = ref("");
@@ -107,8 +105,7 @@ const swapSubscription = (swapDate: string) => {
         });
 }
 
-const handleSubscription = (subscriptionName) => {
-    modalImageSrc.value = `/${subscriptionName}.png`;
+const handleSubscription = (subscriptionName: string) => {
     newSubscription.value = subscriptionName;
 
     if (activeSubscription === 'none') {
@@ -272,8 +269,8 @@ onMounted(() => {
                             <h2 class="mb-4 text-center text-xl font-medium uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                 Your subscription: {{ newSubscription }}
                             </h2>
-                            <img :alt="modalImageAlt" class="m-auto mb-6 h-36"
-                                 :src="modalImageSrc"/>
+                            <img :alt="newSubscription" class="m-auto mb-6 h-36"
+                                 :src="`/${newSubscription}.png`" />
 
                             <p class="text-center text-lg text-gray-600 dark:text-gray-300">
                                 {{ subscriptionRenewalDate ? 'Renewal date:' : 'End date:' }}
@@ -303,8 +300,8 @@ onMounted(() => {
                             <h2 class="mb-4 text-center text-xl font-medium uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                 {{ swapAction }} {{ activeSubscription }} to {{ newSubscription }}
                             </h2>
-                            <img :alt="modalImageAlt" class="m-auto mb-6 h-36"
-                                 :src="modalImageSrc"/>
+                            <img :alt="newSubscription" class="m-auto mb-6 h-36"
+                                 :src="`/${newSubscription}.png`"/>
 
                             <p class="text-center text-lg text-gray-600 dark:text-gray-300">
                                 {{ subscriptionRenewalDate ? 'Renewal date:' : 'End date:' }}
@@ -328,7 +325,7 @@ onMounted(() => {
                     <Modal :show="modalOpen === 'subscriptionCancel'" @close="modalOpen = ''">
                         <div class="p-6">
                             <h2 class="mb-4 text-center text-xl font-medium uppercase tracking-widest text-gray-900 dark:text-gray-100">
-                                Are you sure that you want to cancel {{ activeSubscription }} subscription?
+                                Oh, you aren't happy with my results?
                             </h2>
                             <img alt="sad Cally" class="m-auto mb-6 h-36"
                                  src="/calendar-sad.png"/>
