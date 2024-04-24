@@ -28,6 +28,7 @@ Route::group([
    Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
    Route::get('/get-modification-data', [SubscriptionController::class, 'getModificationData'])->name('get-modification-data');
    Route::post('/cancel', [SubscriptionController::class, 'cancel'])->name('cancel');
+   Route::post('/swap', [SubscriptionController::class, 'swap'])->name('swap');
 });
 
 

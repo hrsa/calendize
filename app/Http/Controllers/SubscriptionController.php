@@ -33,4 +33,22 @@ class SubscriptionController extends Controller
             'endsAt' => $subscription->ends_at,
         ]);
     }
+
+    public function swap(): JsonResponse
+    {
+        $subscription = request()->user()->subscriptions()->active()->first();
+        $newSubscription = request('newSubscription');
+
+        if (request('swapDate') === 'now') {
+            $subscription->swapAndInvoice(config("lemon-squeezy.sales.{$newSubscription}.product"),
+                                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+        }
+
+        if (request('swapDate') === 'at renewal') {
+            $subscription->swap(config("lemon-squeezy.sales.{$newSubscription}.product"),
+                                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+        }
+
+        return response()->json([$subscription]);
+    }
 }
