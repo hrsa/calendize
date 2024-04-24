@@ -95,14 +95,14 @@ const swapAction = computed(() => {
 
 const swapSubscription = (swapDate: string) => {
     window.axios.post(route('subscriptions.swap'), {
-            newSubscription: newSubscription.value,
-            swapDate: swapDate
-        }).then(() => {
-            modalOpen.value = '';
-            router.reload({ preserveState: false });
-        }).catch((err) => {
-            console.error(err);
-        });
+        newSubscription: newSubscription.value,
+        swapDate: swapDate
+    }).then(() => {
+        modalOpen.value = '';
+        router.get(route('dashboard'), {}, {preserveState: false});
+    }).catch((err) => {
+        console.error(err);
+    });
 }
 
 const handleSubscription = (subscriptionName: string) => {
@@ -129,8 +129,8 @@ const handleSubscription = (subscriptionName: string) => {
             });
 
         modalOpen.value = activeSubscription === subscriptionName
-                        ? 'subscriptionModification'
-                        : 'subscriptionSwap';
+            ? 'subscriptionModification'
+            : 'subscriptionSwap';
     }
 }
 
@@ -168,7 +168,9 @@ onMounted(() => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Subscriptions</div>
+                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                        Subscriptions
+                    </div>
                     <div class="m-auto flex w-fit items-center gap-6 p-6">
                         <div
                             class="relative cursor-pointer rounded-lg border transition duration-300 max-w-48"
@@ -270,14 +272,25 @@ onMounted(() => {
                                 Your subscription: {{ newSubscription }}
                             </h2>
                             <img :alt="newSubscription" class="m-auto mb-6 h-36"
-                                 :src="`/${newSubscription}.png`" />
+                                 :src="`/${newSubscription}.png`"/>
 
-                            <p class="text-center text-lg text-gray-600 dark:text-gray-300">
-                                {{ subscriptionRenewalDate ? 'Renewal date:' : 'End date:' }}
-                            </p>
-                            <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
-                                {{ subscriptionRenewalDate ?? subscriptionEndDate }}
-                            </p>
+                            <template v-if="subscriptionRenewalDate">
+                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">
+                                    Renewal date:
+                                </p>
+                                <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
+                                    {{ subscriptionRenewalDate }}
+                                </p>
+                            </template>
+
+                            <template v-if="subscriptionEndDate">
+                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">
+                                    End date:
+                                </p>
+                                <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
+                                    {{ subscriptionEndDate }}
+                                </p>
+                            </template>
 
                             <div class="mt-6 flex justify-around">
                                 <a :href="paymentMethodUrl"
@@ -315,7 +328,7 @@ onMounted(() => {
                                 >{{ swapAction }} on renewal date
                                 </SecondaryButton>
                                 <SecondaryButton @click="swapSubscription('now')"
-                                              class="!bg-green-600/50 hover:!bg-green-600/75"
+                                                 class="!bg-green-600/50 hover:!bg-green-600/75"
                                 >{{ swapAction }} now
                                 </SecondaryButton>
                             </div>
@@ -364,7 +377,9 @@ onMounted(() => {
                     </Modal>
 
 
-                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Top up credits</div>
+                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Top
+                        up credits
+                    </div>
                     <div class="m-auto flex w-fit items-center gap-6 p-6">
                         <a
                             :href="props.buyCreditsLink"

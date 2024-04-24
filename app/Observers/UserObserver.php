@@ -19,9 +19,6 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        if ($user->failed_requests >= $user->credits) {
-            $user->updateQuietly(['blocked' => true]);
-        }
     }
 
     /**

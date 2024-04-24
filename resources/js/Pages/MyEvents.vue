@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, Link, usePage} from '@inertiajs/vue3';
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import {useDateFormat} from "@vueuse/shared";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 interface IcsEvent {
     id: number;
@@ -28,7 +29,7 @@ interface EventPagination {
 const events = ((usePage().props.events as EventPagination).data as IcsEvent[]);
 const paginationLinks = ((usePage().props.events as EventPagination).links as Links);
 
-
+console.log(events);
 </script>
 
 <template>
@@ -48,7 +49,12 @@ const paginationLinks = ((usePage().props.events as EventPagination).links as Li
                             hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
                             lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700
                             dark:focus-visible:ring-[#FF2D20]">
-                    <div class="m-auto grid w-fit grid-cols-3 gap-2 p-6 text-center">
+                    <div v-if="!events.length" class="m-auto w-fit flex flex-col gap-2 p-6 text-center">
+                        <p class="text-xl max-w-sm">Here you can access and download all the events we'll generate.</p>
+                        <PrimaryButton @click="router.get(route('generate'))"
+                        class="w-fit m-auto mt-4">Let's generate one!</PrimaryButton>
+                    </div>
+                    <div v-else class="m-auto grid w-fit grid-cols-3 gap-2 p-6 text-center">
                         <template v-for="event in events" :key="event.id">
                             <div class="content-center">{{
                                     useDateFormat(event.created_at, 'HH:mm (DD MMM YYYY)').value
