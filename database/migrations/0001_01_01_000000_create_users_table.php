@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('failed_requests')->default(0);
             $table->boolean('has_password')->default(true);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

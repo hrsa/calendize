@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Exceptions\NoSummaryException;
 use App\Models\IcsEvent;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -24,6 +25,7 @@ class IcsEventProcessed implements ShouldBroadcast
      * Get the data to broadcast.
      *
      * @return array<string, mixed>
+     * @throws NoSummaryException
      */
     public function broadcastWith(): array
     {
