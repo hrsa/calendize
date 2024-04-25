@@ -57,18 +57,25 @@ return [
         'beginner' => [
             'product' => env('LEMON_SQUEEZY_PRODUCT_BEGINNER', null),
             'variant' => env('LEMON_SQUEEZY_VARIANT_BEGINNER', null),
+            'credits' => env('LEMON_SQUEEZY_CREDITS_BEGINNER', 10),
+            'rollover' => env('LEMON_SQUEEZY_ROLLOVER_BEGINNER', 2),
         ],
         'classic' => [
             'product' => env('LEMON_SQUEEZY_PRODUCT_CLASSIC', null),
             'variant' => env('LEMON_SQUEEZY_VARIANT_CLASSIC', null),
+            'credits' => env('LEMON_SQUEEZY_CREDITS_CLASSIC', 25),
+            'rollover' => env('LEMON_SQUEEZY_ROLLOVER_CLASSIC', 5),
         ],
         'power' => [
             'product' => env('LEMON_SQUEEZY_PRODUCT_POWER', null),
             'variant' => env('LEMON_SQUEEZY_VARIANT_POWER', null),
+            'credits' => env('LEMON_SQUEEZY_CREDITS_POWER', 100),
+            'rollover' => env('LEMON_SQUEEZY_ROLLOVER_POWER', 20),
         ],
         'topup' => [
             'product' => env('LEMON_SQUEEZY_PRODUCT_TOPUP', null),
             'variant' => env('LEMON_SQUEEZY_VARIANT_TOPUP', null),
+            'credits' => env('LEMON_SQUEEZY_CREDITS_TOPUP', 5),
         ],
     ],
 

@@ -6,8 +6,9 @@ export interface User {
     email: string;
     email_verified_at: string;
     credits: number;
+    rollover_credits: number | undefined;
     failed_requests: number;
-    blocked: boolean;
+    has_password: boolean;
     active_subscription: string;
 }
 
@@ -23,5 +24,6 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
+
     ziggy: Config & { location: string };
 };

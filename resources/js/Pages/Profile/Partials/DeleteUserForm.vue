@@ -61,9 +61,12 @@ const closeModal = () => {
                     Are you sure you want to delete your account?
                 </h2>
 
-                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Once your account is deleted, all of its resources and data will be permanently deleted. Please
-                    enter your password to confirm you would like to permanently delete your account.
+                <p class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Once your account is deleted, all of its resources and data will be <span class="text-red-500">permanently deleted!</span>
+                </p>
+
+                <p class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Please enter your password to confirm you would like to <span class="text-red-500">permanently delete</span> your account.
                 </p>
 
                 <div class="mt-6">

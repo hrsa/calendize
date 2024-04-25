@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection ALL */
+
 return [
     /*
     * This setting controls whether data should be sent to Ray.
@@ -43,7 +45,7 @@ return [
     /*
      * When enabled, slow queries will automatically be sent to Ray.
      */
-    'send_slow_queries_to_ray' => env('SEND_SLOW_QUERIES_TO_RAY', false),
+    'send_slow_queries_to_ray' => env('SEND_SLOW_QUERIES_TO_RAY', true),
 
     /**
      * Queries that are longer than this number of milliseconds will be regarded as slow.

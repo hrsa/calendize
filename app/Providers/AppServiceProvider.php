@@ -24,21 +24,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('has-credits', fn(User $user) => $user->credits > 0);
+        Gate::define('has-credits', fn (User $user) => $user->credits > 0);
 
-        Gate::define('is-not-blocked', fn(User $user) => !$user->blocked);
+        Gate::define('errors-under-threshold', fn (User $user) => !$user->hasTooManyErrors());
 
         Http::macro('mistral', function () {
             return Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . config('mistral.api_key')
+                'Authorization' => 'Bearer '.config('mistral.api_key'),
             ])->baseUrl('https://api.mistral.ai/v1/');
         });
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
-                ->subject(config('app.name') . ' - verify your email address')
+                ->subject(config('app.name').' - verify your email address')
                 ->greeting('Hi and thanks for your interest in Calendize!')
                 ->line("I'll be able to process your events as soon as we confirm you're a real human! 😊")
                 ->line('Please, click the button below to verify your email address.')

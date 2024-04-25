@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Exceptions\NoSummaryException;
 use App\Models\IcsEvent;
-use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
@@ -45,6 +44,6 @@ class IcsValidMail extends Mailable
     {
         return [Attachment::fromData(function () {
             return $this->icsEvent->ics;
-        }, $this->icsEvent->getSummary() . '.ics')];
+        }, $this->icsEvent->getSummary().'.ics')];
     }
 }

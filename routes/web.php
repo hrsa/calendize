@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'serverErrorMessage' => request('serverErrorMessage'),
             'serverSuccess' => request('serverSuccess'),
             'eventId' => request('eventId'),
-            'eventSecret' => request('eventSecret')
+            'eventSecret' => request('eventSecret'),
         ]);
     })->name('generate');
 
@@ -39,9 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::view('/ics', 'mail.ics_success', ['ics' => IcsEvent::find(25)]);
-Route::view('/icserror', 'mail.ics_error', ['ics' => IcsEvent::find(11)]);
+//Route::view('/ics', 'mail.ics_success', ['ics' => IcsEvent::find(25)]);
+//Route::view('/icserror', 'mail.ics_error', ['ics' => IcsEvent::find(11)]);
 
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

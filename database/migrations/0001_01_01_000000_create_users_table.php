@@ -18,8 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('credits')->default(0);
+            $table->integer('rollover_credits')->nullable()->default(null);
             $table->integer('failed_requests')->default(0);
-            $table->boolean('blocked')->default(false);
+            $table->boolean('has_password')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

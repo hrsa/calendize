@@ -1,4 +1,6 @@
-<?php /** @noinspection AnonymousFunctionStaticInspection */
+<?php
+
+/** @noinspection AnonymousFunctionStaticInspection */
 
 use App\Http\Controllers\CalendarGeneratorController;
 use App\Http\Controllers\SubscriptionController;
@@ -13,22 +15,17 @@ Route::get('/user', function (Request $request) {
 Route::post('/guest-generate-calendar', [CalendarGeneratorController::class, 'guestGenerate'])->name('guest-generate-calendar');
 Route::post('/generate-calendar', [CalendarGeneratorController::class, 'generate'])->middleware('auth:sanctum')->name('generate-calendar');
 
-Route::group(['prefix' => '/users'], function (){
-
-    Route::post('/signup', [UserController::class, 'signup'])->name('user.signup');
-    Route::post('/login', [UserController::class, 'login'])->name('user.login');
+Route::group(['prefix' => '/users'], function () {
     Route::post('/check', [UserController::class, 'checkEmail'])->name('user.check-email');
 });
 
 Route::group([
     'prefix' => '/subscriptions',
     'as' => 'subscriptions.',
-    'middleware' => 'auth', 'verified'
-], function (){
-   Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
-   Route::get('/get-modification-data', [SubscriptionController::class, 'getModificationData'])->name('get-modification-data');
-   Route::post('/cancel', [SubscriptionController::class, 'cancel'])->name('cancel');
-   Route::post('/swap', [SubscriptionController::class, 'swap'])->name('swap');
+    'middleware' => 'auth', 'verified',
+], function () {
+    Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+    Route::get('/get-modification-data', [SubscriptionController::class, 'getModificationData'])->name('get-modification-data');
+    Route::post('/cancel', [SubscriptionController::class, 'cancel'])->name('cancel');
+    Route::post('/swap', [SubscriptionController::class, 'swap'])->name('swap');
 });
-
-

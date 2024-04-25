@@ -10,6 +10,7 @@ class SubscriptionController extends Controller
     public function subscribe(UserService $userService): JsonResponse
     {
         $subscriptionLink = $userService->createSubscriptionLink(request()->user(), request('type'));
+
         return response()->json($subscriptionLink);
     }
 
@@ -41,12 +42,12 @@ class SubscriptionController extends Controller
 
         if (request('swapDate') === 'now') {
             $subscription->swapAndInvoice(config("lemon-squeezy.sales.{$newSubscription}.product"),
-                                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+                config("lemon-squeezy.sales.{$newSubscription}.variant"));
         }
 
         if (request('swapDate') === 'at renewal') {
             $subscription->swap(config("lemon-squeezy.sales.{$newSubscription}.product"),
-                                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+                config("lemon-squeezy.sales.{$newSubscription}.variant"));
         }
 
         return response()->json([$subscription]);

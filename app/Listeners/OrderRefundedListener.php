@@ -5,9 +5,13 @@ namespace App\Listeners;
 use LemonSqueezy\Laravel\Events\OrderRefunded;
 use LemonSqueezy\Laravel\Order;
 
+/**
+ * @property string $variant_id
+ *
+ * @mixin Order
+ */
 class OrderRefundedListener
 {
-
     /**
      * Handle the event.
      */
@@ -17,8 +21,10 @@ class OrderRefundedListener
         $lmSqueezyOrder = Order::find($event->order->id);
 
         if ($lmSqueezyOrder?->refunded() && $lmSqueezyOrder->variant_id == config('lemon-squeezy.sales.topup.variant')) {
+
+            /* @var $user \App\Models\User */
             $user = $lmSqueezyOrder->billable()->first();
-            $user->decrement('credits', 5);
+            $user->decrement('credits', config('lemon-squeezy.sales.topup.credits'));
         }
 
     }

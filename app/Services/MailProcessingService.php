@@ -7,7 +7,6 @@ use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Mail;
 
 class MailProcessingService
 {
@@ -20,14 +19,14 @@ class MailProcessingService
         }
 
         if (Gate::forUser($user)->allows('has-credits')
-            && Gate::forUser($user)->allows('is-not-blocked')
+            && Gate::forUser($user)->allows('errors-under-threshold')
         ) {
 
-            ray("We've got mail", "FROM", $message->from(), $message->fromName(), "ABOUT", $message->html(), "The User has credits:", $user->credits);
+            ray("We've got mail", 'FROM', $message->from(), $message->fromName(), 'ABOUT', $message->html(), 'The User has credits:', $user->credits);
 
             $icsEvent = IcsEvent::create([
                 'user_id' => $user->id,
-                'prompt' => strip_tags($message->html())
+                'prompt' => strip_tags($message->html()),
             ]);
 
             GenerateCalendarJob::dispatch($icsEvent);

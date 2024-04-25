@@ -20,19 +20,19 @@ use LemonSqueezy\Laravel\Billable;
  * @property string $email
  * @property string $password
  * @property int $credits
+ * @property int|null $rollover_credits
  * @property Carbon|null $email_verified_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $failed_requests
- * @property boolean $blocked
+ * @property bool $has_password
  * @property string|null $remember_token
- *
  * @property IcsEvent $icsEvents
  */
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasApiTokens, Billable;
+    use Billable, HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,9 +44,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'credits',
+        'rollover_credits',
         'email_verified_at',
         'failed_requests',
-        'blocked',
+        'has_password',
         'remember_token',
     ];
 
@@ -80,14 +81,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(IcsEvent::class);
     }
 
+    public function hasTooManyErrors(): bool
+    {
+        return $this->failed_requests > $this->credits;
+    }
+
     public function getActiveSubscriptionAttribute(): string
     {
-        return match ($this->subscriptions()?->active()?->first()?->variant_id) {
+        return match ($this->subscriptions()->active()?->first()?->variant_id) {
             config('lemon-squeezy.sales.beginner.variant') => 'beginner',
             config('lemon-squeezy.sales.classic.variant') => 'classic',
             config('lemon-squeezy.sales.power.variant') => 'power',
             default => 'none',
         };
     }
-
 }

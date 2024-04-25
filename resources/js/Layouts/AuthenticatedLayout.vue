@@ -5,9 +5,12 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import {Link} from '@inertiajs/vue3';
+import {Link, usePage} from '@inertiajs/vue3';
+import Modal from "@/Components/Modal.vue";
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
 
 const showingNavigationDropdown = ref(false);
+const showingSetPasswordForm = ref(true);
 </script>
 
 <template>
@@ -160,6 +163,16 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
+                <Modal v-if="!usePage().props.auth.user.has_password"
+                       :show="!usePage().props.auth.user.has_password && showingSetPasswordForm"
+               @close="showingSetPasswordForm = false">
+                    <UpdatePasswordForm class="p-8"
+                    title-label="Don't forget to set a password!"
+                    description-label="We both want you to be able to login, right?"
+                    new-password-label="Password"
+                    button-label="Set password"
+                    />
+                </Modal>
                 <slot/>
             </main>
         </div>

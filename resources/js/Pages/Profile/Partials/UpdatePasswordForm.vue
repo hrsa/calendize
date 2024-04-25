@@ -3,11 +3,24 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import {useForm} from '@inertiajs/vue3';
+import {ref} from 'vue';
+
+withDefaults(defineProps<{
+    titleLabel: String,
+    descriptionLabel: String,
+    buttonLabel: String,
+    newPasswordLabel: String,
+    confirmPasswordLabel: String
+}>(), {
+    titleLabel: "Update Password",
+    descriptionLabel: "Ensure your account is using a long, random password to stay secure.",
+    newPasswordLabel: "New password",
+    confirmPasswordLabel: "Confirm password",
+    buttonLabel: "Update Password"
+});
 
 const passwordInput = ref<HTMLInputElement | null>(null);
-const currentPasswordInput = ref<HTMLInputElement | null>(null);
 
 const form = useForm({
     password: '',
@@ -33,17 +46,17 @@ const updatePassword = () => {
 <template>
     <section>
         <header class="text-center">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ titleLabel }}</h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Ensure your account is using a long, random password to stay secure.
+                {{ descriptionLabel }}
             </p>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
 
             <div>
-                <InputLabel for="password" value="New Password" />
+                <InputLabel for="password" :value="newPasswordLabel"/>
 
                 <TextInput
                     id="password"
@@ -54,11 +67,11 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2" />
+                <InputError :message="form.errors.password" class="mt-2"/>
             </div>
 
             <div>
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" :value="confirmPasswordLabel"/>
 
                 <TextInput
                     id="password_confirmation"
@@ -68,7 +81,7 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError :message="form.errors.password_confirmation" class="mt-2"/>
             </div>
 
             <div class="flex items-center flex-col gap-4 flex justify-center">
@@ -78,10 +91,11 @@ const updatePassword = () => {
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-green-700 dark:text-green-600">Password was updated!</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-green-700 dark:text-green-600">Password was
+                        updated!</p>
                 </Transition>
 
-                <PrimaryButton :disabled="form.processing">Update password</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ buttonLabel }}</PrimaryButton>
             </div>
         </form>
     </section>

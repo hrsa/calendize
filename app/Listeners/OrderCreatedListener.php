@@ -7,7 +7,6 @@ use LemonSqueezy\Laravel\Order;
 
 class OrderCreatedListener
 {
-
     /**
      * Handle the event.
      */
@@ -16,8 +15,11 @@ class OrderCreatedListener
         $lmSqueezyOrder = Order::find($event->order->id);
 
         if ($lmSqueezyOrder?->paid() && $lmSqueezyOrder->variant_id == config('lemon-squeezy.sales.topup.variant')) {
+
+            /* @var $user \App\Models\User */
             $user = $lmSqueezyOrder->billable()->first();
-            $user->increment('credits', 5);
+            $user->increment('credits', config('lemon-squeezy.sales.topup.credits'));
+            $user->update(['failed_requests' => 0]);
         }
 
     }

@@ -35,9 +35,8 @@ class GenerateCalendarJob implements ShouldQueue
         $systemPrompt .= " As of today, the date is {$now}.";
 
         if ($this->icsEvent->timezone) {
-            $systemPrompt .= "User's timezone: " . $this->icsEvent->timezone;
+            $systemPrompt .= "User's timezone: ".$this->icsEvent->timezone;
         }
-
 
         try {
             $result = $this->generateOpenAIResponse($systemPrompt);
@@ -75,7 +74,6 @@ class GenerateCalendarJob implements ShouldQueue
             }
         }
 
-
         $tokenUsage = $result->usage?->totalTokens ?? $result->usage->total_tokens;
         $this->icsEvent->update(['token_usage' => $tokenUsage]);
         IcsEventProcessed::dispatch($this->icsEvent);
@@ -90,20 +88,20 @@ class GenerateCalendarJob implements ShouldQueue
                 ['role' => 'user', 'content' => $this->icsEvent->prompt],
             ],
             'max_tokens' => 2800,
-            'response_format' => ['type' => 'json_object']
+            'response_format' => ['type' => 'json_object'],
         ]);
     }
 
     private function generateMistralResponse(string $systemPrompt): stdClass
     {
-        $result = Http::mistral()->post("/chat/completions", [
-            "model" => "mistral-large-latest",
+        $result = Http::mistral()->post('/chat/completions', [
+            'model' => 'mistral-large-latest',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user', 'content' => $this->icsEvent->prompt],
             ],
             'max_tokens' => 2800,
-            'response_format' => ['type' => 'json_object']
+            'response_format' => ['type' => 'json_object'],
         ])->json();
 
         return json_decode(json_encode($result));

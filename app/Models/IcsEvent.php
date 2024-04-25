@@ -4,13 +4,11 @@ namespace App\Models;
 
 use App\Exceptions\NoSummaryException;
 use DateTime;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- *
  * @property int $id
  * @property int $user_id
  * @property int|null $token_usage
@@ -22,7 +20,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property DateTime $created_at
  * @property DateTime $updated_at
  * @property DateTime|null $deleted_at
- *
  * @property User $user
  */
 class IcsEvent extends Model
@@ -36,7 +33,7 @@ class IcsEvent extends Model
         'error',
         'ics',
         'timezone',
-        'secret'
+        'secret',
     ];
 
     public function user(): BelongsTo
@@ -60,21 +57,22 @@ class IcsEvent extends Model
 
         $icsData = explode('BEGIN:VEVENT', $this->ics);
 
-        $summary = "";
+        $summary = '';
         foreach ($icsData as $index => $value) {
             if ($index === 0) {
                 continue;
             }
 
             if (preg_match('/SUMMARY:(.*)/', $value, $matches)) {
-                if ($summary === "") {
+                if ($summary === '') {
                     $summary .= trim($matches[1]);
                 } else {
-                    $summary .= ", " . trim($matches[1]);
+                    $summary .= ', '.trim($matches[1]);
                 }
             }
 
         }
+
         return $summary;
     }
 }

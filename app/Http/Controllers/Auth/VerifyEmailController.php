@@ -27,13 +27,14 @@ class VerifyEmailController extends Controller
                 GenerateCalendarJob::dispatch($icsEvent);
             }
         }
+
         return redirect()->to(route('generate', [
-            'serverSuccess' => $icsEvent && $icsEvent->ics
-                ? "Your email is verified, thank you! I've also gave you some free credits to start. Here is your event:  " . $icsEvent->getSummary()
+            'serverSuccess' => $icsEvent?->ics
+                ? "Your email is verified, thank you! I've also gave you some free credits to start. Here is your event:  ".$icsEvent->getSummary()
                 : "Your email is verified, thank you! I've also gave you some free credits to start.",
             'serverErrorMessage' => $icsEvent ? $icsEvent->error : null,
             'eventId' => $icsEvent ? $icsEvent->id : null,
             'eventSecret' => $icsEvent ? $icsEvent->secret : null,
-            ], absolute: false));
+        ], absolute: false));
     }
 }

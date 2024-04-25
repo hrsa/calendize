@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -48,7 +47,10 @@ class IcsError extends Mailable
      */
     public function attachments(): array
     {
-        $attachment = Attachment::fromData(static function () {return 'baba';}, 'text-attach-file.txt');
+        $attachment = Attachment::fromData(static function () {
+            return 'baba';
+        }, 'text-attach-file.txt');
+
         return [$attachment];
     }
 }
