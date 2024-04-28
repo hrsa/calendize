@@ -7,11 +7,11 @@ import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 
 withDefaults(defineProps<{
-    titleLabel: String,
-    descriptionLabel: String,
-    buttonLabel: String,
-    newPasswordLabel: String,
-    confirmPasswordLabel: String
+    titleLabel: string,
+    descriptionLabel: string,
+    buttonLabel: string,
+    newPasswordLabel: string,
+    confirmPasswordLabel: string
 }>(), {
     titleLabel: "Update Password",
     descriptionLabel: "Ensure your account is using a long, random password to stay secure.",

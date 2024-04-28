@@ -151,8 +151,8 @@ onMounted(() => {
 
         <Modal v-if="props.paymentConfirmation" :show="modalOpen === 'paymentConfirmation'"
                @close="modalOpen = ''">
-            <div class="p-6">
-                <img :alt="props.paymentConfirmation?.imageAlt" class="m-auto mb-6 size-36"
+            <div class="p-6 cursor-pointer" @click="modalOpen = ''">
+                <img :alt="props.paymentConfirmation?.imageAlt" class="m-auto mb-6 h-36"
                      :src="props.paymentConfirmation?.imageSrc"/>
                 <h2 class="text-center text-xl font-medium text-gray-900 dark:text-gray-100">
                     {{ props.paymentConfirmation.title }}

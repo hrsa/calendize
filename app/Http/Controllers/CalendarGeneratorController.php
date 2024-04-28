@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\NoSummaryException;
+use App\Http\Requests\IcsEventRequest;
 use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
 use App\Models\User;
 use App\Resources\IcsEventsResource;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -19,10 +19,10 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CalendarGeneratorController extends Controller
 {
-    public function generate(Request $request): JsonResponse
+    public function generate(IcsEventRequest $request): JsonResponse
     {
         if (Gate::denies('errors-under-threshold')) {
-            return response()->json(['error' => 'Your account was put on hold!'], Response::HTTP_FORBIDDEN);
+            return response()->json(['error' => 'You have generated more errors than credits - this is suspected as spam. Please top-up your account to reset the error count.'], Response::HTTP_FORBIDDEN);
         }
 
         if (Gate::denies('has-credits')) {
@@ -32,38 +32,32 @@ class CalendarGeneratorController extends Controller
         $icsEvent = IcsEvent::create([
             'user_id' => $request->user()->id,
             'secret' => Str::random(32),
-            'prompt' => $request->input('calendarEvent'),
-            'timezone' => request('timeZone'),
+            'prompt' => $request->calendarEvent,
+            'timezone' => $request->timeZone,
         ]);
 
-        try {
-            GenerateCalendarJob::dispatch($icsEvent);
-        } catch (\Exception $e) {
-            ray($e)->blue();
-
-            return response()->json(['error' => $e->getMessage(), 'code' => $e->getCode()]);
-        }
+        GenerateCalendarJob::dispatch($icsEvent);
 
         return response()->json(['icsId' => $icsEvent->id]);
     }
 
-    public function guestGenerate(UserService $userService)
+    public function guestGenerate(IcsEventRequest $request, UserService $userService)
     {
         ray('Got a request', request()->all())->orange();
 
-        if (User::where('email', request()->email)->exists()) {
-            return response()->json(['error' => 'You already have an account!'], status: Response::HTTP_UNAUTHORIZED);
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(['error' => 'You need to verify your account to use Calendize!'], status: Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = $userService->createGuestWithCredits(email: request('email'));
+        $user = $userService->createGuestWithCredits(email: $request->email);
 
         Auth::login($user);
 
         IcsEvent::create([
             'user_id' => $user->id,
             'secret' => Str::random(32),
-            'prompt' => request('calendarEvent'),
-            'timezone' => request('timeZone'),
+            'prompt' => $request->calendarEvent,
+            'timezone' => $request->timeZone,
         ]);
 
         $user->sendEmailVerificationNotification();

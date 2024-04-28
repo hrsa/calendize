@@ -25,6 +25,7 @@ class IcsEventProcessed implements ShouldBroadcast
      * Get the data to broadcast.
      *
      * @return array<string, mixed>
+     *
      * @throws NoSummaryException
      */
     public function broadcastWith(): array

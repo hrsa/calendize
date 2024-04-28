@@ -21,7 +21,15 @@ class UserService
     {
         return $user->subscribe(config("lemon-squeezy.sales.{$subscriptionType}.variant"))
             ->withThankYouNote('Thanks for joining my adventure!')
-            ->redirectTo(route('dashboard', ['payment' => 'success']))
+            ->redirectTo(route('dashboard', ['payment' => $subscriptionType]))
+            ->url();
+    }
+
+    public function createTopUpCreditsLink(User $user): string
+    {
+        return $user->checkout(config('lemon-squeezy.sales.topup.variant'))
+            ->withThankYouNote('Thanks for trusting us!')
+            ->redirectTo(route('dashboard', ['payment' => 'credits']))
             ->url();
     }
 }

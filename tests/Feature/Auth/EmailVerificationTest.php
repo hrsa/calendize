@@ -33,7 +33,7 @@ test('email can be verified', function () {
     Event::assertDispatched(Verified::class);
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
     $response->assertRedirect(route('generate', [
-        'serverSuccess' => "Your email is verified, thank you! I've also gave you some free credits to start."
+        'serverSuccess' => "Your email is verified, thank you! I've also gave you some free credits to start.",
     ], absolute: false));
 });
 
