@@ -68,7 +68,7 @@ class IcsEvent extends Model
                 if ($summary === '') {
                     $summary .= trim($matches[1]);
                 } else {
-                    $summary .= ', '.trim($matches[1]);
+                    $summary .= ', ' . trim($matches[1]);
                 }
             }
 

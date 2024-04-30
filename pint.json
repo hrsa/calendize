@@ -3,11 +3,14 @@
     "rules": {
         "simplified_null_return": true,
         "array_indentation": true,
-        "concat_space": true,
+        "align_multiline_comment": true,
+        "concat_space": {
+            "spacing": "one"
+        },
         "explicit_string_variable": true,
         "assign_null_coalescing_to_coalesce_equal": true,
         "unary_operator_spaces": true,
-        "no_useless_else": false,
+        "no_useless_else": true,
         "not_operator_with_successor_space": false,
         "compact_nullable_typehint": true
     }

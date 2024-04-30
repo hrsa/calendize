@@ -35,7 +35,7 @@ class GenerateCalendarJob implements ShouldQueue
         $systemPrompt .= " As of today, the date is {$now}.";
 
         if ($this->icsEvent->timezone) {
-            $systemPrompt .= "User's timezone: ".$this->icsEvent->timezone;
+            $systemPrompt .= "User's timezone: " . $this->icsEvent->timezone;
         }
 
         try {

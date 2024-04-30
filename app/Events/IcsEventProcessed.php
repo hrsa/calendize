@@ -47,7 +47,7 @@ class IcsEventProcessed implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('ics-event-'.$this->icsEvent->id),
+            new PrivateChannel('ics-event-' . $this->icsEvent->id),
         ];
     }
 }

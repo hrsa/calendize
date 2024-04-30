@@ -34,6 +34,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     supervisor
 
+RUN mkdir -p /usr/share/postgresql-common/pgdg && \
+    curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc && \
+    install -d /usr/share/postgresql-common/pgdg
+
+RUN sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+RUN apt update && apt install -y postgresql-16
+
 RUN pecl install redis \
     && docker-php-ext-enable redis
 
@@ -48,15 +56,19 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
 RUN apt-get install -y nodejs
 
+USER ${USER}
+
 FROM base AS php
 COPY ./docker/php-fpm.conf /usr/local/etc
 COPY ./docker/supervisord-php.conf /etc/supervisor/conf.d/supervisord-php.conf
+CMD /usr/bin/supervisord -u ${USER} -n -c /etc/supervisor/conf.d/supervisord-php.conf
 
 FROM base AS cron
 CMD ["php", "/var/www/artisan", "schedule:work"]
 
 FROM base AS queue
 COPY ./docker/supervisord-queue.conf /etc/supervisor/conf.d/supervisord-queue.conf
+CMD /usr/bin/supervisord -u ${USER} -n -c /etc/supervisor/conf.d/supervisord-queue.conf
 
 FROM base AS composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

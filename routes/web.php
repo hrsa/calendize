@@ -53,4 +53,4 @@ Route::middleware('auth')->group(function () {
 
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

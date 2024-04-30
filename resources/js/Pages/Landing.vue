@@ -35,7 +35,7 @@ const emailIsUnique = ref<boolean>(false);
                     you can't just add to your calendar<br>
                     in one click...
                 </h2>
-                <img src="/calendar.png" class="mx-auto mt-10 size-36"/>
+                <img src="/calendar.png" alt="Calendize" class="mx-auto mt-10 size-36"/>
                 <h2 class="m-12 text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200">
                     This sucks, right?
                 </h2>
@@ -60,7 +60,7 @@ const emailIsUnique = ref<boolean>(false);
                 >
                     <swiper-slide class="flex flex-col bg-black/85">
                         <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl" src="/home/usage/169/_tour.webp"/>
+                            <img class="mx-auto rounded-xl" src="/home/usage/tour.webp" alt="tour"/>
                             <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                                 Tours
                             </h2>
@@ -68,7 +68,7 @@ const emailIsUnique = ref<boolean>(false);
                     </swiper-slide>
                     <swiper-slide class="flex flex-col bg-black/85">
                         <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl" src="/home/usage/169/_flight.webp"/>
+                            <img class="mx-auto rounded-xl" src="/home/usage/flight.webp" alt="flight"/>
                             <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                                 Flights
                             </h2>
@@ -76,7 +76,7 @@ const emailIsUnique = ref<boolean>(false);
                     </swiper-slide>
                     <swiper-slide class="flex flex-col bg-black/85">
                         <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl" src="/home/usage/169/_event.webp"/>
+                            <img class="mx-auto rounded-xl" src="/home/usage/event.webp" alt="event"/>
                             <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                                 Conferences
                             </h2>
@@ -84,7 +84,7 @@ const emailIsUnique = ref<boolean>(false);
                     </swiper-slide>
                     <swiper-slide class="flex flex-col bg-black/85">
                         <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl" src="/home/usage/169/_concert.webp"/>
+                            <img class="mx-auto rounded-xl" src="/home/usage/concert.webp" alt="concert"/>
                             <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                                 Concerts
                             </h2>

@@ -179,7 +179,7 @@ test('user can download events', function () {
     $wrongIdResponse = get(route('event.download', ['id' => $icsEvent->id + 1, 'secret' => $icsEvent->secret]));
     expect($wrongIdResponse->getStatusCode())->toBe(404);
 
-    $wrongSecretResponse = get(route('event.download', ['id' => $icsEvent->id, 'secret' => $icsEvent->secret.'wrong']));
+    $wrongSecretResponse = get(route('event.download', ['id' => $icsEvent->id, 'secret' => $icsEvent->secret . 'wrong']));
     expect($wrongSecretResponse->getStatusCode())->toBe(403)
         ->and($wrongSecretResponse->getContent())->toContain('The secret code is wrong!');
 });

@@ -76,7 +76,7 @@ class CalendarGeneratorController extends Controller
 
         return response()->streamDownload(static function () use ($icsEvent) {
             echo $icsEvent->ics;
-        }, $icsEvent->getSummary().'.ics', ['Content-Type' => 'text/calendar']);
+        }, $icsEvent->getSummary() . '.ics', ['Content-Type' => 'text/calendar']);
     }
 
     public function usersEvents(): \Inertia\Response
