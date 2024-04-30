@@ -190,7 +190,6 @@ services:
             - ./:/var/www
         ports:
             - 5173:5173
-        user: ${USER:-anton}
         profiles: [ "npm" ]
         networks:
             - calendize-network
@@ -206,7 +205,6 @@ services:
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: ncu
-        user: ${USER:-anton}
         volumes:
             - ./:/var/www
         networks:
