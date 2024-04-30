@@ -41,13 +41,17 @@ class SubscriptionController extends Controller
         $newSubscription = request('newSubscription');
 
         if (request('swapDate') === 'now') {
-            $subscription->swapAndInvoice(config("lemon-squeezy.sales.{$newSubscription}.product"),
-                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+            $subscription->swapAndInvoice(
+                config("lemon-squeezy.sales.{$newSubscription}.product"),
+                config("lemon-squeezy.sales.{$newSubscription}.variant")
+            );
         }
 
         if (request('swapDate') === 'at renewal') {
-            $subscription->swap(config("lemon-squeezy.sales.{$newSubscription}.product"),
-                config("lemon-squeezy.sales.{$newSubscription}.variant"));
+            $subscription->swap(
+                config("lemon-squeezy.sales.{$newSubscription}.product"),
+                config("lemon-squeezy.sales.{$newSubscription}.variant")
+            );
         }
 
         return response()->json([$subscription]);

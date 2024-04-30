@@ -21,7 +21,7 @@ class GenerateCalendarJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $tries = 5;
+    protected int $tries = 5;
 
     public function __construct(public icsEvent $icsEvent)
     {

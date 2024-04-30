@@ -26,14 +26,14 @@ class IcsValidMail extends Mailable
     {
         return new Envelope(
             subject: $this->icsEvent->getSummary(),
-
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'mail.ics_success', with: ['ics' => $this->icsEvent]
+            view: 'mail.ics_success',
+            with: ['ics' => $this->icsEvent]
         );
     }
 
@@ -42,8 +42,10 @@ class IcsValidMail extends Mailable
      */
     public function attachments(): array
     {
-        return [Attachment::fromData(function () {
-            return $this->icsEvent->ics;
-        }, $this->icsEvent->getSummary() . '.ics')];
+        return [
+            Attachment::fromData(function () {
+                return $this->icsEvent->ics;
+            }, $this->icsEvent->getSummary() . '.ics')
+        ];
     }
 }
