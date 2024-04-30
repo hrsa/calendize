@@ -45,7 +45,7 @@ class IcsValidMail extends Mailable
         return [
             Attachment::fromData(function () {
                 return $this->icsEvent->ics;
-            }, $this->icsEvent->getSummary() . '.ics')
+            }, $this->icsEvent->getSummary() . '.ics'),
         ];
     }
 }
