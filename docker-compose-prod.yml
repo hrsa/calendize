@@ -167,7 +167,7 @@ services:
 
     db:
         image: postgres:latest
-        container_name: postgres
+        container_name: db
         volumes:
             - postgres_data:/var/lib/postgresql/data
         environment:
