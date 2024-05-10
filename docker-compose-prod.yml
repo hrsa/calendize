@@ -74,11 +74,16 @@ services:
             - 80:80
             - 443:443
         depends_on:
-            - php
-            - redis
-            - db
-            - queue
-            - cron
+          db:
+            condition: service_healthy
+          redis:
+            condition: service_healthy
+          php:
+            condition: service_started
+          queue:
+            condition: service_started
+          cron:
+            condition: service_started
         extra_hosts:
             - "host.docker.internal:host-gateway"
         networks:
