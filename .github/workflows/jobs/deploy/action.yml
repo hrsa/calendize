@@ -23,6 +23,10 @@ runs:
 
     - name: Copy files and restart containers
       run: |
+        ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
+        cp /var/www/docker-compose-prod.yml /var/www/docker-compose-prev.yml
+        cp /var/www/.env /var/www/.env.prev
+        EOF
         scp -o StrictHostKeyChecking=no docker/renew-ssl.sh root@${{ inputs.SERVER_IP }}:/var/www
         scp -o StrictHostKeyChecking=no .env root@${{ inputs.SERVER_IP }}:/var/www
         scp -o StrictHostKeyChecking=no docker-compose-prod.yml root@${{ inputs.SERVER_IP }}:/var/www
