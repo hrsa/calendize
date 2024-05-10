@@ -1,0 +1,174 @@
+name: 'Build .env file'
+description: 'Build .env file from GitHub secrets'
+
+inputs:
+  APP_NAME:
+    required: true
+  APP_ENV:
+    required: true
+  APP_DEBUG:
+    required: true
+  APP_KEY:
+    required: true
+  APP_URL:
+    required: true
+  ADMIN_FIRSTNAME:
+    required: true
+  ADMIN_LASTNAME:
+    required: true
+  ADMIN_EMAIL:
+    required: true
+  DB_DATABASE:
+    required: true
+  DB_USERNAME:
+    required: true
+  DB_PASSWORD:
+    required: true
+  MAIL_MAILER:
+    required: true
+  MAIL_HOST:
+    required: true
+  MAIL_PORT:
+    required: true
+  MAIL_USERNAME:
+    required: true
+  MAIL_PASSWORD:
+    required: true
+  MAIL_ENCRYPTION:
+    required: true
+  MAIL_FROM_ADDRESS:
+    required: true
+  MAILBOX_DRIVER:
+    required: true
+  MAILBOX_HTTP_USERNAME:
+    required: true
+  MAILBOX_HTTP_PASSWORD:
+    required: true
+  FILESYSTEM_CLOUD:
+    required: true
+  GOOGLE_DRIVE_CLIENT_SECRET:
+    required: true
+  GOOGLE_DRIVE_FOLDER:
+    required: true
+  GOOGLE_DRIVE_REFRESH_TOKEN:
+    required: true
+  GOOGLE_DRIVE_CLIENT_ID:
+    required: true
+  REVERB_APP_ID:
+    required: true
+  REVERB_APP_KEY:
+    required: true
+  REVERB_APP_SECRET:
+    required: true
+  REVERB_HOST:
+    required: true
+  MISTRAL_API_KEY:
+    required: true
+  OPENAI_API_KEY:
+    required: true
+  OPENAI_ORGANIZATION:
+    required: true
+  OPENAI_SYSTEM_PROMPT:
+    required: true
+  RAY_HOST:
+    required: true
+  LEMON_SQUEEZY_API_KEY:
+    required: true
+  LEMON_SQUEEZY_STORE:
+    required: true
+  LEMON_SQUEEZY_SIGNING_SECRET:
+    required: true
+  LEMON_SQUEEZY_PATH:
+    required: true
+  LEMON_SQUEEZY_VARIANT_BEGINNER:
+    required: true
+  LEMON_SQUEEZY_VARIANT_CLASSIC:
+    required: true
+  LEMON_SQUEEZY_VARIANT_POWER:
+    required: true
+  LEMON_SQUEEZY_VARIANT_TOPUP:
+    required: true
+  LEMON_SQUEEZY_PRODUCT_BEGINNER:
+    required: true
+  LEMON_SQUEEZY_PRODUCT_CLASSIC:
+    required: true
+  LEMON_SQUEEZY_PRODUCT_POWER:
+    required: true
+  LEMON_SQUEEZY_PRODUCT_TOPUP:
+    required: true
+  LEMON_SQUEEZY_CREDITS_BEGINNER:
+    required: true
+  LEMON_SQUEEZY_CREDITS_CLASSIC:
+    required: true
+  LEMON_SQUEEZY_CREDITS_POWER:
+    required: true
+  LEMON_SQUEEZY_CREDITS_TOPUP:
+    required: true
+  LEMON_SQUEEZY_ROLLOVER_BEGINNER:
+    required: true
+  LEMON_SQUEEZY_ROLLOVER_CLASSIC:
+    required: true
+  LEMON_SQUEEZY_ROLLOVER_POWER:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build .env
+      shell: bash
+      run: |
+        cp .env.example .env
+        sed -i "s|APP_NAME=.*|APP_NAME=${{ inputs.APP_NAME }}|" .env
+        sed -i "s|APP_ENV=.*|APP_ENV=${{ inputs.APP_ENV }}|" .env
+        sed -i "s|APP_DEBUG=.*|APP_DEBUG=${{ inputs.APP_DEBUG }}|" .env
+        sed -i "s|APP_KEY=.*|APP_KEY=${{ inputs.APP_KEY }}|" .env
+        sed -i "s|APP_URL=.*|APP_URL=${{ inputs.APP_URL }}|" .env
+        sed -i "s|ADMIN_FIRSTNAME=.*|ADMIN_FIRSTNAME=${{ inputs.ADMIN_FIRSTNAME }}|" .env
+        sed -i "s|ADMIN_LASTNAME=.*|ADMIN_LASTNAME=${{ inputs.ADMIN_LASTNAME }}|" .env
+        sed -i "s|ADMIN_EMAIL=.*|ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}|" .env
+        sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ inputs.DB_DATABASE }}|" .env
+        sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ inputs.DB_USERNAME }}|" .env
+        sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ inputs.DB_PASSWORD }}|" .env
+        sed -i "s|MAIL_MAILER=.*|MAIL_MAILER=${{ inputs.MAIL_MAILER }}|" .env
+        sed -i "s|MAIL_HOST=.*|MAIL_HOST=${{ inputs.MAIL_HOST }}|" .env
+        sed -i "s|MAIL_PORT=.*|MAIL_PORT=${{ inputs.MAIL_PORT }}|" .env
+        sed -i "s|MAIL_USERNAME=.*|MAIL_USERNAME=${{ inputs.MAIL_USERNAME }}|" .env
+        sed -i "s|MAIL_PASSWORD=.*|MAIL_PASSWORD=${{ inputs.MAIL_PASSWORD }}|" .env
+        sed -i "s|MAIL_ENCRYPTION=.*|MAIL_ENCRYPTION=${{ inputs.MAIL_ENCRYPTION }}|" .env
+        sed -i "s|MAIL_FROM_ADDRESS=.*|MAIL_FROM_ADDRESS=${{ inputs.MAIL_FROM_ADDRESS }}|" .env
+        sed -i "s|MAILBOX_DRIVER=.*|MAILBOX_DRIVER=${{ inputs.MAILBOX_DRIVER }}|" .env
+        sed -i "s|MAILBOX_HTTP_USERNAME=.*|MAILBOX_HTTP_USERNAME=${{ inputs.MAILBOX_HTTP_USERNAME }}|" .env
+        sed -i "s|MAILBOX_HTTP_PASSWORD=.*|MAILBOX_HTTP_PASSWORD=${{ inputs.MAILBOX_HTTP_PASSWORD }}|" .env
+        sed -i "s|FILESYSTEM_CLOUD=.*|FILESYSTEM_CLOUD=${{ inputs.FILESYSTEM_CLOUD }}|" .env
+        sed -i "s|GOOGLE_DRIVE_CLIENT_SECRET=.*|GOOGLE_DRIVE_CLIENT_SECRET=${{ inputs.GOOGLE_DRIVE_CLIENT_SECRET }}|" .env
+        sed -i "s|GOOGLE_DRIVE_FOLDER=.*|GOOGLE_DRIVE_FOLDER=${{ inputs.GOOGLE_DRIVE_FOLDER }}|" .env
+        sed -i "s|GOOGLE_DRIVE_REFRESH_TOKEN=.*|GOOGLE_DRIVE_REFRESH_TOKEN=${{ inputs.GOOGLE_DRIVE_REFRESH_TOKEN }}|" .env
+        sed -i "s|GOOGLE_DRIVE_CLIENT_ID=.*|GOOGLE_DRIVE_CLIENT_ID=${{ inputs.GOOGLE_DRIVE_CLIENT_ID }}|" .env
+        sed -i "s|REVERB_APP_ID=.*|REVERB_APP_ID=${{ inputs.REVERB_APP_ID }}|" .env
+        sed -i "s|REVERB_APP_KEY=.*|REVERB_APP_KEY=${{ inputs.REVERB_APP_KEY }}|" .env
+        sed -i "s|REVERB_APP_SECRET=.*|REVERB_APP_SECRET=${{ inputs.REVERB_APP_SECRET }}|" .env
+        sed -i "s|REVERB_HOST=.*|REVERB_HOST=${{ inputs.REVERB_HOST }}|" .env
+        sed -i "s|MISTRAL_API_KEY=.*|MISTRAL_API_KEY=${{ inputs.MISTRAL_API_KEY }}|" .env
+        sed -i "s|OPENAI_API_KEY=.*|OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}|" .env
+        sed -i "s|OPENAI_ORGANIZATION=.*|OPENAI_ORGANIZATION=${{ inputs.OPENAI_ORGANIZATION }}|" .env
+        sed -i "s|OPENAI_SYSTEM_PROMPT=.*|OPENAI_SYSTEM_PROMPT=${{ inputs.OPENAI_SYSTEM_PROMPT }}|" .env
+        sed -i "s|RAY_HOST=.*|RAY_HOST=${{ inputs.RAY_HOST }}|" .env
+        sed -i "s|LEMON_SQUEEZY_API_KEY=.*|LEMON_SQUEEZY_API_KEY=${{ inputs.LEMON_SQUEEZY_API_KEY }}|" .env
+        sed -i "s|LEMON_SQUEEZY_STORE=.*|LEMON_SQUEEZY_STORE=${{ inputs.LEMON_SQUEEZY_STORE }}|" .env
+        sed -i "s|LEMON_SQUEEZY_SIGNING_SECRET=.*|LEMON_SQUEEZY_SIGNING_SECRET=${{ inputs.LEMON_SQUEEZY_SIGNING_SECRET }}|" .env
+        sed -i "s|LEMON_SQUEEZY_PATH=.*|LEMON_SQUEEZY_PATH=${{ inputs.LEMON_SQUEEZY_PATH }}|" .env
+        sed -i "s|LEMON_SQUEEZY_VARIANT_BEGINNER=.*|LEMON_SQUEEZY_VARIANT_BEGINNER=${{ inputs.LEMON_SQUEEZY_VARIANT_BEGINNER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_VARIANT_CLASSIC=.*|LEMON_SQUEEZY_VARIANT_CLASSIC=${{ inputs.LEMON_SQUEEZY_VARIANT_CLASSIC }}|" .env
+        sed -i "s|LEMON_SQUEEZY_VARIANT_POWER=.*|LEMON_SQUEEZY_VARIANT_POWER=${{ inputs.LEMON_SQUEEZY_VARIANT_POWER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_VARIANT_TOPUP=.*|LEMON_SQUEEZY_VARIANT_TOPUP=${{ inputs.LEMON_SQUEEZY_VARIANT_TOPUP }}|" .env
+        sed -i "s|LEMON_SQUEEZY_PRODUCT_BEGINNER=.*|LEMON_SQUEEZY_PRODUCT_BEGINNER=${{ inputs.LEMON_SQUEEZY_PRODUCT_BEGINNER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_PRODUCT_CLASSIC=.*|LEMON_SQUEEZY_PRODUCT_CLASSIC=${{ inputs.LEMON_SQUEEZY_PRODUCT_CLASSIC }}|" .env
+        sed -i "s|LEMON_SQUEEZY_PRODUCT_POWER=.*|LEMON_SQUEEZY_PRODUCT_POWER=${{ inputs.LEMON_SQUEEZY_PRODUCT_POWER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_PRODUCT_TOPUP=.*|LEMON_SQUEEZY_PRODUCT_TOPUP=${{ inputs.LEMON_SQUEEZY_PRODUCT_TOPUP }}|" .env
+        sed -i "s|LEMON_SQUEEZY_CREDITS_BEGINNER=.*|LEMON_SQUEEZY_CREDITS_BEGINNER=${{ inputs.LEMON_SQUEEZY_CREDITS_BEGINNER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_CREDITS_CLASSIC=.*|LEMON_SQUEEZY_CREDITS_CLASSIC=${{ inputs.LEMON_SQUEEZY_CREDITS_CLASSIC }}|" .env
+        sed -i "s|LEMON_SQUEEZY_CREDITS_POWER=.*|LEMON_SQUEEZY_CREDITS_POWER=${{ inputs.LEMON_SQUEEZY_CREDITS_POWER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_CREDITS_TOPUP=.*|LEMON_SQUEEZY_CREDITS_TOPUP=${{ inputs.LEMON_SQUEEZY_CREDITS_TOPUP }}|" .env
+        sed -i "s|LEMON_SQUEEZY_ROLLOVER_BEGINNER=.*|LEMON_SQUEEZY_ROLLOVER_BEGINNER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_BEGINNER }}|" .env
+        sed -i "s|LEMON_SQUEEZY_ROLLOVER_CLASSIC=.*|LEMON_SQUEEZY_ROLLOVER_CLASSIC=${{ inputs.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}|" .env
+        sed -i "s|LEMON_SQUEEZY_ROLLOVER_POWER=.*|LEMON_SQUEEZY_ROLLOVER_POWER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_POWER }}|" .env

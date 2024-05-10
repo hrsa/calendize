@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    @vite(['resources/css/app.css'])
+    {{--    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">--}}
+
+    {{--    @if($subject === $attributes->get('subject'))--}}
+    <title>{{ $subject }}</title>
+    {{--    @endif--}}
+</head>
+<body class="bg-gray-900 font-sans text-white text-gray-200 antialiased">
+@if($ics?->ics)
+<img alt="Calendize logo" class="m-auto mt-6 size-24" src={{asset('calendar.png')}} />
+@endif
+@if($ics?->error)
+<img alt="Calendize logo" class="m-auto mt-6 size-24" src={{asset('calendar-sad.png')}} />
+@endif
+
+<div class="h-full w-full px-8 py-12">
+    <div class="m-auto mb-4 max-w-xl rounded-lg bg-gray-800 px-6 py-4 text-center text-lg font-semibold shadow-sm">
+        {{ $subject }}
+    </div>
+    <div class="m-auto max-w-xl rounded-lg bg-gray-800 p-6 shadow-sm">
+        {{ $slot }}
+    </div>
+</div>
+
+</body>
+</html>

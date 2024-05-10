@@ -1,0 +1,162 @@
+name: Test, push and deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  USER: anton
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/jobs/build-and-test
+        with:
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+  build-and-push:
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/jobs/build-env
+        with:
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_URL: ${{ secrets.APP_URL }}
+          ADMIN_FIRSTNAME: ${{ secrets.ADMIN_FIRSTNAME }}
+          ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MAIL_MAILER: ${{ secrets.MAIL_MAILER }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_ENCRYPTION: ${{ secrets.MAIL_ENCRYPTION }}
+          MAIL_FROM_ADDRESS: ${{ secrets.MAIL_FROM_ADDRESS }}
+          MAILBOX_DRIVER: ${{ secrets.MAILBOX_DRIVER }}
+          MAILBOX_HTTP_USERNAME: ${{ secrets.MAILBOX_HTTP_USERNAME }}
+          MAILBOX_HTTP_PASSWORD: ${{ secrets.MAILBOX_HTTP_PASSWORD }}
+          FILESYSTEM_CLOUD: ${{ secrets.FILESYSTEM_CLOUD }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
+          GOOGLE_DRIVE_FOLDER: ${{ secrets.GOOGLE_DRIVE_FOLDER }}
+          GOOGLE_DRIVE_REFRESH_TOKEN: ${{ secrets.GOOGLE_DRIVE_REFRESH_TOKEN }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          REVERB_APP_ID: ${{ secrets.REVERB_APP_ID }}
+          REVERB_APP_KEY: ${{ secrets.REVERB_APP_KEY }}
+          REVERB_APP_SECRET: ${{ secrets.REVERB_APP_SECRET }}
+          REVERB_HOST: ${{ secrets.REVERB_HOST }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_ORGANIZATION: ${{ secrets.OPENAI_ORGANIZATION }}
+          OPENAI_SYSTEM_PROMPT: ${{ secrets.OPENAI_SYSTEM_PROMPT }}
+          RAY_HOST: ${{ secrets.RAY_HOST }}
+          LEMON_SQUEEZY_API_KEY: ${{ secrets.LEMON_SQUEEZY_API_KEY }}
+          LEMON_SQUEEZY_STORE: ${{ secrets.LEMON_SQUEEZY_STORE }}
+          LEMON_SQUEEZY_SIGNING_SECRET: ${{ secrets.LEMON_SQUEEZY_SIGNING_SECRET }}
+          LEMON_SQUEEZY_PATH: ${{ secrets.LEMON_SQUEEZY_PATH }}
+          LEMON_SQUEEZY_VARIANT_BEGINNER: ${{ secrets.LEMON_SQUEEZY_VARIANT_BEGINNER }}
+          LEMON_SQUEEZY_VARIANT_CLASSIC: ${{ secrets.LEMON_SQUEEZY_VARIANT_CLASSIC }}
+          LEMON_SQUEEZY_VARIANT_POWER: ${{ secrets.LEMON_SQUEEZY_VARIANT_POWER }}
+          LEMON_SQUEEZY_VARIANT_TOPUP: ${{ secrets.LEMON_SQUEEZY_VARIANT_TOPUP }}
+          LEMON_SQUEEZY_PRODUCT_BEGINNER: ${{ secrets.LEMON_SQUEEZY_PRODUCT_BEGINNER }}
+          LEMON_SQUEEZY_PRODUCT_CLASSIC: ${{ secrets.LEMON_SQUEEZY_PRODUCT_CLASSIC }}
+          LEMON_SQUEEZY_PRODUCT_POWER: ${{ secrets.LEMON_SQUEEZY_PRODUCT_POWER }}
+          LEMON_SQUEEZY_PRODUCT_TOPUP: ${{ secrets.LEMON_SQUEEZY_PRODUCT_TOPUP }}
+          LEMON_SQUEEZY_CREDITS_BEGINNER: ${{ secrets.LEMON_SQUEEZY_CREDITS_BEGINNER }}
+          LEMON_SQUEEZY_CREDITS_CLASSIC: ${{ secrets.LEMON_SQUEEZY_CREDITS_CLASSIC }}
+          LEMON_SQUEEZY_CREDITS_POWER: ${{ secrets.LEMON_SQUEEZY_CREDITS_POWER }}
+          LEMON_SQUEEZY_CREDITS_TOPUP: ${{ secrets.LEMON_SQUEEZY_CREDITS_TOPUP }}
+          LEMON_SQUEEZY_ROLLOVER_BEGINNER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_BEGINNER }}
+          LEMON_SQUEEZY_ROLLOVER_CLASSIC: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}
+          LEMON_SQUEEZY_ROLLOVER_POWER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_POWER }}
+      - uses: ./.github/workflows/jobs/build-and-push
+        with:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  deploy:
+    needs: [build-and-push]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/jobs/build-env
+        with:
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_URL: ${{ secrets.APP_URL }}
+          ADMIN_FIRSTNAME: ${{ secrets.ADMIN_FIRSTNAME }}
+          ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MAIL_MAILER: ${{ secrets.MAIL_MAILER }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_ENCRYPTION: ${{ secrets.MAIL_ENCRYPTION }}
+          MAIL_FROM_ADDRESS: ${{ secrets.MAIL_FROM_ADDRESS }}
+          MAILBOX_DRIVER: ${{ secrets.MAILBOX_DRIVER }}
+          MAILBOX_HTTP_USERNAME: ${{ secrets.MAILBOX_HTTP_USERNAME }}
+          MAILBOX_HTTP_PASSWORD: ${{ secrets.MAILBOX_HTTP_PASSWORD }}
+          FILESYSTEM_CLOUD: ${{ secrets.FILESYSTEM_CLOUD }}
+          GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
+          GOOGLE_DRIVE_FOLDER: ${{ secrets.GOOGLE_DRIVE_FOLDER }}
+          GOOGLE_DRIVE_REFRESH_TOKEN: ${{ secrets.GOOGLE_DRIVE_REFRESH_TOKEN }}
+          GOOGLE_DRIVE_CLIENT_ID: ${{ secrets.GOOGLE_DRIVE_CLIENT_ID }}
+          REVERB_APP_ID: ${{ secrets.REVERB_APP_ID }}
+          REVERB_APP_KEY: ${{ secrets.REVERB_APP_KEY }}
+          REVERB_APP_SECRET: ${{ secrets.REVERB_APP_SECRET }}
+          REVERB_HOST: ${{ secrets.REVERB_HOST }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_ORGANIZATION: ${{ secrets.OPENAI_ORGANIZATION }}
+          OPENAI_SYSTEM_PROMPT: ${{ secrets.OPENAI_SYSTEM_PROMPT }}
+          RAY_HOST: ${{ secrets.RAY_HOST }}
+          LEMON_SQUEEZY_API_KEY: ${{ secrets.LEMON_SQUEEZY_API_KEY }}
+          LEMON_SQUEEZY_STORE: ${{ secrets.LEMON_SQUEEZY_STORE }}
+          LEMON_SQUEEZY_SIGNING_SECRET: ${{ secrets.LEMON_SQUEEZY_SIGNING_SECRET }}
+          LEMON_SQUEEZY_PATH: ${{ secrets.LEMON_SQUEEZY_PATH }}
+          LEMON_SQUEEZY_VARIANT_BEGINNER: ${{ secrets.LEMON_SQUEEZY_VARIANT_BEGINNER }}
+          LEMON_SQUEEZY_VARIANT_CLASSIC: ${{ secrets.LEMON_SQUEEZY_VARIANT_CLASSIC }}
+          LEMON_SQUEEZY_VARIANT_POWER: ${{ secrets.LEMON_SQUEEZY_VARIANT_POWER }}
+          LEMON_SQUEEZY_VARIANT_TOPUP: ${{ secrets.LEMON_SQUEEZY_VARIANT_TOPUP }}
+          LEMON_SQUEEZY_PRODUCT_BEGINNER: ${{ secrets.LEMON_SQUEEZY_PRODUCT_BEGINNER }}
+          LEMON_SQUEEZY_PRODUCT_CLASSIC: ${{ secrets.LEMON_SQUEEZY_PRODUCT_CLASSIC }}
+          LEMON_SQUEEZY_PRODUCT_POWER: ${{ secrets.LEMON_SQUEEZY_PRODUCT_POWER }}
+          LEMON_SQUEEZY_PRODUCT_TOPUP: ${{ secrets.LEMON_SQUEEZY_PRODUCT_TOPUP }}
+          LEMON_SQUEEZY_CREDITS_BEGINNER: ${{ secrets.LEMON_SQUEEZY_CREDITS_BEGINNER }}
+          LEMON_SQUEEZY_CREDITS_CLASSIC: ${{ secrets.LEMON_SQUEEZY_CREDITS_CLASSIC }}
+          LEMON_SQUEEZY_CREDITS_POWER: ${{ secrets.LEMON_SQUEEZY_CREDITS_POWER }}
+          LEMON_SQUEEZY_CREDITS_TOPUP: ${{ secrets.LEMON_SQUEEZY_CREDITS_TOPUP }}
+          LEMON_SQUEEZY_ROLLOVER_BEGINNER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_BEGINNER }}
+          LEMON_SQUEEZY_ROLLOVER_CLASSIC: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}
+          LEMON_SQUEEZY_ROLLOVER_POWER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_POWER }}
+      - uses: ./.github/workflows/jobs/deploy
+        with:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}

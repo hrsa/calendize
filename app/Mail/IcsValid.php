@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class IcsValidMail extends Mailable
+class IcsValid extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -43,9 +43,8 @@ class IcsValidMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromData(function () {
-                return $this->icsEvent->ics;
-            }, $this->icsEvent->getSummary() . '.ics'),
+            Attachment::fromData(fn () => $this->icsEvent->ics, $this->icsEvent->getSummary() . '.ics')
+            ->withMime('text/calendar'),
         ];
     }
 }

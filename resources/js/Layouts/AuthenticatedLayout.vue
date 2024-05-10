@@ -52,7 +52,7 @@ const showingSetPasswordForm = ref(true);
                                     dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                     {{ $page.props.auth.user.credits }} credits remaining
                                 </span
->
+                                >
                             </div>
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
@@ -133,6 +133,12 @@ const showingSetPasswordForm = ref(true);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('generate')" :active="route().current('generate')">
+                            Generate
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('my-events')" :active="route().current('my-events')">
+                            My events
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -165,12 +171,12 @@ const showingSetPasswordForm = ref(true);
             <main>
                 <Modal v-if="!usePage().props.auth.user.has_password"
                        :show="!usePage().props.auth.user.has_password && showingSetPasswordForm"
-               @close="showingSetPasswordForm = false">
+                       @close="showingSetPasswordForm = false">
                     <UpdatePasswordForm class="p-8"
-                    title-label="Don't forget to set a password!"
-                    description-label="We both want you to be able to login, right?"
-                    new-password-label="Password"
-                    button-label="Set password"
+                                        title-label="Don't forget to set a password!"
+                                        description-label="We both want you to be able to login, right?"
+                                        new-password-label="Password"
+                                        button-label="Set password"
                     />
                 </Modal>
                 <slot/>

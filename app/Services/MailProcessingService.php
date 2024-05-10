@@ -3,16 +3,19 @@
 namespace App\Services;
 
 use App\Jobs\GenerateCalendarJob;
+use App\Mail\ForwardEmail;
 use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class MailProcessingService
 {
     public function process(InboundEmail $message): void
     {
-        $user = User::where('email', $message->from())->first();
+        $user = User::whereEmail($message->from())->first();
 
         if (!$user) {
             return;
@@ -21,15 +24,18 @@ class MailProcessingService
         if (Gate::forUser($user)->allows('has-credits')
             && Gate::forUser($user)->allows('errors-under-threshold')
         ) {
-
-            ray("We've got mail", 'FROM', $message->from(), $message->fromName(), 'ABOUT', $message->html(), 'The User has credits:', $user->credits);
-
             $icsEvent = IcsEvent::create([
                 'user_id' => $user->id,
-                'prompt' => strip_tags($message->html()),
+                'prompt' => $message->text(),
+                'secret' => Str::random(32),
             ]);
 
             GenerateCalendarJob::dispatch($icsEvent);
         }
+    }
+
+    public function forwardToAdmin(InboundEmail $email): void
+    {
+        Mail::to(config('app.admin.email'))->send(new ForwardEmail($email));
     }
 }

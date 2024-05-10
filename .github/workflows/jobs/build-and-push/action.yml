@@ -1,0 +1,36 @@
+name: 'Build, test and push'
+description: 'Build Calendize images, run tests, push tested containers to DockerHub'
+
+inputs:
+  DOCKERHUB_USERNAME:
+    required: true
+  DOCKERHUB_TOKEN:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.DOCKERHUB_USERNAME }}
+        password: ${{ inputs.DOCKERHUB_TOKEN }}
+    - name: Replace image tags
+      run: sed -i 's/:first/:'${{ github.sha }}'/g' docker-compose-prod.yml
+      shell: bash
+    - name: Build containers and run tests
+      run: |
+        cp .env .env.prod
+        cat docker-compose-prod.yml
+        docker compose -f docker-compose-prod.yml build nginx
+        docker compose -f docker-compose-prod.yml build php
+        docker compose -f docker-compose-prod.yml build cron
+        docker compose -f docker-compose-prod.yml build queue
+      shell: bash
+    - name: Push containers
+      run: |
+        docker push ${{ inputs.DOCKERHUB_USERNAME }}/calendize-nginx:${{ github.sha }}
+        docker push ${{ inputs.DOCKERHUB_USERNAME }}/calendize-php:${{ github.sha }}
+        docker push ${{ inputs.DOCKERHUB_USERNAME }}/calendize-cron:${{ github.sha }}
+        docker push ${{ inputs.DOCKERHUB_USERNAME }}/calendize-queue:${{ github.sha }}
+      shell: bash

@@ -1,10 +1,31 @@
-<x-mail.base subject="Sorry, i couldn't do it!" :ics="$ics">
-    <p class="text-center">I can't generate an ICS event out ot that.</p>
+<x-mail.base subject="Sorry, i couldn't do it!" :$ics>
+    <p style="text-align: center;">I can't generate an ICS event out ot that.</p>
 
-    <p class="text-center my-6 p-6 border-2 border-gray-700 rounded-lg text-lg text-gray-400">{{$ics->error}}</p>
+    <p style="padding: 1.5rem;
+margin-top: 1.5rem;
+margin-bottom: 1.5rem;
+border-radius: 0.5rem;
+border-width: 2px;
+border-color: #374151;
+font-size: 1.125rem;
+line-height: 1.75rem;
+text-align: center;
+color: #9CA3AF;
+">{{$ics->error}}
+    </p>
 
-    <p class="text-center pt-2 rounded-lg text-sm text-gray-400">
-        You have <span class="text-gray-200 font-semibold text-base">{{$ics->user->credits}}</span> credits left, by the
+    <p style="padding-top: 0.5rem;
+border-radius: 0.5rem;
+font-size: 0.875rem;
+line-height: 1.25rem;
+text-align: center;
+color: #9CA3AF;
+">
+        You have <span style="font-size: 1rem;
+line-height: 1.5rem;
+font-weight: 600;
+color: #E5E7EB;
+">{{$ics->user->credits}}</span> credits left, by the
         way.</p>
 </x-mail.base>
 

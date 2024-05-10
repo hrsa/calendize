@@ -56,7 +56,7 @@ const checkIfEmailExists = (node: FormKitNode): Promise<boolean> => {
         validation="required|email|(100)checkIfEmailExists"
         :validation-rules="{ checkIfEmailExists }"
         :validation-messages="{
-            checkIfEmailExists: 'You already have an account. Please log in to get more!'
+            checkIfEmailExists: 'You already have an account. Please log in to use all my features!'
         }"
         :validation-visibility=validationVisibility
     />

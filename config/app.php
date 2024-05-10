@@ -14,6 +14,12 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'admin' => [
+        'firstname' => env('ADMIN_FIRSTNAME'),
+        'lastname' => env('ADMIN_LASTNAME'),
+        'fullname' => env('ADMIN_FIRSTNAME') . ' ' . env('ADMIN_LASTNAME'),
+        'email' => env('ADMIN_EMAIL'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +45,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------

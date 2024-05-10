@@ -107,9 +107,9 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data
         environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
         ports:
             - 5432:5432
         healthcheck:
@@ -192,36 +192,3 @@ services:
         profiles: [ "npm" ]
         networks:
             - calendize-network
-
-
-    ncu:
-        build:
-            context: .
-            dockerfile: ./docker/npm.dockerfile
-            target: ncu
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: ncu
-        volumes:
-            - ./:/var/www
-        networks:
-            - calendize-network
-
-
-    ngrok:
-        image: ngrok/ngrok:latest
-        restart: unless-stopped
-        container_name: ngrok
-        command:
-            - "start"
-            - "--all"
-            - "--config"
-            - "/etc/ngrok.yml"
-        volumes:
-            - ./docker/ngrok.yml:/etc/ngrok.yml
-        ports:
-            - 4040:4040
-        extra_hosts:
-            - "host.docker.internal:host-gateway"

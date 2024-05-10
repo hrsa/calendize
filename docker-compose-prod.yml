@@ -7,15 +7,55 @@ volumes:
         driver: local
     redis_data:
         driver: local
+    certbot_letsencrypt_data:
+        driver: local
+    certbot_www_data:
+        driver: local
+    public:
+        driver: local
+    bootstrap_cache:
+        driver: local
+    bootstrap_ssr:
+        driver: local
+    logs:
+        driver: local
 
 
 services:
 
+    certbot:
+      image: certbot/certbot:latest
+      restart: no
+      container_name: certbot
+      volumes:
+        - certbot_letsencrypt_data:/etc/letsencrypt
+        - certbot_www_data:/tmp/letsencrypt
+      command:
+        - "certonly"
+        - "--webroot"
+        - "--agree-tos"
+        - "--renew-by-default"
+        - "--preferred-challenges"
+        - "http-01"
+        - "--server"
+        - "https://acme-v02.api.letsencrypt.org/directory"
+        - "--text"
+        - "--email=${ADMIN_EMAIL}"
+        - "-w"
+        - "/tmp/letsencrypt"
+        - "-d"
+        - "${REVERB_HOST}"
+      depends_on:
+        nginx:
+          condition: service_started
+
+
     nginx:
+        image: hrsa/calendize-nginx:first
         build:
             context: .
             dockerfile: ./docker/nginx.dockerfile
-            target: dev
+            target: prod
             args:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
@@ -23,9 +63,16 @@ services:
         restart: unless-stopped
         container_name: nginx
         volumes:
-            - ./:/var/www/
+            - certbot_letsencrypt_data:/etc/letsencrypt
+            - certbot_www_data:/var/www/certbot
+            - public:/var/www/public
+            - bootstrap_cache:/var/www/bootstrap/cache
+            - bootstrap_ssr:/var/www/bootstrap/ssr
+            - logs:/var/www/storage/logs
+            - ./.env:/var/www/.env
         ports:
-            - 8000:8000
+            - 80:80
+            - 443:443
         depends_on:
             - php
             - redis
@@ -38,9 +85,10 @@ services:
             - calendize-network
 
     php:
+        image: hrsa/calendize-php:first
         build:
             context: .
-            dockerfile: ./docker/php.dockerfile
+            dockerfile: ./docker/php-prod.dockerfile
             target: php
             args:
                 - UID=${UID:-1001}
@@ -48,33 +96,44 @@ services:
                 - USER=${USER:-anton}
         container_name: php
         volumes:
-            - ./:/var/www/
+          - ./.env:/var/www/.env
+          - public:/var/www/public
+          - bootstrap_cache:/var/www/bootstrap/cache
+          - bootstrap_ssr:/var/www/bootstrap/ssr
+          - certbot_letsencrypt_data:/etc/letsencrypt
+          - logs:/var/www/storage/logs
         depends_on:
             db:
                 condition: service_healthy
             redis:
                 condition: service_healthy
         ports:
-            - ":9000"
+            - 9000:9000
         extra_hosts:
             - "host.docker.internal:host-gateway"
         networks:
             - calendize-network
 
     queue:
+        image: hrsa/calendize-queue:first
         build:
             context: .
-            dockerfile: ./docker/php.dockerfile
+            dockerfile: ./docker/php-prod.dockerfile
             target: queue
             args:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
         container_name: queue
+        volumes:
+          - ./.env:/var/www/.env
+          - public:/var/www/public
+          - bootstrap_cache:/var/www/bootstrap/cache
+          - bootstrap_ssr:/var/www/bootstrap/ssr
+          - certbot_letsencrypt_data:/etc/letsencrypt
+          - logs:/var/www/storage/logs
         ports:
             - 8080:8080
-        volumes:
-            - ./:/var/www/
         depends_on:
             db:
                 condition: service_healthy
@@ -85,9 +144,10 @@ services:
 
 
     cron:
+        image: hrsa/calendize-cron:first
         build:
             context: .
-            dockerfile: ./docker/php.dockerfile
+            dockerfile: ./docker/php-prod.dockerfile
             target: cron
             args:
                 - UID=${UID:-1001}
@@ -95,9 +155,13 @@ services:
                 - USER=${USER:-anton}
         container_name: cron
         volumes:
-            - ./:/var/www/
+          - ./.env:/var/www/.env
+          - logs:/var/www/storage/logs
         depends_on:
-            - db
+          db:
+            condition: service_healthy
+          php:
+            condition: service_started
         networks:
             - calendize-network
 
@@ -132,96 +196,3 @@ services:
             retries: 6
         networks:
             - calendize-network
-
-
-    composer:
-        build:
-            context: .
-            dockerfile: ./docker/php.dockerfile
-            target: composer
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: composer
-        volumes:
-            - ./:/var/www
-        working_dir: /var/www
-        depends_on:
-            - php
-        profiles: [ "composer" ]
-        networks:
-            - calendize-network
-
-
-    artisan:
-        build:
-            context: .
-            dockerfile: ./docker/php.dockerfile
-            target: base
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: artisan
-        volumes:
-            - ./:/var/www
-        depends_on:
-            - db
-        working_dir: /var/www
-        profiles: [ "artisan" ]
-        entrypoint: [ 'php', '/var/www/artisan' ]
-        networks:
-            - calendize-network
-
-
-    npm:
-        build:
-            context: .
-            dockerfile: ./docker/npm.dockerfile
-            target: npm
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: npm
-        volumes:
-            - ./:/var/www
-        ports:
-            - 5173:5173
-        profiles: [ "npm" ]
-        networks:
-            - calendize-network
-
-
-    ncu:
-        build:
-            context: .
-            dockerfile: ./docker/npm.dockerfile
-            target: ncu
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: ncu
-        volumes:
-            - ./:/var/www
-        networks:
-            - calendize-network
-
-
-    ngrok:
-        image: ngrok/ngrok:latest
-        restart: unless-stopped
-        container_name: ngrok
-        command:
-            - "start"
-            - "--all"
-            - "--config"
-            - "/etc/ngrok.yml"
-        volumes:
-            - ./docker/ngrok.yml:/etc/ngrok.yml
-        ports:
-            - 4040:4040
-        extra_hosts:
-            - "host.docker.internal:host-gateway"

@@ -1,0 +1,34 @@
+name: 'Deploy'
+description: 'Prepare the connection, copy files, stop, clean and restart the containers'
+
+inputs:
+  SERVER_IP:
+    required: true
+  SSH_KEY:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Replace image tags
+      run: sed -i 's/:first/:'${{ github.sha }}'/g' docker-compose-prod.yml
+      shell: bash
+
+    - name: Create an SSH key
+      shell: bash
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ inputs.SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Copy files and restart containers
+      run: |
+        scp -o StrictHostKeyChecking=no docker/renew-ssl.sh root@${{ inputs.SERVER_IP }}:/var/www
+        scp -o StrictHostKeyChecking=no .env root@${{ inputs.SERVER_IP }}:/var/www
+        scp -o StrictHostKeyChecking=no docker-compose-prod.yml root@${{ inputs.SERVER_IP }}:/var/www
+        ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
+        docker compose -f /var/www/docker-compose-prod.yml down
+        docker system prune -a -f
+        docker compose -f /var/www/docker-compose-prod.yml up -d nginx
+        EOF
+      shell: bash

@@ -14,7 +14,7 @@ return [
 
     'api_key' => env('OPENAI_API_KEY'),
     'organization' => env('OPENAI_ORGANIZATION'),
-    'system_prompt' => env('OPENAI_SYSTEM_PROMPT'),
+    'system_prompt' => base64_decode(env('OPENAI_SYSTEM_PROMPT')),
 
     /*
     |--------------------------------------------------------------------------

@@ -9,7 +9,6 @@ ENV GID=${GID}
 ENV USER=${USER}
 
 WORKDIR /var/www/
-
 RUN addgroup --gid ${GID} --system ${USER}
 RUN adduser --system --home /home/${USER} --shell /bin/sh --uid ${UID} --ingroup ${USER} ${USER}
 
@@ -57,14 +56,28 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
 RUN apt-get install -y nodejs
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+COPY . /var/www/
+RUN mv .env.prod .env
+
+RUN composer install --no-scripts --no-progress
+
+RUN chown -R ${UID}:${GID} /var/www
+RUN chmod 777 -R /var/www
+RUN rm .env*
+
 USER ${USER}
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 
 FROM base AS php
 COPY ./docker/php-fpm.conf /usr/local/etc
 COPY ./docker/supervisord-php.conf /etc/supervisor/conf.d/supervisord-php.conf
-CMD /usr/bin/supervisord -u ${USER} -n -c /etc/supervisor/conf.d/supervisord-php.conf
+CMD /var/www/docker/migrate-build-and-run-supervisor.sh ${USER} /etc/supervisor/conf.d/supervisord-php.conf
+
+FROM base AS migrate
+CMD ["php", "/var/www/artisan", "migrate", "--force"]
 
 FROM base AS cron
 CMD ["php", "/var/www/artisan", "schedule:work"]
@@ -72,6 +85,3 @@ CMD ["php", "/var/www/artisan", "schedule:work"]
 FROM base AS queue
 COPY ./docker/supervisord-queue.conf /etc/supervisor/conf.d/supervisord-queue.conf
 CMD /usr/bin/supervisord -u ${USER} -n -c /etc/supervisor/conf.d/supervisord-queue.conf
-
-FROM base AS composer
-ENTRYPOINT ["composer"]

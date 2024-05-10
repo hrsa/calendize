@@ -1,0 +1,23 @@
+name: Test the development branch
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/jobs/build-and-test
+        with:
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}

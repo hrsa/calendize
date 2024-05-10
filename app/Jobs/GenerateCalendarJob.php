@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Events\IcsEventProcessed;
+use App\Mail\IcsError;
+use App\Mail\IcsValid;
 use App\Models\IcsEvent;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -13,6 +15,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 use stdClass;
@@ -65,10 +68,11 @@ class GenerateCalendarJob implements ShouldQueue
         if (array_key_exists('ics', $decodedReply) && isset($decodedReply['ics'])) {
             $this->icsEvent->update(['ics' => $decodedReply['ics']]);
             $this->icsEvent->user->decrement('credits');
+            Mail::to($this->icsEvent->user->email)->send(new IcsValid($this->icsEvent));
         } else {
             $this->icsEvent->update(['error' => $decodedReply['error']]);
             $this->icsEvent->user->increment('failed_requests');
-
+            Mail::to($this->icsEvent->user->email)->send(new IcsError($this->icsEvent));
             if ($this->icsEvent->user->failed_requests >= $this->icsEvent->user->credits) {
                 $this->icsEvent->user->decrement('credits');
             }

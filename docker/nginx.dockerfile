@@ -18,3 +18,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 FROM base as dev
 COPY ./docker/nginx-dev.conf /etc/nginx/conf.d/default.conf
+
+FROM base as prod
+COPY . /var/www
+COPY ./docker/nginx-prod.conf /etc/nginx/conf.d/default.conf

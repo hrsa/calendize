@@ -1,4 +1,8 @@
 node_modules/
 vendor/
+public/build/
+bootstrap/ssr/
 .idea/
 .git/
+.github/
+.env
