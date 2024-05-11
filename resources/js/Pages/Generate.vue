@@ -7,6 +7,7 @@ import TextArea from "@/Components/TextArea.vue";
 import {computed, ref} from "vue";
 import {IcsEventProcessed} from "@/types";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
 
 
 const calendarEvent = ref<string>('');
@@ -122,17 +123,7 @@ const downloadIcs = () => {
                                 class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-orange-600/50 bg-orange-600/50 px-8 py-2 text-center text-white"
                             >You have no credits left! Let's get you some more...</h3>
                             </div>
-                            <div v-if="!noCreditsLeft"
-                                class="relative h-48 w-full">
-                                <TextArea class="h-48 w-full resize-none text-lg" :class="loading ? 'blur-lg' : ''"
-                                          placeholder="Share your calendar details!"
-                                          v-model="calendarEvent"/>
-                                <div v-if="loading"
-                                     role="status"
-                                     class="absolute top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                                    <LoadingSpinner/>
-                                </div>
-                            </div>
+                            <EventGenerationTextArea v-model="calendarEvent" :loading v-if="!noCreditsLeft" />
                             <div v-if="!noCreditsLeft"
                                 class="m-auto mt-4 flex items-center justify-end">
                                 <PrimaryButton v-if="!loading" :class="{ 'opacity-25': !calendarEvent }"

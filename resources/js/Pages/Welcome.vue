@@ -6,6 +6,7 @@ import {ref} from "vue";
 import EmailInput from "@/Components/EmailInput.vue";
 import LoadingSpinner from "@/Components/LoadingSpinner.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
 
 
 defineProps<{
@@ -114,15 +115,7 @@ function handleImageError() {
                             hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
                             lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                         >
-                            <div class="relative w-full h-48">
-                                <TextArea class="h-48 w-full resize-none text-lg" :class="loading ? 'blur-lg' : ''"
-                                          placeholder="Share your calendar details!"
-                                          v-model="calendarEvent"/>
-                                <div v-if="loading"
-                                     role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
-                                    <LoadingSpinner/>
-                                </div>
-                            </div>
+                            <EventGenerationTextArea v-model="calendarEvent" :loading />
                             <EmailInput class="m-auto" placeholder="email" v-model="email"
                                         :class="loading ? 'blur-lg' : ''"
                                         @clearError="handleClearError"
