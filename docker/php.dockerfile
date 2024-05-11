@@ -56,7 +56,9 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
 RUN apt-get install -y nodejs
-
+RUN npm install -g npm@10.7.0 && npm install -g npm-check-updates
+RUN chown -R ${UID}:${GID} /var/www
+RUN chmod 777 -R /var/www
 USER ${USER}
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -75,3 +77,9 @@ CMD /usr/bin/supervisord -u ${USER} -n -c /etc/supervisor/conf.d/supervisord-que
 
 FROM base AS composer
 ENTRYPOINT ["composer"]
+
+FROM base as npm
+ENTRYPOINT [ "npm" ]
+
+FROM base as ncu
+ENTRYPOINT [ "ncu", "--interactive", "--format", "group" ]
