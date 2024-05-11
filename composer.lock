@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bf657dfc793c7840cbaf617c35df2fb",
+    "content-hash": "0bf3a275ae5375d09636093dc59f869b",
     "packages": [
         {
             "name": "beyondcode/laravel-mailbox",
@@ -947,16 +947,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.353.0",
+            "version": "v0.354.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "fd11c75d0303b3a4237f65482324cf987950b126"
+                "reference": "ea6f4a01c9113cb4661d1243baf5af0f69a926c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/fd11c75d0303b3a4237f65482324cf987950b126",
-                "reference": "fd11c75d0303b3a4237f65482324cf987950b126",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/ea6f4a01c9113cb4661d1243baf5af0f69a926c2",
+                "reference": "ea6f4a01c9113cb4661d1243baf5af0f69a926c2",
                 "shasum": ""
             },
             "require": {
@@ -985,9 +985,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.353.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.354.0"
             },
-            "time": "2024-05-07T05:10:51+00:00"
+            "time": "2024-05-10T16:30:18+00:00"
         },
         {
             "name": "google/auth",
@@ -10090,16 +10090,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.56.0",
+            "version": "v3.56.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "4429303e62a4ce583ddfe64ff5c34c76bcf74931"
+                "reference": "69c6168ae8bc96dc656c7f6c7271120a68ae5903"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4429303e62a4ce583ddfe64ff5c34c76bcf74931",
-                "reference": "4429303e62a4ce583ddfe64ff5c34c76bcf74931",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/69c6168ae8bc96dc656c7f6c7271120a68ae5903",
+                "reference": "69c6168ae8bc96dc656c7f6c7271120a68ae5903",
                 "shasum": ""
             },
             "require": {
@@ -10171,7 +10171,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.56.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.56.1"
             },
             "funding": [
                 {
@@ -10179,7 +10179,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-07T15:50:05+00:00"
+            "time": "2024-05-10T11:31:15+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
