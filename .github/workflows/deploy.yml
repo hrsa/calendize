@@ -43,6 +43,7 @@ jobs:
           ADMIN_FIRSTNAME: ${{ secrets.ADMIN_FIRSTNAME }}
           ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          CACHE_STORE: ${{ secrets.CACHE_STORE }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -110,6 +111,7 @@ jobs:
           ADMIN_FIRSTNAME: ${{ secrets.ADMIN_FIRSTNAME }}
           ADMIN_LASTNAME: ${{ secrets.ADMIN_LASTNAME }}
           ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          CACHE_STORE: ${{ secrets.CACHE_STORE }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
