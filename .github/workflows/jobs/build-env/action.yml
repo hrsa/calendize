@@ -18,6 +18,8 @@ inputs:
     required: true
   ADMIN_EMAIL:
     required: true
+  CACHE_STORE:
+    required: true
   DB_DATABASE:
     required: true
   DB_USERNAME:
@@ -126,6 +128,7 @@ runs:
         sed -i "s|ADMIN_FIRSTNAME=.*|ADMIN_FIRSTNAME=${{ inputs.ADMIN_FIRSTNAME }}|" .env
         sed -i "s|ADMIN_LASTNAME=.*|ADMIN_LASTNAME=${{ inputs.ADMIN_LASTNAME }}|" .env
         sed -i "s|ADMIN_EMAIL=.*|ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}|" .env
+        sed -i "s|CACHE_STORE=.*|CACHE_STORE=${{ inputs.CACHE_STORE }}|" .env
         sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ inputs.DB_DATABASE }}|" .env
         sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ inputs.DB_USERNAME }}|" .env
         sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ inputs.DB_PASSWORD }}|" .env

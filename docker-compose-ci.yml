@@ -103,7 +103,8 @@ services:
 
     db:
         image: postgres:latest
-        container_name: postgres
+        container_name: db
+        restart: unless-stopped
         volumes:
             - postgres_data:/var/lib/postgresql/data
         environment:
@@ -178,7 +179,7 @@ services:
     npm:
         build:
             context: .
-            dockerfile: ./docker/npm.dockerfile
+            dockerfile: ./docker/php.dockerfile
             target: npm
             args:
                 - UID=${UID:-1001}
