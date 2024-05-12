@@ -112,6 +112,8 @@ inputs:
     required: true
   LEMON_SQUEEZY_ROLLOVER_POWER:
     required: true
+  TELEGRAM_BOT_TOKEN:
+    required: true
 
 runs:
   using: "composite"
@@ -175,3 +177,4 @@ runs:
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_BEGINNER=.*|LEMON_SQUEEZY_ROLLOVER_BEGINNER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_BEGINNER }}|" .env
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_CLASSIC=.*|LEMON_SQUEEZY_ROLLOVER_CLASSIC=${{ inputs.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}|" .env
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_POWER=.*|LEMON_SQUEEZY_ROLLOVER_POWER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_POWER }}|" .env
+        sed -i "s|TELEGRAM_BOT_TOKEN=.*|TELEGRAM_BOT_TOKEN=${{ inputs.TELEGRAM_BOT_TOKEN }}|" .env
