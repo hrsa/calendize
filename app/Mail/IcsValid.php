@@ -44,7 +44,7 @@ class IcsValid extends Mailable
     {
         return [
             Attachment::fromData(fn () => $this->icsEvent->ics, $this->icsEvent->getSummary() . '.ics')
-            ->withMime('text/calendar'),
+                ->withMime('text/calendar'),
         ];
     }
 }

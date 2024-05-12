@@ -16,9 +16,9 @@ class MailProcessingServiceProvider extends ServiceProvider
 
     public function boot(MailProcessingService $service): void
     {
-        Mailbox::to('ics@calendize.it', fn(InboundEmail $inboundEmail) => $service->process($inboundEmail));
-        Mailbox::to('hey@calendize.it', fn(InboundEmail $inboundEmail) => $service->process($inboundEmail));
-        Mailbox::to('contact@calendize.it', fn(InboundEmail $inboundEmail) => $service->forwardToAdmin($inboundEmail));
-        Mailbox::to('cally@calendize.it', fn(InboundEmail $inboundEmail) => $service->forwardToAdmin($inboundEmail));
+        Mailbox::to('ics@calendize.it', fn (InboundEmail $inboundEmail) => $service->process($inboundEmail));
+        Mailbox::to('hey@calendize.it', fn (InboundEmail $inboundEmail) => $service->process($inboundEmail));
+        Mailbox::to('contact@calendize.it', fn (InboundEmail $inboundEmail) => $service->forwardToAdmin($inboundEmail));
+        Mailbox::to('cally@calendize.it', fn (InboundEmail $inboundEmail) => $service->forwardToAdmin($inboundEmail));
     }
 }

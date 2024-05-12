@@ -13,9 +13,9 @@ use Illuminate\Support\Str;
 
 class MailProcessingService
 {
-    public function process(InboundEmail $message): void
+    public function process(InboundEmail $email): void
     {
-        $user = User::whereEmail($message->from())->first();
+        $user = User::whereEmail($email->from())->first();
 
         if (!$user) {
             return;
@@ -23,11 +23,13 @@ class MailProcessingService
 
         if (Gate::forUser($user)->allows('has-credits')
             && Gate::forUser($user)->allows('errors-under-threshold')
+            && IcsEvent::whereEmailId($email->id())->doesntExist()
         ) {
             $icsEvent = IcsEvent::create([
                 'user_id' => $user->id,
-                'prompt' => $message->text(),
+                'prompt' => $email->text(),
                 'secret' => Str::random(32),
+                'email_id' => $email->id(),
             ]);
 
             GenerateCalendarJob::dispatch($icsEvent);

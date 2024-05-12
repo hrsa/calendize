@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $ics
  * @property string|null $timezone
  * @property string|null $secret
+ * @property string|null $email_id
  * @property DateTime $created_at
  * @property DateTime $updated_at
  * @property DateTime|null $deleted_at
@@ -33,6 +34,7 @@ class IcsEvent extends Model
         'prompt',
         'error',
         'ics',
+        'email_id',
         'timezone',
         'secret',
     ];

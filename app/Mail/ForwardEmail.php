@@ -2,8 +2,6 @@
 
 namespace App\Mail;
 
-use App\Exceptions\NoSummaryException;
-use App\Models\IcsEvent;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -23,7 +21,7 @@ class ForwardEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "FROM: " . $this->inboundEmail->fromName() . " (" . $this->inboundEmail->from() . ") - " . $this->inboundEmail->subject(),
+            subject: 'FROM: ' . $this->inboundEmail->fromName() . ' (' . $this->inboundEmail->from() . ') - ' . $this->inboundEmail->subject(),
         );
     }
 
@@ -36,6 +34,15 @@ class ForwardEmail extends Mailable
 
     public function attachments(): array
     {
-        return $this->inboundEmail->attachments();
+        $attachments = [];
+
+        foreach ($this->inboundEmail->attachments() as $attachment) {
+            if ($attachment->getFilename()) {
+                $attachments[] = Attachment::fromData(fn () => $attachment->getContent(), $attachment->getFilename())
+                    ->withMime($attachment->getContentType());
+            }
+        }
+
+        return $attachments;
     }
 }
