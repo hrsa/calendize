@@ -2,8 +2,6 @@
 
 namespace App\Notifications\Telegram\Admin;
 
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\BackupWasSuccessful;
 use Spatie\Backup\Notifications\BaseNotification;

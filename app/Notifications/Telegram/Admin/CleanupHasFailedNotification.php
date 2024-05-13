@@ -3,7 +3,6 @@
 namespace App\Notifications\Telegram\Admin;
 
 use NotificationChannels\Telegram\TelegramMessage;
-use Spatie\Backup\Events\BackupHasFailed;
 use Spatie\Backup\Events\CleanupHasFailed;
 use Spatie\Backup\Notifications\BaseNotification;
 
