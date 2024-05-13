@@ -5,26 +5,26 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Models\IcsEvent;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/landing', function () {
-    return Inertia::render('Landing', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('generate');
+    }
+    return Inertia::render('Landing');
 })->name('home');
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
+Route::get('/try', function () {
+    if (Auth::check()) {
+        return redirect()->route('generate');
+    }
+    return Inertia::render('Try', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
-})->name('home');
+})->name('try');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

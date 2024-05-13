@@ -86,7 +86,7 @@ class GenerateCalendarJob implements ShouldQueue
     private function generateOpenAIResponse(string $systemPrompt): CreateResponse
     {
         return OpenAI::chat()->create([
-            'model' => 'gpt-4-turbo-2024-04-09',
+            'model' => 'gpt-4o',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user', 'content' => $this->icsEvent->prompt],

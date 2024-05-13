@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {Head, Link, router} from '@inertiajs/vue3';
-import TextArea from "@/Components/TextArea.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {ref} from "vue";
 import EmailInput from "@/Components/EmailInput.vue";
@@ -12,8 +11,6 @@ import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
 defineProps<{
     canLogin?: boolean;
     canRegister?: boolean;
-    laravelVersion: string;
-    phpVersion: string;
 }>();
 const email = ref<string>('');
 const calendarEvent = ref<string>('');
@@ -115,7 +112,7 @@ function handleImageError() {
                             hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
                             lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                         >
-                            <EventGenerationTextArea v-model="calendarEvent" :loading />
+                            <EventGenerationTextArea v-model="calendarEvent" :loading/>
                             <EmailInput class="m-auto" placeholder="email" v-model="email"
                                         :class="loading ? 'blur-lg' : ''"
                                         @clearError="handleClearError"
@@ -137,20 +134,9 @@ function handleImageError() {
                                     Generate
                                 </PrimaryButton>
                             </div>
-
-                            <!--                            <div-->
-                            <!--                                class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"-->
-                            <!--                            >-->
-
-                            <!--                            </div>-->
-
                         </div>
                     </div>
                 </main>
-
-                <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
-                </footer>
             </div>
         </div>
     </div>

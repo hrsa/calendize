@@ -114,6 +114,8 @@ inputs:
     required: true
   TELEGRAM_BOT_TOKEN:
     required: true
+  TELEGRAM_ADMIN_CHAT_ID:
+    required: true
 
 runs:
   using: "composite"
@@ -178,3 +180,4 @@ runs:
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_CLASSIC=.*|LEMON_SQUEEZY_ROLLOVER_CLASSIC=${{ inputs.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}|" .env
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_POWER=.*|LEMON_SQUEEZY_ROLLOVER_POWER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_POWER }}|" .env
         sed -i "s|TELEGRAM_BOT_TOKEN=.*|TELEGRAM_BOT_TOKEN=${{ inputs.TELEGRAM_BOT_TOKEN }}|" .env
+        sed -i "s|TELEGRAM_ADMIN_CHAT_ID=.*|TELEGRAM_ADMIN_CHAT_ID=${{ inputs.TELEGRAM_ADMIN_CHAT_ID }}|" .env
