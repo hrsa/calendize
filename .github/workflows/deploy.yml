@@ -66,6 +66,8 @@ jobs:
           REVERB_APP_KEY: ${{ secrets.REVERB_APP_KEY }}
           REVERB_APP_SECRET: ${{ secrets.REVERB_APP_SECRET }}
           REVERB_HOST: ${{ secrets.REVERB_HOST }}
+          REVERB_PORT: ${{ secrets.REVERB_PORT }}
+          REVERB_SCHEME: ${{ secrets.REVERB_SCHEME }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_ORGANIZATION: ${{ secrets.OPENAI_ORGANIZATION }}
@@ -136,6 +138,8 @@ jobs:
           REVERB_APP_KEY: ${{ secrets.REVERB_APP_KEY }}
           REVERB_APP_SECRET: ${{ secrets.REVERB_APP_SECRET }}
           REVERB_HOST: ${{ secrets.REVERB_HOST }}
+          REVERB_PORT: ${{ secrets.REVERB_PORT }}
+          REVERB_SCHEME: ${{ secrets.REVERB_SCHEME }}
           MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_ORGANIZATION: ${{ secrets.OPENAI_ORGANIZATION }}

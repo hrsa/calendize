@@ -64,6 +64,10 @@ inputs:
     required: true
   REVERB_HOST:
     required: true
+  REVERB_PORT:
+    required: true
+  REVERB_SCHEME:
+    required: true
   MISTRAL_API_KEY:
     required: true
   OPENAI_API_KEY:
@@ -155,6 +159,8 @@ runs:
         sed -i "s|REVERB_APP_KEY=.*|REVERB_APP_KEY=${{ inputs.REVERB_APP_KEY }}|" .env
         sed -i "s|REVERB_APP_SECRET=.*|REVERB_APP_SECRET=${{ inputs.REVERB_APP_SECRET }}|" .env
         sed -i "s|REVERB_HOST=.*|REVERB_HOST=${{ inputs.REVERB_HOST }}|" .env
+        sed -i "s|REVERB_PORT=.*|REVERB_PORT=${{ inputs.REVERB_PORT }}|" .env
+        sed -i "s|REVERB_SCHEME=.*|REVERB_SCHEME=${{ inputs.REVERB_SCHEME }}|" .env
         sed -i "s|MISTRAL_API_KEY=.*|MISTRAL_API_KEY=${{ inputs.MISTRAL_API_KEY }}|" .env
         sed -i "s|OPENAI_API_KEY=.*|OPENAI_API_KEY=${{ inputs.OPENAI_API_KEY }}|" .env
         sed -i "s|OPENAI_ORGANIZATION=.*|OPENAI_ORGANIZATION=${{ inputs.OPENAI_ORGANIZATION }}|" .env
