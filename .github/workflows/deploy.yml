@@ -91,6 +91,7 @@ jobs:
           LEMON_SQUEEZY_ROLLOVER_CLASSIC: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}
           LEMON_SQUEEZY_ROLLOVER_POWER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_POWER }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
       - uses: ./.github/workflows/jobs/build-and-push
         with:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -160,6 +161,7 @@ jobs:
           LEMON_SQUEEZY_ROLLOVER_CLASSIC: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_CLASSIC }}
           LEMON_SQUEEZY_ROLLOVER_POWER: ${{ secrets.LEMON_SQUEEZY_ROLLOVER_POWER }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
       - uses: ./.github/workflows/jobs/deploy
         with:
           SERVER_IP: ${{ secrets.SERVER_IP }}

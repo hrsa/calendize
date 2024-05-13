@@ -193,12 +193,12 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => ['mail'],
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class => ['mail'],
+            \App\Notifications\Telegram\Admin\BackupHasFailedNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\UnhealthyBackupWasFoundNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\CleanupHasFailedNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\BackupWasSuccessfulNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\HealthyBackupWasFoundNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\CleanupWasSuccessfulNotification::class => ['telegram'],
         ],
 
         /*
@@ -208,12 +208,16 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => env('ADMIN_EMAIL', null),
+            'to' => env('ADMIN_EMAIL'),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
                 'name' => env('MAIL_FROM_NAME', 'Example'),
             ],
+        ],
+
+        'telegram' => [
+            'chat_id' => env('TELEGRAM_ADMIN_CHAT_ID'),
         ],
 
         'slack' => [
