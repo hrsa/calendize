@@ -3,8 +3,7 @@ name: Test, push and deploy
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+
 
 env:
   USER: anton
