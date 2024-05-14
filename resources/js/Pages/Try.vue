@@ -59,12 +59,12 @@ function handleImageError() {
 
 <template>
     <Head title="Calendize"/>
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <img
-            id="background" alt="background"
-            class="absolute top-0 -left-20 max-w-[877px]"
-            src="https://laravel.com/assets/img/welcome/background.svg"
-        />
+    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 bg-[url('/tile-background-light.png')] dark:bg-[url('/tile-background-black.png')]">
+<!--        <img-->
+<!--            id="background" alt="background"-->
+<!--            class="absolute top-0 -left-20 max-w-[877px]"-->
+<!--            src="https://laravel.com/assets/img/welcome/background.svg"-->
+<!--        />-->
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
@@ -72,22 +72,17 @@ function handleImageError() {
                 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="flex lg:col-start-2 lg:justify-center">
                         <Link href="/">
-                            <ApplicationLogo class="size-36 fill-current text-gray-500"/>
+                            <ApplicationLogo class="fill-current text-gray-500 size-36"/>
                         </Link>
                     </div>
-                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                        >
-                            Dashboard
-                        </Link>
-
-                        <template v-else>
+                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end gap-6">
                             <Link
                                 :href="route('login')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="bg-gray-50 text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
+                                dark:bg-zinc-900 dark:ring-zinc-600 dark:hover:text-white/80 dark:hover:ring-zinc-300 dark:focus-visible:ring-[#FF2D20]
+                                px-3 py-4 ring-1 ring-white/[0.05] transition duration-300
+                                focus:outline-none focus-visible:ring-[#FF2D20]
+                                shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] tracking-wide uppercase"
                             >
                                 Log in
                             </Link>
@@ -95,18 +90,38 @@ function handleImageError() {
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="bg-gray-50 text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
+                                dark:bg-zinc-900 dark:ring-zinc-600 dark:hover:text-white/80 dark:hover:ring-zinc-300 dark:focus-visible:ring-[#FF2D20]
+                                px-3 py-4 ring-1 ring-white/[0.05] transition duration-300
+                                focus:outline-none focus-visible:ring-[#FF2D20]
+                                shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] tracking-wide uppercase"
                             >
                                 Register
                             </Link>
-                        </template>
                     </nav>
                 </header>
 
                 <main class="mt-6">
                     <div class="flex flex-col gap-6 lg:gap-8">
                         <div
-                            id="docs-card"
+                            class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6
+                            shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300
+                            hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
+                            lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                        >
+                            <h3 class="mx-auto px-8 text-center text-xl">
+                                Welcome!
+                            </h3>
+                            <h3 class="mx-auto px-8 text-center text-xl">
+                                My users can simply forward their emails to me, and I reply with a calendized version!<br>
+                                But if you don't want to sign up yet - just <b>copy-paste an email that you want to
+                                calendize</b>.
+                            </h3>
+                            <h3 class="mx-auto px-8 text-center text-sm">
+                                You'll have to confirm you email, though - no spammers allowed 😎
+                            </h3>
+                        </div>
+                        <div
                             class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6
                             shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300
                             hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3
@@ -121,7 +136,7 @@ function handleImageError() {
                             />
                             <h3
                                 v-if="errorMessage"
-                                class="mx-auto max-w-sm rounded-xl bg-red-600/50 border-red-600/50 border-2 px-8 py-2 text-center text-white"
+                                class="mx-auto max-w-sm rounded-xl border-2 border-red-600/50 bg-red-600/50 px-8 py-2 text-center text-white"
                             >{{ errorMessage }}</h3>
                             <div class="m-auto mt-4 flex items-center justify-end">
 
