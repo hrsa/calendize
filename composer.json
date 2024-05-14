@@ -10,6 +10,7 @@
         "ext-zip": "*",
         "beyondcode/laravel-mailbox": "^4.0",
         "inertiajs/inertia-laravel": "^1.0",
+        "laravel-notification-channels/telegram": "^5.0",
         "laravel/framework": "^11.7",
         "laravel/reverb": "@beta",
         "laravel/sanctum": "^4.0.2",
