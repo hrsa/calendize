@@ -1,19 +1,21 @@
 <?php
 
-test('registration screen can be rendered', function () {
-    $response = $this->get('/register');
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
 
-    $response->assertStatus(200);
+test('registration screen can be rendered', function () {
+
+    get('/register')
+        ->assertStatus(200);
 });
 
 test('new users can register', function () {
-    $response = $this->post('/register', [
+    post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
-    ]);
+    ])->assertRedirect(route('generate', absolute: false));
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('generate', absolute: false));
 });
