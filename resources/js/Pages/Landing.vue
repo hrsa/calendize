@@ -9,12 +9,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 
-defineProps<{
-    canLogin?: boolean;
-    canRegister?: boolean;
-    laravelVersion: string;
-    phpVersion: string;
-}>();
 const calendized = ref<boolean>(false);
 
 </script>
@@ -23,40 +17,42 @@ const calendized = ref<boolean>(false);
     <Head title="Calendize"/>
     <div class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
         <div
-            class="flex flex-col md:flex-row md:h-screen md:min-h-[50%] w-full justify-around bg-[url('/home/usage/background.webp')] bg-repeat">
+            class="flex flex-col lg:flex-row md:h-full md:min-h-[50%] w-full justify-around bg-[url('/home/usage/background.webp')] bg-repeat">
             <div
-                class="self-center text-center dark:bg-black/85 bg-white/85 backdrop-blur-md h-full justify-center flex flex-col order-last md:order-first">
+                class="flex h-full lg:h-screen w-full lg:w-fit flex-col justify-center self-center text-center backdrop-blur-md bg-white/85 dark:bg-black/85">
                 <h2 v-show="!calendized"
-                    class="m-12 text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    class="m-5 md:m-12 text-center text-2xl lg:text-3xl font-semibold uppercase
+                    tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                     All these important events <br>
                     you can't just add to your calendar<br>
                     in one click...
                 </h2>
                 <h2 v-show="calendized"
-                    class="m-12 text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    class="m-5 md:m-12 text-center text-2xl lg:text-3xl font-semibold uppercase
+                    tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
                     All done! Easy, right?<br>
                     Together, we will keep your calendar<br>
                     neat and tidy!
                 </h2>
-                <img src="/calendar.png" alt="Calendize" class="mx-auto mt-10 size-36"/>
+                <img src="/calendar.png" alt="Calendize" class="mx-auto my-5 size-36 md:mt-10"/>
                 <h2 v-show="!calendized"
-                    class="m-12 text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200">
+                    class="m-5 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 md:m-12 lg:text-3xl">
                     This sucks, right?
                 </h2>
                 <Link :href="route('try')" v-show="calendized"
-                    class="w-fit mx-auto px-8 py-3 rounded-lg uppercase tracking-widest font-semibold text-xl bg-green-700 hover:bg-green-900 text-gray-100 m-12">
+                      class="m-5 self-center w-fit rounded-lg bg-green-700 px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 hover:bg-green-900 md:m-12">
                     Cool! I'm in!
                 </Link>
                 <button
                     @click="calendized = !calendized"
-                    class="w-fit mx-auto px-8 py-3 rounded-lg uppercase tracking-widest font-semibold text-xl text-gray-100 mb-12"
+                    class="mx-10 self-center mb-5 md:mb-12 w-fit rounded-lg px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100"
                     :class="calendized ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-800 hover:bg-blue-900'"
                 >
-                    {{ calendized ? 'Wait, let\'s go back...' : 'Let\'s calendize them all!' }}
+                    {{ calendized ? 'Wait, let\'s go back...' : 'Calendize them!' }}
                 </button>
 
             </div>
-            <div class="h-full min-w-0 flex-1">
+            <div class="h-full min-w-[40rem] lg:h-screen flex-1">
                 <swiper
                     :spaceBetween="0"
                     :centeredSlides="true"
@@ -67,46 +63,58 @@ const calendized = ref<boolean>(false);
               disableOnInteraction: false,
             }"
                     :modules="[Autoplay]"
-                    class="h-full mySwiper cursor-hand"
+                    class="h-full mySwiper cursor-hand bg-white/85 dark:bg-black/85"
                 >
-                    <swiper-slide class="flex flex-col dark:bg-black/85 bg-white/85">
-                        <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl"
-                                 :src="calendized ? '/home/usage/tour-calendized.webp' : '/home/usage/tour.webp'"
-                                 alt="tour"/>
-                            <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    <swiper-slide class="flex flex-col flex-grow">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Tours
                             </h2>
+                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                                 :src="calendized ? '/home/usage/tour-calendized-mobile.webp' : '/home/usage/tour-mobile.webp'"
+                                 alt="tour"/>
+                            <img class="mx-auto rounded-xl hidden lg:block"
+                                 :src="calendized ? '/home/usage/tour-calendized.webp' : '/home/usage/tour.webp'"
+                                 alt="tour"/>
                         </div>
                     </swiper-slide>
-                    <swiper-slide class="flex flex-col dark:bg-black/85 bg-white/85">
-                        <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl"
-                                 :src="calendized ? '/home/usage/flight-calendized.webp' : '/home/usage/flight.webp'"
-                                 alt="flight"/>
-                            <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Flights
                             </h2>
+                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                                 :src="calendized ? '/home/usage/flight-calendized-mobile.webp' : '/home/usage/flight-mobile.webp'"
+                                 alt="flight"/>
+                            <img class="mx-auto rounded-xl hidden lg:block"
+                                 :src="calendized ? '/home/usage/flight-calendized.webp' : '/home/usage/flight.webp'"
+                                 alt="flight"/>
                         </div>
                     </swiper-slide>
-                    <swiper-slide class="flex flex-col dark:bg-black/85 bg-white/85">
-                        <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl"
-                                 :src="calendized ? '/home/usage/event-calendized.webp' : '/home/usage/event.webp'"
-                                 alt="event"/>
-                            <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Conferences
                             </h2>
+                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                                 :src="calendized ? '/home/usage/event-calendized-mobile.webp' : '/home/usage/event-mobile.webp'"
+                                 alt="event"/>
+                            <img class="mx-auto rounded-xl hidden lg:block"
+                                 :src="calendized ? '/home/usage/event-calendized.webp' : '/home/usage/event.webp'"
+                                 alt="event"/>
                         </div>
                     </swiper-slide>
-                    <swiper-slide class="flex flex-col dark:bg-black/85 bg-white/85">
-                        <div class="flex h-full flex-col justify-center gap-6 p-12">
-                            <img class="mx-auto rounded-xl"
-                                 :src="calendized ? '/home/usage/concert-calendized.webp' : '/home/usage/concert.webp'"
-                                 alt="concert"/>
-                            <h2 class="text-center text-3xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 rounded-lg p-6">
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Concerts
                             </h2>
+                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                                 :src="calendized ? '/home/usage/concert-calendized-mobile.webp' : '/home/usage/concert-mobile.webp'"
+                                 alt="concert"/>
+                            <img class="mx-auto rounded-xl hidden lg:block"
+                                 :src="calendized ? '/home/usage/concert-calendized.webp' : '/home/usage/concert.webp'"
+                                 alt="concert"/>
                         </div>
                     </swiper-slide>
                 </swiper>
