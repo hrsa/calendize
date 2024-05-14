@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import {Head, router, usePage} from '@inertiajs/vue3';
-import LoadingSpinner from "@/Components/LoadingSpinner.vue";
+import {Head, Link, router, usePage} from '@inertiajs/vue3';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextArea from "@/Components/TextArea.vue";
 import {computed, ref} from "vue";
 import {IcsEventProcessed} from "@/types";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -58,8 +56,8 @@ const sendCalendarEvent = () => {
         .catch(error => {
             console.error(error);
             router.get(route('generate'), {
-                        serverErrorMessage: error.response.data.error,
-                    }, {preserveState: true, preserveScroll: true});
+                serverErrorMessage: error.response.data.error,
+            }, {preserveState: true, preserveScroll: true});
             loading.value = false;
         });
 }
@@ -103,14 +101,15 @@ const downloadIcs = () => {
                         >
                             <h3 class="mx-auto px-2 text-center text-lg sm:text-xl">
                                 I'm ready to calendize everything that you paste here!<br>
-                                Don't forget - you can forward me an email you want to calendize: <a class="underline font-semibold" href="mailto:hey@calendize.it">hey@calendize.it</a>
+                                Don't forget - you can forward me an email you want to calendize: <a
+                                class="underline font-semibold" href="mailto:hey@calendize.it">hey@calendize.it</a>
                             </h3>
                             <div class="flex flex-col gap-6 mx-auto">
                                 <h3
-                                v-if="props.serverErrorMessage"
-                                @click="clearNotifications(true, false)"
-                                class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-red-600/50 bg-red-600/50 px-8 py-2 text-center text-white"
-                            >{{ props.serverErrorMessage }}</h3>
+                                    v-if="props.serverErrorMessage"
+                                    @click="clearNotifications(true, false)"
+                                    class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-red-600/50 bg-red-600/50 px-8 py-2 text-center text-white"
+                                >{{ props.serverErrorMessage }}</h3>
 
                                 <h3 v-if="props.serverSuccess"
                                     @click="clearNotifications(false, true)"
@@ -122,14 +121,15 @@ const downloadIcs = () => {
                                     class="mx-auto" @click="downloadIcs">
                                     Download ICS
                                 </SecondaryButton>
-                                <h3 v-if="noCreditsLeft"
-                                @click="console.log('create checkout page')"
-                                class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-orange-600/50 bg-orange-600/50 px-8 py-2 text-center text-white"
-                            >You have no credits left! Let's get you some more...</h3>
+                                <Link v-if="noCreditsLeft"
+                                      :href="route('dashboard')"
+                                      class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-orange-600/50 bg-orange-600/50 px-8 py-2 text-center text-white"
+                                >You have no credits left! Let's get you some more...
+                                </Link>
                             </div>
-                            <EventGenerationTextArea v-model="calendarEvent" :loading v-if="!noCreditsLeft" />
+                            <EventGenerationTextArea v-model="calendarEvent" :loading v-if="!noCreditsLeft"/>
                             <div v-if="!noCreditsLeft"
-                                class="m-auto mt-4 flex items-center justify-end">
+                                 class="m-auto mt-4 flex items-center justify-end">
                                 <PrimaryButton v-if="!loading" :class="{ 'opacity-25': !calendarEvent }"
                                                :disabled="!calendarEvent"
                                                @click="sendCalendarEvent"
