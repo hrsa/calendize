@@ -151,7 +151,7 @@ onMounted(() => {
 
         <Modal v-if="props.paymentConfirmation" :show="modalOpen === 'paymentConfirmation'"
                @close="modalOpen = ''">
-            <div class="p-6 cursor-pointer" @click="modalOpen = ''">
+            <div class="cursor-pointer p-6" @click="modalOpen = ''">
                 <img :alt="props.paymentConfirmation?.imageAlt" class="m-auto mb-6 h-36"
                      :src="props.paymentConfirmation?.imageSrc"/>
                 <h2 class="text-center text-xl font-medium text-gray-900 dark:text-gray-100">
@@ -167,13 +167,18 @@ onMounted(() => {
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
+                <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg ring-1 ring-white/[0.05] transition duration-300
+                            hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20]
+                            dark:ring-zinc-800
+                            dark:hover:ring-zinc-700
+                            dark:focus-visible:ring-[#FF2D20]"
+                >
                     <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                         Subscriptions
                     </div>
-                    <div class="m-auto flex w-fit items-center gap-6 p-6">
+                    <div class="m-auto flex flex-wrap items-center gap-6 self-center p-6">
                         <div
-                            class="relative cursor-pointer rounded-lg border transition duration-300 max-w-48"
+                            class="relative mx-auto cursor-pointer rounded-lg border transition duration-300 max-w-48"
                             :class="activeSubscription === 'beginner'
                             ? 'border-green-600/25 hover:border-green-600/75 bg-green-600/25'
                             : 'border-gray-100/25 hover:border-gray-100/75'"
@@ -182,7 +187,9 @@ onMounted(() => {
                             @click="handleSubscription('beginner')"
                         >
                             <div v-if="hover==='beginner'"
-                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2 backdrop-blur-md bg-gray-800/45">
+                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2
+                                 backdrop-blur-md bg-white/45 dark:bg-gray-800/45"
+                            >
                                 <h3 class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                     {{ beginnerSubscriptionText }}</h3>
                             </div>
@@ -203,7 +210,7 @@ onMounted(() => {
                         </div>
 
                         <div
-                            class="relative cursor-pointer rounded-lg border transition duration-300 max-w-48"
+                            class="relative mx-auto cursor-pointer rounded-lg border transition duration-300 max-w-48"
                             :class="activeSubscription === 'classic'
                             ? 'border-green-600/25 hover:border-green-600/75 bg-green-600/25'
                             : 'border-gray-100/25 hover:border-gray-100/75'"
@@ -212,7 +219,9 @@ onMounted(() => {
                             @click="handleSubscription('classic')"
                         >
                             <div v-if="hover==='classic'"
-                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2 backdrop-blur-md bg-gray-800/45">
+                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2
+                                 backdrop-blur-md bg-white/45 dark:bg-gray-800/45"
+                            >
                                 <h3 class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                     {{ classicSubscriptionText }}</h3>
                             </div>
@@ -234,7 +243,7 @@ onMounted(() => {
                         </div>
 
                         <div
-                            class="relative cursor-pointer rounded-lg border transition duration-300 max-w-48"
+                            class="relative mx-auto cursor-pointer rounded-lg border transition duration-300 max-w-48"
                             :class="activeSubscription === 'power'
                             ? 'border-green-600/25 hover:border-green-600/75 bg-green-600/25'
                             : 'border-gray-100/25 hover:border-gray-100/75'"
@@ -243,7 +252,9 @@ onMounted(() => {
                             @click="handleSubscription('power')"
                         >
                             <div v-if="hover==='power'"
-                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2 backdrop-blur-md bg-gray-800/45">
+                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2
+                                 backdrop-blur-md bg-white/45 dark:bg-gray-800/45"
+                            >
                                 <h3 class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                     {{ powerSubscriptionText }}</h3>
                             </div>
@@ -388,7 +399,9 @@ onMounted(() => {
                             @mouseleave="hover=''"
                         >
                             <div v-if="hover==='credits'"
-                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2 backdrop-blur-md bg-gray-800/45">
+                                 class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg p-2
+                                 backdrop-blur-md bg-white/45 dark:bg-gray-800/45"
+                            >
                                 <h3 class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                                     Buy credits</h3>
                             </div>

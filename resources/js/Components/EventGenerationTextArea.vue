@@ -25,12 +25,12 @@ const placeholderTexts: string[] = [
 </script>
 
 <template>
-    <div class="relative w-full h-48">
-                                <TextArea class="h-48 w-full resize-none text-lg placeholder:text-sm" :class="props.loading ? 'blur-lg' : ''"
+    <div class="relative h-48 w-full">
+                                <TextArea class="h-48 w-full resize-none placeholder:text-sm text-lg" :class="props.loading ? 'blur-lg' : ''"
                                           :placeholder="getPlaceholder()"
                                           v-model="model"/>
                                 <div v-if="props.loading"
-                                     role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                                     role="status" class="absolute top-2/4 left-1/2 -translate-x-1/2 -translate-y-1/2">
                                     <LoadingSpinner/>
                                 </div>
                             </div>

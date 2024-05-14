@@ -88,7 +88,7 @@ const downloadIcs = () => {
             <h2 class="text-xl font-semibold leading-tight text-center text-gray-800 dark:text-gray-200">Generate</h2>
         </template>
 
-        <div class="bg-gray-50 text-black/50 dark:bg-gray-900 dark:text-white/50">
+        <div class="text-black/50 dark:text-white/50">
             <div
                 class="relative min-h-screen flex flex-col items-center pt-16 justify-start selection:text-white"
             >
@@ -101,6 +101,10 @@ const downloadIcs = () => {
                             lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700
                             dark:focus-visible:ring-[#FF2D20]"
                         >
+                            <h3 class="mx-auto px-2 text-center text-lg sm:text-xl">
+                                I'm ready to calendize everything that you paste here!<br>
+                                Don't forget - you can forward me an email you want to calendize: <a class="underline font-semibold" href="mailto:hey@calendize.it">hey@calendize.it</a>
+                            </h3>
                             <div class="flex flex-col gap-6 mx-auto">
                                 <h3
                                 v-if="props.serverErrorMessage"
@@ -130,7 +134,7 @@ const downloadIcs = () => {
                                                :disabled="!calendarEvent"
                                                @click="sendCalendarEvent"
                                 >
-                                    Generate ({{ $page.props.auth.user.credits }} credits remaining)
+                                    Calendize ({{ $page.props.auth.user.credits }} credits remaining)
                                 </PrimaryButton>
                             </div>
 

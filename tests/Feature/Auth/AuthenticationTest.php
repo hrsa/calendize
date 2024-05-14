@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Str;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -27,6 +29,17 @@ test('authenticated users get redirected from guest generation page', function (
     $user = User::factory()->create();
 
     actingAs($user)->get(route('try'))->assertRedirectToRoute('generate');
+});
+
+test('guests are redirected from protected pages to login', function () {
+    get(route('dashboard'))->assertRedirectToRoute('login');
+    get(route('generate'))->assertRedirectToRoute('login');
+    get(route('my-events'))->assertRedirectToRoute('login');
+    get(route('profile.edit'))->assertRedirectToRoute('login');
+});
+
+test('fallback route redirects to home page', function () {
+    get('/' . Str::random(25))->assertRedirectToRoute('home');
 });
 
 test('login screen can be rendered', function () {

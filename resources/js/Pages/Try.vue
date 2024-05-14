@@ -59,7 +59,7 @@ function handleImageError() {
 
 <template>
     <Head title="Calendize"/>
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 bg-[url('/tile-background-light.png')] dark:bg-[url('/tile-background-black.png')]">
+    <div class="bg-gray-100 text-black/50 dark:bg-black dark:text-white/50 bg-[url('/tile-background-light.webp')] dark:bg-[url('/tile-background-dark.webp')]">
 <!--        <img-->
 <!--            id="background" alt="background"-->
 <!--            class="absolute top-0 -left-20 max-w-[877px]"-->
@@ -75,10 +75,10 @@ function handleImageError() {
                             <ApplicationLogo class="fill-current text-gray-500 size-36"/>
                         </Link>
                     </div>
-                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end gap-6">
+                    <nav v-if="canLogin" class="-mx-3 flex flex-1 flex-wrap justify-end gap-6">
                             <Link
                                 :href="route('login')"
-                                class="bg-gray-50 text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
+                                class="bg-gray-50 text-sm sm:text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
                                 dark:bg-zinc-900 dark:ring-zinc-600 dark:hover:text-white/80 dark:hover:ring-zinc-300 dark:focus-visible:ring-[#FF2D20]
                                 px-3 py-4 ring-1 ring-white/[0.05] transition duration-300
                                 focus:outline-none focus-visible:ring-[#FF2D20]
@@ -90,7 +90,7 @@ function handleImageError() {
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="bg-gray-50 text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
+                                class="bg-gray-50 text-sm sm:text-xl rounded-lg font-semibold hover:text-black/70 hover:ring-black/20
                                 dark:bg-zinc-900 dark:ring-zinc-600 dark:hover:text-white/80 dark:hover:ring-zinc-300 dark:focus-visible:ring-[#FF2D20]
                                 px-3 py-4 ring-1 ring-white/[0.05] transition duration-300
                                 focus:outline-none focus-visible:ring-[#FF2D20]

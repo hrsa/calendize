@@ -40,7 +40,7 @@ console.log(events);
             <h2 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">My events</h2>
         </template>
 
-        <div class="bg-gray-50 text-black/50 dark:bg-gray-900 dark:text-white/50">
+        <div class="text-black/50 dark:text-white/50">
             <div
                 class="relative flex min-h-screen flex-col items-center justify-start pt-16 selection:text-white"
             >
