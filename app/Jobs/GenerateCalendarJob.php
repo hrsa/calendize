@@ -54,14 +54,19 @@ class GenerateCalendarJob implements ShouldQueue
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
                 IcsEventProcessed::dispatch($this->icsEvent);
-                $this->fail($e);
+                $this->fail("{$e->getCode()} : {$e->getMessage()}");
+
+                return;
             }
         }
 
         $jsonIcs = $result?->choices[0]->message->content;
 
         if (!$jsonIcs) {
-            $this->release(300);
+            $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+            Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
+            IcsEventProcessed::dispatch($this->icsEvent);
+            $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
         }
 
         $decodedReply = json_decode($jsonIcs, true);
@@ -96,9 +101,12 @@ class GenerateCalendarJob implements ShouldQueue
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     private function generateMistralResponse(string $systemPrompt): stdClass
     {
-        $result = Http::mistral()->post('/chat/completions', [
+        $response = Http::mistral()->timeout(10)->post('/chat/completions', [
             'model' => 'mistral-large-latest',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
@@ -106,7 +114,13 @@ class GenerateCalendarJob implements ShouldQueue
             ],
             'max_tokens' => 2800,
             'response_format' => ['type' => 'json_object'],
-        ])->json();
+        ]);
+
+        if ($response->failed()) {
+            throw new Exception('Mistral HTTP Error: ' . $response->body(), $response->getStatusCode());
+        }
+
+        $result = $response->json();
 
         return json_decode(json_encode($result));
     }
