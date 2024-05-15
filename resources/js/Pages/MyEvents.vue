@@ -28,8 +28,6 @@ interface EventPagination {
 
 const events = ((usePage().props.events as EventPagination).data as IcsEvent[]);
 const paginationLinks = ((usePage().props.events as EventPagination).links as Links);
-
-console.log(events);
 </script>
 
 <template>

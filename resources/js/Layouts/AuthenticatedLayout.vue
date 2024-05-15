@@ -41,6 +41,9 @@ const showingSetPasswordForm = ref(true);
                                 <NavLink :href="route('my-events')" :active="route().current('my-events')">
                                     My events
                                 </NavLink>
+                                <NavLink :href="route('how-to-use')" :active="route().current('how-to-use')">
+                                    How to use?
+                                </NavLink>
                             </div>
                         </div>
 

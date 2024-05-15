@@ -40,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('generate');
 
     Route::get('/my-events', [CalendarGeneratorController::class, 'usersEvents'])->name('my-events');
+    Route::get('/how-to-use', fn() => Inertia::render('HowToUse'))->name('how-to-use');
 });
 
 Route::middleware('auth')->group(function () {
