@@ -43,8 +43,6 @@ class CalendarGeneratorController extends Controller
 
     public function guestGenerate(IcsEventRequest $request, UserService $userService)
     {
-        ray('Got a request', request()->all())->orange();
-
         if (User::where('email', $request->email)->exists()) {
             return response()->json(['error' => 'You need to verify your account to use Calendize!'], status: Response::HTTP_UNAUTHORIZED);
         }

@@ -63,7 +63,7 @@ const calendized = ref<boolean>(false);
               disableOnInteraction: false,
             }"
                     :modules="[Autoplay]"
-                    class="h-full mySwiper cursor-hand bg-white/85 dark:bg-black/85"
+                    class="h-full cursor-hand bg-white/85 dark:bg-black/85"
                 >
                     <swiper-slide class="flex flex-col flex-grow">
                         <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">

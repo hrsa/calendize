@@ -43,8 +43,8 @@ test('dashboard popups are generated correctly from route parameters', function 
             ->has('paymentConfirmation')
             ->where('paymentConfirmation.imageAlt', 'Calendize')
             ->where('paymentConfirmation.imageSrc', '/credits.png')
-            ->where('paymentConfirmation.title', 'Your payment was successful!')
-            ->where('paymentConfirmation.content', "Thanks! I'm looking forward to working with you!")
+            ->where('paymentConfirmation.title', __('dashboard.popup.credits.title'))
+            ->where('paymentConfirmation.content', __('dashboard.popup.credits.content'))
         );
 
     actingAs($user)->get(route('dashboard', ['payment' => 'beginner']))->assertOk()
@@ -55,8 +55,8 @@ test('dashboard popups are generated correctly from route parameters', function 
             ->has('paymentConfirmation')
             ->where('paymentConfirmation.imageAlt', 'Calendize')
             ->where('paymentConfirmation.imageSrc', '/beginner.png')
-            ->where('paymentConfirmation.title', 'beginner')
-            ->where('paymentConfirmation.content', 'Thanks! beginner now!')
+            ->where('paymentConfirmation.title', __('dashboard.popup.beginner.title'))
+            ->where('paymentConfirmation.content', __('dashboard.popup.beginner.content'))
         );
 
     actingAs($user)->get(route('dashboard', ['payment' => 'classic']))->assertOk()
@@ -67,8 +67,8 @@ test('dashboard popups are generated correctly from route parameters', function 
             ->has('paymentConfirmation')
             ->where('paymentConfirmation.imageAlt', 'Calendize')
             ->where('paymentConfirmation.imageSrc', '/classic.png')
-            ->where('paymentConfirmation.title', 'classic')
-            ->where('paymentConfirmation.content', 'Thanks! classic now!')
+            ->where('paymentConfirmation.title', __('dashboard.popup.classic.title'))
+            ->where('paymentConfirmation.content', __('dashboard.popup.classic.content'))
         );
 
     actingAs($user)->get(route('dashboard', ['payment' => 'power']))->assertOk()
@@ -79,7 +79,7 @@ test('dashboard popups are generated correctly from route parameters', function 
             ->has('paymentConfirmation')
             ->where('paymentConfirmation.imageAlt', 'Calendize')
             ->where('paymentConfirmation.imageSrc', '/power.png')
-            ->where('paymentConfirmation.title', 'power')
-            ->where('paymentConfirmation.content', 'Thanks! power now!')
+            ->where('paymentConfirmation.title', __('dashboard.popup.power.title'))
+            ->where('paymentConfirmation.content', __('dashboard.popup.power.content'))
         );
 });

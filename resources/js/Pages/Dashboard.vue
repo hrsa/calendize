@@ -176,7 +176,7 @@ onMounted(() => {
                     <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                         Subscriptions
                     </div>
-                    <div class="m-auto flex flex-wrap items-center gap-6 self-center p-6">
+                    <div class="m-auto flex flex-wrap items-center gap-6 self-center p-6 w-fit">
                         <div
                             class="relative mx-auto cursor-pointer rounded-lg border transition duration-300 max-w-48"
                             :class="activeSubscription === 'beginner'
