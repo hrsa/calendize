@@ -17,7 +17,6 @@ class OrderRefundedListener
      */
     public function handle(OrderRefunded $event): void
     {
-        ray($event);
         $lmSqueezyOrder = Order::find($event->order->id);
 
         if ($lmSqueezyOrder?->refunded() && $lmSqueezyOrder->variant_id == config('lemon-squeezy.sales.topup.variant')) {
