@@ -52,7 +52,7 @@ const calendized = ref<boolean>(false);
                 </button>
 
             </div>
-            <div class="h-full min-w-[40rem] lg:h-screen flex-1">
+            <div class="h-full lg:min-w-[40rem] lg:h-screen flex-1">
                 <swiper
                     :spaceBetween="0"
                     :centeredSlides="true"
@@ -63,14 +63,14 @@ const calendized = ref<boolean>(false);
               disableOnInteraction: false,
             }"
                     :modules="[Autoplay]"
-                    class="h-full mySwiper cursor-hand bg-white/85 dark:bg-black/85"
+                    class="h-full cursor-hand bg-white/85 dark:bg-black/85"
                 >
                     <swiper-slide class="flex flex-col flex-grow">
                         <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
                             <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Tours
                             </h2>
-                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                            <img class="mx-auto rounded-xl block lg:hidden"
                                  :src="calendized ? '/home/usage/tour-calendized-mobile.webp' : '/home/usage/tour-mobile.webp'"
                                  alt="tour"/>
                             <img class="mx-auto rounded-xl hidden lg:block"
@@ -83,7 +83,7 @@ const calendized = ref<boolean>(false);
                             <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Flights
                             </h2>
-                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                            <img class="mx-auto rounded-xl block lg:hidden"
                                  :src="calendized ? '/home/usage/flight-calendized-mobile.webp' : '/home/usage/flight-mobile.webp'"
                                  alt="flight"/>
                             <img class="mx-auto rounded-xl hidden lg:block"
@@ -96,7 +96,7 @@ const calendized = ref<boolean>(false);
                             <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Conferences
                             </h2>
-                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                            <img class="mx-auto rounded-xl block lg:hidden"
                                  :src="calendized ? '/home/usage/event-calendized-mobile.webp' : '/home/usage/event-mobile.webp'"
                                  alt="event"/>
                             <img class="mx-auto rounded-xl hidden lg:block"
@@ -109,7 +109,7 @@ const calendized = ref<boolean>(false);
                             <h2 class="rounded-lg lg:p-6 text-center text-xl font-semibold uppercase tracking-widest text-gray-800 dark:text-gray-200 lg:text-3xl">
                                 Concerts
                             </h2>
-                            <img class="mx-auto rounded-xl max-w-[400px] block lg:hidden"
+                            <img class="mx-auto rounded-xl block lg:hidden"
                                  :src="calendized ? '/home/usage/concert-calendized-mobile.webp' : '/home/usage/concert-mobile.webp'"
                                  alt="concert"/>
                             <img class="mx-auto rounded-xl hidden lg:block"

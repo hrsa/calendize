@@ -33,18 +33,16 @@ class IcsEventFactory extends Factory
             $timezone = $this->faker->timezone;
             $dateTime = Carbon::create($this->faker->dateTimeThisMonth());
 
-            $ics = <<< ICSEVENTDATA
-            BEGIN:VCALENDAR
-            VERSION:2.0
-            PRODID:-//Calendar//Calendize 2.0//EN
-            BEGIN:VEVENT
-            SUMMARY: {$this->faker->words(4, true)}
-            DTSTART;TZID={$timezone}:{$dateTime}
-            DTEND;TZID={$timezone}:{$dateTime->addHours($this->faker->numberBetween(1, 3))}
-            DESCRIPTION:{$this->faker->words(14, true)}
-            END:VEVENT
-            END:VCALENDAR
-        ICSEVENTDATA;
+            $ics = "BEGIN:VCALENDAR\n" .
+                "VERSION:2.0\n" .
+                "PRODID:-//Calendar//Calendize 2.0//EN\n" .
+                "BEGIN:VEVENT\n" .
+                "SUMMARY: {$this->faker->words(4, true)}\n" .
+                "DTSTART;TZID={$timezone}:{$dateTime}\n" .
+                "DTEND;TZID={$timezone}:{$dateTime->addHours($this->faker->numberBetween(1, 3))}\n" .
+                "DESCRIPTION:{$this->faker->words(14, true)}\n" .
+                "END:VEVENT\n" .
+                'END:VCALENDAR';
 
             return compact('ics');
         });
