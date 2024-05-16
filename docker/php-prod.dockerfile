@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     jpegoptim optipng pngquant gifsicle \
     unzip \
     curl \
+    nano \
     supervisor
 
 RUN mkdir -p /usr/share/postgresql-common/pgdg && \
