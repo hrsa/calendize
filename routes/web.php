@@ -49,8 +49,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::fallback(fn () => redirect()->route('home'));
-
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
 
+Route::get('privacy-policy', fn () => Inertia::render('PrivacyPolicy'))->name('privacy-policy');
+
 require __DIR__ . '/auth.php';
+
+Route::fallback(fn () => redirect()->route('home'));
