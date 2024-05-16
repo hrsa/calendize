@@ -29,6 +29,8 @@ use LemonSqueezy\Laravel\Billable;
  * @property int $failed_requests
  * @property bool $has_password
  * @property string|null $remember_token
+ * @property string|null $provider
+ * @property string|null $provider_id
  * @property IcsEvent $icsEvents
  */
 #[ObservedBy(UserObserver::class)]
@@ -51,6 +53,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'failed_requests',
         'has_password',
         'remember_token',
+        'provider',
+        'provider_id',
     ];
 
     /**

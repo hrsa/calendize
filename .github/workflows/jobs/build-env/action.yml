@@ -120,6 +120,18 @@ inputs:
     required: true
   TELEGRAM_ADMIN_CHAT_ID:
     required: true
+  GOOGLE_CLIENT_ID:
+    required: true
+  GOOGLE_CLIENT_SECRET:
+    required: true
+  GOOGLE_REDIRECT_URI:
+    required: true
+  LINKEDIN_CLIENT_ID:
+    required: true
+  LINKEDIN_CLIENT_SECRET:
+    required: true
+  LINKEDIN_REDIRECT_URI:
+    required: true
 
 runs:
   using: "composite"
@@ -187,3 +199,9 @@ runs:
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_POWER=.*|LEMON_SQUEEZY_ROLLOVER_POWER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_POWER }}|" .env
         sed -i "s|TELEGRAM_BOT_TOKEN=.*|TELEGRAM_BOT_TOKEN=${{ inputs.TELEGRAM_BOT_TOKEN }}|" .env
         sed -i "s|TELEGRAM_ADMIN_CHAT_ID=.*|TELEGRAM_ADMIN_CHAT_ID=${{ inputs.TELEGRAM_ADMIN_CHAT_ID }}|" .env
+        sed -i "s|GOOGLE_CLIENT_ID=.*|GOOGLE_CLIENT_ID=${{ inputs.GOOGLE_CLIENT_ID }}|" .env
+        sed -i "s|GOOGLE_CLIENT_SECRET=.*|GOOGLE_CLIENT_SECRET=${{ inputs.GOOGLE_CLIENT_SECRET }}|" .env
+        sed -i "s|GOOGLE_REDIRECT_URI=.*|GOOGLE_REDIRECT_URI=${{ inputs.GOOGLE_REDIRECT_URI }}|" .env
+        sed -i "s|LINKEDIN_CLIENT_ID=.*|LINKEDIN_CLIENT_ID=${{ inputs.LINKEDIN_CLIENT_ID }}|" .env
+        sed -i "s|LINKEDIN_CLIENT_SECRET=.*|LINKEDIN_CLIENT_SECRET=${{ inputs.LINKEDIN_CLIENT_SECRET }}|" .env
+        sed -i "s|LINKEDIN_REDIRECT_URI=.*|LINKEDIN_REDIRECT_URI=${{ inputs.LINKEDIN_REDIRECT_URI }}|" .env

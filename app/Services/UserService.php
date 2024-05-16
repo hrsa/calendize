@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Contracts\User as GoogleUser;
 
 class UserService
 {
@@ -31,5 +33,25 @@ class UserService
             ->withThankYouNote('Thanks for trusting us!')
             ->redirectTo(route('dashboard', ['payment' => 'credits']))
             ->url();
+    }
+
+    public function createOrGetSocialiteUser(string $email, string $name, string $provider, string $provider_id)
+    {
+        $user = User::whereEmail($email)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'email' => $email,
+                'name' => $name,
+                'provider' => $provider,
+                'provider_id' => $provider_id,
+                'email_verified_at' => Carbon::now(),
+                'password' => bcrypt(Str::random(10)),
+                'has_password' => false,
+                'credits' => 5,
+            ]);
+        }
+
+        return $user;
     }
 }
