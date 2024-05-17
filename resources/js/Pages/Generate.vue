@@ -86,11 +86,14 @@ const downloadIcs = () => {
 </script>
 
 <template>
-    <Head title="Generate" />
+    <Head>
+        <title>Calendize an event</title>
+        <meta name="description" content="Generate and manage calendar events effortlessly with our intuitive solution. Paste your event details or email us to calendize. Download ICS files easily and get them by email." />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Generate</h2>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Generate</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">

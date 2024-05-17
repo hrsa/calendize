@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3";;
+import { Head, Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay } from "swiper/modules";
@@ -12,7 +12,10 @@ const calendized = ref<boolean>(false);
 </script>
 
 <template>
-    <Head title="Calendize" />
+    <Head>
+        <title>Calendize - your calendar's new best friend</title>
+        <meta name="description" content="Flights, trains, concerts, conferences, and all other important events that we can't just add to the calendar in one click... So we ignore them. We forget them. We plan multiple events at the same date and time. This sucks, right? That's why Calendize exists - to save your precious times while keeping your calendar neat and updated!" />
+    </Head>
     <div class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
         <div
             class="flex w-full flex-col justify-around bg-[url('/home/usage/background.webp')] bg-repeat md:h-full md:min-h-[50%] lg:flex-row"
@@ -20,14 +23,14 @@ const calendized = ref<boolean>(false);
             <div
                 class="flex h-full w-full flex-col justify-center self-center bg-white/85 text-center backdrop-blur-md lg:h-screen lg:w-fit dark:bg-black/85"
             >
-                <h2
+                <h1
                     v-show="!calendized"
                     class="m-5 rounded-lg p-6 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-3xl dark:text-gray-200"
                 >
                     All these important events <br />
                     you can't just add to your calendar<br />
                     in one click...
-                </h2>
+                </h1>
                 <h2
                     v-show="calendized"
                     class="m-5 rounded-lg p-6 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-3xl dark:text-gray-200"

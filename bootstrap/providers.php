@@ -2,5 +2,6 @@
 
 return [
     App\Providers\AppServiceProvider::class,
-    \Laravel\Socialite\SocialiteServiceProvider::class,
+    App\Providers\HorizonServiceProvider::class,
+    Laravel\Socialite\SocialiteServiceProvider::class,
 ];

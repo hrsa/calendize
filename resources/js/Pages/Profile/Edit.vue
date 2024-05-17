@@ -12,7 +12,10 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Profile" />
+    <Head>
+        <title>Profile</title>
+        <meta name="description" content="Manage your profile settings, update password and email. You can even delete your account, although i wouldn't recommend that!." />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
