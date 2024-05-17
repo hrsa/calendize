@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, router, useRemember } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { ref } from "vue";
 import EmailInput from "@/Components/EmailInput.vue";
