@@ -11,6 +11,8 @@ export interface User {
     has_password: boolean;
     active_subscription: string;
     hide_pw_reminder: string | undefined;
+    days_since_password_reminder: number;
+
 }
 
 export interface IcsEventProcessed extends Event {

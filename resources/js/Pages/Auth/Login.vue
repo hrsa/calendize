@@ -31,6 +31,15 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
+        <div class="my-6 flex place-items-center justify-center gap-6">
+            <div class="cursor-pointer" @click="router.get(route('socialite.google.redirect'))">
+                <img class="size-10" src="/social/google.svg" alt="google" />
+            </div>
+            <div class="cursor-pointer" @click="router.get(route('socialite.linkedin.redirect'))">
+                <img class="size-10" src="/social/linkedin.svg" alt="linkedin" />
+            </div>
+        </div>
+
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
         </div>
@@ -85,27 +94,20 @@ const submit = () => {
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Log in </PrimaryButton>
             </div>
-            <div class="mt-6 flex place-items-center justify-around gap-4">
-                <PrimaryButton class="!p-0" @click="router.get(route('socialite.google.redirect'))">
-                    <img class="size-10" src="/social/google.svg" alt="google" />
-                </PrimaryButton>
-                <PrimaryButton class="!p-0" @click="router.get(route('socialite.linkedin.redirect'))">
-                    <img class="size-10" src="/social/linkedin.svg" alt="linkedin" />
-                </PrimaryButton>
-            </div>
+
             <div class="my-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
                 Using Calendize implies that you accept my<br />
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('terms-of-service')"
-                    >Terms of service</Link
-                >
+                    >Terms of service
+                </Link>
                 and
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('privacy-policy')"
-                    >Privacy policy</Link
-                >
+                    >Privacy policy
+                </Link>
             </div>
         </form>
     </GuestLayout>

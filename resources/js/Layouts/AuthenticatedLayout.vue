@@ -8,16 +8,13 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
-import { useDateFormat } from "@vueuse/shared";
-import { useNow } from "@vueuse/core";
 
 const showingNavigationDropdown = ref(false);
 const showingSetPasswordForm = ref(false);
 
 onMounted(() => {
     if (!usePage().props.auth.user.has_password) {
-        const today = useDateFormat(useNow(), "YYYY-MM-DD");
-        showingSetPasswordForm.value = today.value !== usePage().props.auth.user.hide_pw_reminder;
+        showingSetPasswordForm.value = usePage().props.auth.user.days_since_password_reminder > 7;
     }
 });
 

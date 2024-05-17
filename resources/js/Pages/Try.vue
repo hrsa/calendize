@@ -125,7 +125,7 @@ const handleSomethingWentWrongError = () => {
                                     :disabled="!emailIsUnique || !calendarEvent"
                                     @click="sendCalendarEvent"
                                 >
-                                    Generate
+                                    Calendize and get by email
                                 </PrimaryButton>
                             </div>
                         </div>

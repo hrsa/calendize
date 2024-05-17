@@ -69,7 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $appends = ['active_subscription'];
+    protected $appends = ['active_subscription', 'days_since_password_reminder'];
 
     /**
      * Get the attributes that should be cast.
@@ -102,5 +102,14 @@ class User extends Authenticatable implements MustVerifyEmail
             config('lemon-squeezy.sales.power.variant') => 'power',
             default => 'none',
         };
+    }
+
+    public function getDaysSincePasswordReminderAttribute(): int
+    {
+        if ($this->hide_pw_reminder && !$this->has_password) {
+            return (int) today()->diffInDays($this->hide_pw_reminder, true);
+        }
+
+        return 0;
     }
 }
