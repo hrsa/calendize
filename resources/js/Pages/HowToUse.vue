@@ -30,11 +30,14 @@ const setSlide = (num: number) => {
 </script>
 
 <template>
-    <Head title="How do i use Calendize?" />
+    <Head title="How to use Calendize?">
+        <title>Quickstart</title>
+        <meta name="description" content="Learn how to use Calendize with our step-by-step guide. Find events, forward them to Calendize, check your email, and add them to your calendar easily." />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">How do i use Calendize ?</h2>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">How do i use Calendize ?</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">

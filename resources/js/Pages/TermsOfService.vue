@@ -4,7 +4,10 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 </script>
 
 <template>
-    <Head title="Privacy Policy" />
+    <Head>
+        <title>Terms of Service</title>
+        <meta name="description" content="Read the Terms of Service for Calendize, explaining user accounts, acceptable use, email communication, data privacy, intellectual property, subscriptions, termination, disclaimers, limitation of liability, governing law, and change policies.">
+    </Head>
     <div
         class="bg-gray-100 bg-[url('/tile-background-light.webp')] text-black/50 dark:bg-black dark:bg-[url('/tile-background-dark.webp')] dark:text-white/50"
     >

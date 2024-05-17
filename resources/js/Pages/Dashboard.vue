@@ -146,11 +146,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head>
+        <title>Dashboard</title>
+        <meta name="description" content="Manage your subscriptions and top up credits on the Calendize Dashboard. Choose from Beginner, Classic, and Power plans to fit your needs. Modify, upgrade, or downgrade your subscription effortlessly." />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Dashboard</h2>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Dashboard</h1>
         </template>
 
         <Modal v-if="props.paymentConfirmation" :show="modalOpen === 'paymentConfirmation'" @close="modalOpen = ''">
@@ -171,7 +174,7 @@ onMounted(() => {
                 <div
                     class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] sm:rounded-lg dark:bg-gray-800 dark:ring-zinc-800 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
-                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Subscriptions</div>
+                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Subscription plans</div>
                     <div class="m-auto flex w-fit flex-wrap items-center gap-6 self-center p-6">
                         <div
                             class="relative mx-auto max-w-48 cursor-pointer rounded-lg border transition duration-300"

@@ -32,15 +32,18 @@ const paginationLinks = (usePage().props.events as EventPagination)
 </script>
 
 <template>
-    <Head title="Generate" />
+    <Head>
+        <title>My events</title>
+        <meta name="description" content="Access and download all your generated events on Calendize. Manage your events effortlessly with our intuitive pagination and user-friendly interface. Generate new events, review summaries, and handle errors seamlessly." />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2
+            <h1
                 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
             >
                 My events
-            </h2>
+            </h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">
