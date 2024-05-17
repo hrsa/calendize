@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Laravel\Socialite\Contracts\User as GoogleUser;
 
 class UserService
 {
@@ -37,7 +36,12 @@ class UserService
 
     public function createOrGetSocialiteUser(string $email, string $name, string $provider, string $provider_id)
     {
-        $user = User::whereEmail($email)->first();
+        $user = User::where(compact('provider', 'provider_id'))
+            ->orWhere('email', $email)->first();
+
+        if ($user->provider_id !== $provider_id) {
+            $user->update(compact('provider', 'provider_id'));
+        }
 
         if (!$user) {
             $user = User::create([

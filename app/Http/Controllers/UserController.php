@@ -16,4 +16,11 @@ class UserController extends Controller
 
         return response()->json('ok');
     }
+
+    public function hidePasswordReminder(): JsonResponse
+    {
+        request()->user()->update(['hide_pw_reminder' => today()]);
+
+        return response()->json('ok');
+    }
 }

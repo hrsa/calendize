@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
@@ -8,9 +8,23 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
+import { useDateFormat } from "@vueuse/shared";
+import { useNow } from "@vueuse/core";
 
 const showingNavigationDropdown = ref(false);
-const showingSetPasswordForm = ref(true);
+const showingSetPasswordForm = ref(false);
+
+onMounted(() => {
+    if (!usePage().props.auth.user.has_password) {
+        const today = useDateFormat(useNow(), "YYYY-MM-DD");
+        showingSetPasswordForm.value = today.value !== usePage().props.auth.user.hide_pw_reminder;
+    }
+});
+
+const hidePasswordReminderForToday = () => {
+    showingSetPasswordForm.value = false;
+    window.axios.post(route("hide-password-reminder"));
+};
 </script>
 
 <template>
@@ -152,16 +166,13 @@ const showingSetPasswordForm = ref(true);
 
             <!-- Page Content -->
             <main>
-                <Modal
-                    v-if="!usePage().props.auth.user.has_password"
-                    :show="!usePage().props.auth.user.has_password && showingSetPasswordForm"
-                    @close="showingSetPasswordForm = false"
-                >
+                <Modal v-if="showingSetPasswordForm" :show="showingSetPasswordForm" @close="hidePasswordReminderForToday">
                     <UpdatePasswordForm
                         class="p-8"
                         title-label="Don't forget to set a password!"
                         description-label="We both want you to be able to login, right?"
                         new-password-label="Password"
+                        confirm-password-label="Confirm password"
                         button-label="Set password"
                     />
                 </Modal>

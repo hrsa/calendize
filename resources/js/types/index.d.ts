@@ -10,6 +10,7 @@ export interface User {
     failed_requests: number;
     has_password: boolean;
     active_subscription: string;
+    hide_pw_reminder: string | undefined;
 }
 
 export interface IcsEventProcessed extends Event {

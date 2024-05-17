@@ -35,7 +35,7 @@ class SocialiteLoginController extends Controller
     public function redirectToLinkedin()
     {
         $url = Socialite::driver('linkedin-openid')->redirect();
-        ray($url);
+
         return Inertia::location($url);
     }
 

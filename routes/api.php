@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\CalendarGeneratorController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/guest-generate-calendar', [CalendarGeneratorController::class, 'guestGenerate'])->name('guest-generate-calendar');
@@ -21,6 +20,8 @@ Route::group(['as' => 'socialite.', 'middleware' => 'web'], function () {
 
 Route::group(['prefix' => '/users'], function () {
     Route::post('/check', [UserController::class, 'checkEmail'])->name('user.check-email');
+    Route::post('/hide-password-reminder', [UserController::class, 'hidePasswordReminder'])->middleware('auth')
+        ->name('hide-password-reminder');
 });
 
 Route::group([
