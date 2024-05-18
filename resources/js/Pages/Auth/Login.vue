@@ -102,7 +102,7 @@ const submit = () => {
                     :href="route('terms-of-service')"
                     >Terms of service
                 </Link>
-                and
+                 and
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('privacy-policy')"
