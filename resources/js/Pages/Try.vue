@@ -49,8 +49,11 @@ const handleSomethingWentWrongError = () => {
 
 <template>
     <Head>
-    <title>Calendize an event - for free</title>
-    <meta name="description" content="Calendize your event for free by copying and pasting your email content for quick calendar conversion. Register or login for additional features.">
+        <title>Calendize an event - for free</title>
+        <meta
+            name="description"
+            content="Calendize your event for free by copying and pasting your email content for quick calendar conversion. Register or login for additional features."
+        />
     </Head>
     <div
         class="bg-gray-100 bg-[url('/tile-background-light.webp')] text-black/50 dark:bg-black dark:bg-[url('/tile-background-dark.webp')] dark:text-white/50"
@@ -59,7 +62,7 @@ const handleSomethingWentWrongError = () => {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="flex lg:col-start-2 lg:justify-center">
-                        <Link href="/">
+                        <Link :href="route('try')">
                             <ApplicationLogo class="size-36 fill-current text-gray-500" />
                         </Link>
                     </div>
@@ -127,6 +130,22 @@ const handleSomethingWentWrongError = () => {
                                 >
                                     Calendize and get by email
                                 </PrimaryButton>
+                            </div>
+                            <div
+                                class="mx-auto -mb-6 mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50"
+                            >
+                                Using Calendize implies that you accept<br />
+                                <Link
+                                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
+                                    :href="route('terms-of-service')"
+                                    >Terms of service</Link
+                                >
+                                and
+                                <Link
+                                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
+                                    :href="route('privacy-policy')"
+                                    >Privacy policy
+                                </Link>
                             </div>
                         </div>
                     </div>

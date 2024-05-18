@@ -95,19 +95,19 @@ const submit = () => {
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Log in </PrimaryButton>
             </div>
 
-            <div class="my-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
+            <div class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
                 Using Calendize implies that you accept my<br />
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('terms-of-service')"
-                    >Terms of service
-                </Link>
+                    >Terms of service</Link
+                >
                 and
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('privacy-policy')"
-                    >Privacy policy
-                </Link>
+                    >Privacy policy</Link
+                >
             </div>
         </form>
     </GuestLayout>
