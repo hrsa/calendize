@@ -6,7 +6,10 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 <template>
     <Head>
         <title>Terms of Service</title>
-        <meta name="description" content="Read the Terms of Service for Calendize, explaining user accounts, acceptable use, email communication, data privacy, intellectual property, subscriptions, termination, disclaimers, limitation of liability, governing law, and change policies.">
+        <meta
+            name="description"
+            content="Read the Terms of Service for Calendize, explaining user accounts, acceptable use, email communication, data privacy, intellectual property, subscriptions, termination, disclaimers, limitation of liability, governing law, and change policies."
+        />
     </Head>
     <div
         class="bg-gray-100 bg-[url('/tile-background-light.webp')] text-black/50 dark:bg-black dark:bg-[url('/tile-background-dark.webp')] dark:text-white/50"
@@ -83,8 +86,8 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                                     <h2 class="mb-4 text-2xl font-semibold">Data and privacy</h2>
                                     <p>
                                         All user data is subject to my
-                                        <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy </Link>
-                                        . The accuracy of the calendized events depends on the data you provide. I do our best to generate
+                                        <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link>. The
+                                        accuracy of the calendized events depends on the data you provide. I do our best to generate
                                         accurate and detailed files though - my goal is to be useful to you!
                                     </p>
                                 </section>
@@ -111,9 +114,9 @@ import ApplicationLogo from "@/Components/ApplicationLogo.vue";
                                     <h2 class="mb-4 text-2xl font-semibold">Termination</h2>
                                     <p>
                                         We reserve the right to terminate your account if you don't abide by these Terms of use and the
-                                        <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy </Link>
-                                        . Upon termination, you will lose access to your account and any remaining credits. Refunds will be
-                                        issued for subscriptions or bulk credits <span class="font-extrabold">only if</span>
+                                        <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link>. Upon
+                                        termination, you will lose access to your account and any remaining credits. Refunds will be issued
+                                        for subscriptions or bulk credits <span class="font-extrabold">only if</span>
                                         they haven't been partially used.
                                     </p>
                                 </section>
