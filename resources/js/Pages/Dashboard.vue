@@ -202,11 +202,12 @@ onMounted(() => {
                                 <div class="flex flex-col items-center">
                                     <img src="/beginner.png" alt="basic" />
                                     <p class="mt-2 text-sm text-gray-300">10 credits / month</p>
+                                    <p class="mt-2 text-sm text-gray-300">2 revolving credits</p>
                                 </div>
                                 <div
-                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    1€
+                                    1 € / month
                                 </div>
                             </div>
                         </div>
@@ -237,12 +238,13 @@ onMounted(() => {
                                 <div class="flex flex-col items-center">
                                     <img src="/classic.png" alt="classic" />
                                     <p class="mt-2 text-sm text-gray-300">25 credits / month</p>
+                                    <p class="mt-2 text-sm text-gray-300">5 revolving credits</p>
                                 </div>
 
                                 <div
-                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    2€
+                                    2 € / month
                                 </div>
                             </div>
                         </div>
@@ -273,11 +275,12 @@ onMounted(() => {
                                 <div class="flex flex-col items-center">
                                     <img src="/power.png" alt="power" />
                                     <p class="mt-2 text-sm text-gray-300">100 credits / month</p>
+                                    <p class="mt-2 text-sm text-gray-300">20 revolving credits</p>
                                 </div>
                                 <div
-                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    5€
+                                    5 € / month
                                 </div>
                             </div>
                         </div>
@@ -397,6 +400,7 @@ onMounted(() => {
                                 <div class="flex flex-col items-center">
                                     <img src="/credits.png" alt="top-up" />
                                     <p class="mt-2 text-sm text-gray-300">Get 5 credits</p>
+                                    <p class="mt-2 text-sm text-gray-300">valid for 1 year</p>
                                 </div>
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"

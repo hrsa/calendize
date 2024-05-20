@@ -93,7 +93,7 @@ const downloadIcs = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Generate</h1>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Calendize</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">

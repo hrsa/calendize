@@ -5,7 +5,7 @@ use function Pest\Laravel\post;
 
 test('registration screen can be rendered', function () {
 
-    get('/register')
+    get(route('login'))
         ->assertStatus(200);
 });
 
@@ -14,7 +14,6 @@ test('new users can register', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password123',
-        'password_confirmation' => 'password123',
     ])->assertRedirect(route('generate', absolute: false));
 
     $this->assertAuthenticated();

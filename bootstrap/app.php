@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\RedirectIfNotGuest;
 use App\Providers\GoogleDriveStorageProvider;
 use App\Providers\MailProcessingServiceProvider;
 use Illuminate\Foundation\Application;
@@ -30,6 +31,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'squeezy/*',
+        ]);
+
+        $middleware->alias([
+            'if-not-guest-redirect-to' => RedirectIfNotGuest::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
