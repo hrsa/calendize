@@ -6,6 +6,7 @@ import "swiper/css";
 
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import LegalFooter from "@/Components/LegalFooter.vue"
 
 const calendized = ref<boolean>(false);
 </script>
@@ -150,18 +151,6 @@ const calendized = ref<boolean>(false);
                 </swiper>
             </div>
         </div>
-        <div class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
-            Using Calendize implies that you accept my<br />
-            <Link
-                class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                :href="route('terms-of-service')"
-                >Terms of service</Link
-            > and
-            <Link
-                class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                :href="route('privacy-policy')"
-                >Privacy policy
-            </Link>
-        </div>
+        <LegalFooter class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50" />
     </div>
 </template>

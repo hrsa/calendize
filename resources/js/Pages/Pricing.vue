@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { Head, Link, router } from "@inertiajs/vue3";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { Head, Link, router } from "@inertiajs/vue3"
 import { ref } from "vue";
-import EmailInput from "@/Components/EmailInput.vue";
-import LoadingSpinner from "@/Components/LoadingSpinner.vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue"
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import LegalFooter from "@/Components/LegalFooter.vue"
 
 defineProps<{
     canLogin?: boolean;
@@ -50,76 +46,107 @@ const handleSomethingWentWrongError = () => {
 
 <template>
     <Head>
-        <title>Calendize an event - for free</title>
+        <title>Pricing</title>
         <meta
             name="description"
-            content="Calendize your event for free by copying and pasting your email content for quick calendar conversion. Register or login for additional features."
+            content="Discover our transparent pricing: 3 subscriptions or bulk credit purchase. Your first 5 credits are free!"
         />
     </Head>
     <GuestLayout>
-                    <div class="flex flex-col gap-6 lg:gap-8">
-                        <div
-                            v-show="showNotice"
-                            @click="showNotice = !showNotice"
-                            class="flex cursor-pointer flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                        >
-                            <h3 class="mx-auto px-8 text-center text-xl">Welcome!</h3>
-                            <h1 class="mx-auto px-8 text-center text-xl">
-                                My users can simply forward their emails to me, and I reply with a calendized version!<br />
-                                But if you don't want to sign up yet - just <b>copy-paste an email that you want to calendize</b>.
-                            </h1>
-                            <h3 class="mx-auto px-8 text-center text-sm">
-                                You'll have to confirm you email, though - no spammers allowed 😎
-                            </h3>
-                        </div>
-                        <div
-                            class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
-                        >
-                            <EventGenerationTextArea v-model="calendarEvent" :loading />
-                            <EmailInput
-                                class="m-auto"
-                                placeholder="email"
-                                v-model="email"
-                                :class="loading ? 'blur-lg' : ''"
-                                @clearError="handleClearError"
-                                @somethingWentWrongError="handleSomethingWentWrongError"
-                                @emailExistsError="handleEmailExistsError"
-                            />
-                            <h3
-                                v-if="errorMessage"
-                                class="mx-auto max-w-sm rounded-xl border-2 border-red-600/50 bg-red-600/50 px-8 py-2 text-center text-white"
-                            >
-                                {{ errorMessage }}
-                            </h3>
-                            <div class="m-auto mt-4 flex items-center justify-end">
-                                <LoadingSpinner v-if="loading" />
-
-                                <PrimaryButton
-                                    v-else
-                                    :class="{ 'opacity-25': !emailIsUnique || !calendarEvent }"
-                                    :disabled="!emailIsUnique || !calendarEvent"
-                                    @click="sendCalendarEvent"
-                                >
-                                    Calendize and get by email
-                                </PrimaryButton>
+        <div class="flex flex-col gap-6 lg:gap-8
+overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05]
+transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20]
+ lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
+            <div>
+                <h1 class="mx-auto px-8 text-center text-xl mb-4">
+                    My pricing is simple: the more you use Calendize - the better deal i can offer!
+                </h1>
+                <h3 class="mx-auto px-8 text-center text-sm">
+                    All subscriptions can be stopped anytime.
+                </h3>
+                <h3 class="mx-auto px-8 text-center text-sm">
+                    Refunds are possible if none of the credits were used.
+                </h3>
+            </div>
+            <div
+                class="flex flex-col items-start gap-6"
+            >
+                <div class="m-auto flex w-fit flex-wrap items-center gap-6 self-center p-6">
+                    <div @click="router.get(route('login'))"
+                        class="relative mx-auto max-w-48 cursor-pointer rounded-lg border border-gray-100/25 transition duration-300 hover:border-gray-100/75"
+                    >
+                        <div class="flex flex-col items-center gap-4 p-2">
+                            <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Beginner</h3>
+                            <div class="flex flex-col items-center">
+                                <img src="/beginner.png" alt="basic" />
+                                <p class="mt-2 text-sm text-gray-300">10 credits / month</p>
+                                <p class="mt-2 text-sm text-gray-300">2 revolving credits</p>
                             </div>
                             <div
-                                class="mx-auto -mb-6 mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50"
+                                class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                             >
-                                Using Calendize implies that you accept<br />
-                                <Link
-                                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                                    :href="route('terms-of-service')"
-                                    >Terms of service</Link
-                                >
-                                and
-                                <Link
-                                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                                    :href="route('privacy-policy')"
-                                    >Privacy policy
-                                </Link>
+                                1 € / month
                             </div>
                         </div>
                     </div>
+
+                    <div @click="router.get(route('login'))"
+                        class="relative mx-auto max-w-48 cursor-pointer rounded-lg border border-gray-100/25 transition duration-300 hover:border-gray-100/75"
+                    >
+                        <div class="flex flex-col items-center gap-4 p-2">
+                            <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Classic</h3>
+                            <div class="flex flex-col items-center">
+                                <img src="/classic.png" alt="classic" />
+                                <p class="mt-2 text-sm text-gray-300">25 credits / month</p>
+                                <p class="mt-2 text-sm text-gray-300">5 revolving credits</p>
+                            </div>
+
+                            <div
+                                class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                            >
+                                2 € / month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div @click="router.get(route('login'))"
+                        class="relative mx-auto max-w-48 cursor-pointer rounded-lg border border-gray-100/25 transition duration-300 hover:border-gray-100/75"
+                    >
+                        <div class="flex flex-col items-center gap-4 p-2">
+                            <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Power</h3>
+                            <div class="flex flex-col items-center">
+                                <img src="/power.png" alt="power" />
+                                <p class="mt-2 text-sm text-gray-300">100 credits / month</p>
+                                <p class="mt-2 text-sm text-gray-300">20 revolving credits</p>
+                            </div>
+                            <div
+                                class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                            >
+                                5 € / month
+                            </div>
+                        </div>
+                    </div>
+
+                    <div @click="router.get(route('login'))"
+                        class="relative mx-auto max-w-48 cursor-pointer rounded-lg border border-gray-100/25 transition duration-300 hover:border-gray-100/75"
+                    >
+                        <div class="flex flex-col items-center gap-4 p-2">
+                            <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Top up</h3>
+                            <div class="flex flex-col items-center">
+                                <img src="/credits.png" alt="top-up" />
+                                <p class="mt-2 text-sm text-gray-300">5 credits</p>
+                                <p class="mt-2 text-sm text-gray-300">valid for 1 year</p>
+                            </div>
+                            <div
+                                class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                            >
+                                1 €
+                            </div>
+                        </div>
+                    </div>
+                    <LegalFooter />
+                </div>
+            </div>
+        </div>
     </GuestLayout>
 </template>

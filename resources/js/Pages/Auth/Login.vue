@@ -8,6 +8,7 @@ import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import { watchDebounced } from "@vueuse/core";
 import { ref } from "vue";
+import LegalFooter from "@/Components/LegalFooter.vue"
 
 defineProps<{
     canResetPassword?: boolean;
@@ -69,7 +70,7 @@ watchDebounced(
         <meta name="description"
               content="An email, name and password - that's all you need to keep calendar neat and tidy! Create a new account and get 5 credits for free." />
     </Head>
-
+        <h1 class="mx-auto px-8 text-center text-xl">Login / Register</h1>
         <div class="my-6 flex place-items-center justify-center gap-6">
             <div class="cursor-pointer" @click="router.get(route('socialite.google.redirect'))">
                 <img class="size-10" src="/social/google.svg" alt="google" />
@@ -143,25 +144,13 @@ watchDebounced(
                     Log in
                 </PrimaryButton>
             </div>
-            <div v-if="!emailExists" class="mt-4 flex items-center justify-center">
-                <PrimaryButton @click="register" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <div v-if="!emailExists" class="mt-8 flex items-center justify-center">
+                <PrimaryButton @click="register" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
                 </PrimaryButton>
             </div>
 
-            <div class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
-                Using Calendize implies that you accept my<br />
-                <Link
-                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                    :href="route('terms-of-service')"
-                    >Terms of service</Link
-                > and
-                <Link
-                    class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
-                    :href="route('privacy-policy')"
-                    >Privacy policy
-                </Link>
-            </div>
+            <LegalFooter class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50" />
         </form>
     </AuthDialogLayout>
 </template>

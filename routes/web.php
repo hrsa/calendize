@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
 
-Route::get('pricing', fn () => Inertia::render('Pricing'))->name('pricing');
+Route::get('pricing', fn () => Inertia::render('Pricing'))
+    ->middleware('if-not-guest-redirect-to:dashboard')->name('pricing');
 Route::get('privacy-policy', fn () => Inertia::render('PrivacyPolicy'))->name('privacy-policy');
 Route::get('terms-of-service', fn () => Inertia::render('TermsOfService'))->name('terms-of-service');
 
