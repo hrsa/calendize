@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import AuthDialogLayout from "@/Layouts/AuthDialogLayout.vue"
 
 defineProps<{
     status?: string;
@@ -20,7 +20,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthDialogLayout>
         <Head title="Forgot Password" />
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
@@ -55,5 +55,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </GuestLayout>
+    </AuthDialogLayout>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import AuthDialogLayout from '@/Layouts/AuthDialogLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -20,7 +20,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthDialogLayout>
         <Head title="Confirm Password" />
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
@@ -48,5 +48,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </GuestLayout>
+    </AuthDialogLayout>
 </template>

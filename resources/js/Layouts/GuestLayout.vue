@@ -1,20 +1,38 @@
 <script setup lang="ts">
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Link } from '@inertiajs/vue3';
+import EmailInput from "@/Components/EmailInput.vue"
+import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue"
+import PrimaryButton from "@/Components/PrimaryButton.vue"
+import LoadingSpinner from "@/Components/LoadingSpinner.vue"
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-        <div>
-            <Link :href="route('try')">
-                <ApplicationLogo class="size-36 fill-current text-gray-500" />
-            </Link>
-        </div>
+    <div
+        class="bg-gray-100 bg-[url('/tile-background-light.webp')] text-black/50 dark:bg-black dark:bg-[url('/tile-background-dark.webp')] dark:text-white/50"
+    >
+        <div class="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
+            <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
+                <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
+                    <div class="flex lg:col-start-2 lg:justify-center">
+                        <Link :href="route('try')">
+                            <ApplicationLogo class="size-36 fill-current text-gray-500" />
+                        </Link>
+                    </div>
+                    <nav class="-mx-3 flex flex-1 flex-wrap justify-end gap-6">
+                        <Link
+                            :href="route('login')"
+                            class="rounded-lg bg-gray-50 px-3 py-4 text-sm font-semibold uppercase tracking-wide shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] sm:text-xl dark:bg-zinc-900 dark:ring-zinc-600 dark:hover:text-white/80 dark:hover:ring-zinc-300 dark:focus-visible:ring-[#FF2D20]"
+                        >
+                            Log in / Register
+                        </Link>
+                    </nav>
+                </header>
 
-        <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg"
-        >
-            <slot />
+                <main class="my-6">
+                    <slot />
+                </main>
+            </div>
         </div>
     </div>
 </template>

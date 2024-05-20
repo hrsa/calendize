@@ -1,35 +1,74 @@
 <script setup lang="ts">
 import Checkbox from "@/Components/Checkbox.vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import AuthDialogLayout from "@/Layouts/AuthDialogLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
+import { watchDebounced } from "@vueuse/core";
+import { ref } from "vue";
 
 defineProps<{
     canResetPassword?: boolean;
     status?: string;
 }>();
 
+const emailExists = ref(false);
+const emailRef = ref("");
+
 const form = useForm({
+    name: "",
     email: "",
     password: "",
     remember: false,
 });
 
-const submit = () => {
+const login = () => {
+    form.email = emailRef.value;
     form.post(route("login"), {
         onFinish: () => {
             form.reset("password");
         },
     });
 };
+
+const register = () => {
+    form.email = emailRef.value;
+    form.post(route("register"), {
+        onFinish: () => {
+            form.reset("password");
+        },
+    });
+};
+
+watchDebounced(
+    emailRef,
+    (newValue) => {
+            window.axios
+                .post(route("user.check-email"), { email: newValue })
+                .then(() => {
+                    emailExists.value = false
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        emailExists.value = true
+                    } else {
+                        console.log(error.response.data.error)
+                    }
+                })
+    },
+    { debounce: 100, maxWait: 500 },
+);
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Log in" />
+    <AuthDialogLayout>
+        <Head>
+            <title>Log in / Register</title>
+        <meta name="description"
+              content="An email, name and password - that's all you need to keep calendar neat and tidy! Create a new account and get 5 credits for free." />
+    </Head>
 
         <div class="my-6 flex place-items-center justify-center gap-6">
             <div class="cursor-pointer" @click="router.get(route('socialite.google.redirect'))">
@@ -44,7 +83,7 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent>
             <div>
                 <InputLabel for="email" value="Email" />
 
@@ -52,13 +91,21 @@ const submit = () => {
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
-                    v-model="form.email"
+                    v-model="emailRef"
                     required
                     autofocus
                     autocomplete="username"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div class="mt-4" v-if="!emailExists">
+                <InputLabel for="name" value="Name" />
+
+                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" />
+
+                <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
             <div class="mt-4">
@@ -76,14 +123,14 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
 
-            <div class="mt-4 block">
+            <div v-if="emailExists" class="mt-4 block">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
                 </label>
             </div>
 
-            <div class="mt-4 flex items-center justify-between">
+            <div v-if="emailExists" class="mt-4 flex items-center justify-between">
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
@@ -92,7 +139,14 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"> Log in </PrimaryButton>
+                <PrimaryButton  @click="login" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Log in
+                </PrimaryButton>
+            </div>
+            <div v-if="!emailExists" class="mt-4 flex items-center justify-center">
+                <PrimaryButton @click="register" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Register
+                </PrimaryButton>
             </div>
 
             <div class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
@@ -101,14 +155,13 @@ const submit = () => {
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('terms-of-service')"
                     >Terms of service</Link
-                >
-                and
+                > and
                 <Link
                     class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
                     :href="route('privacy-policy')"
-                    >Privacy policy</Link
-                >
+                    >Privacy policy
+                </Link>
             </div>
         </form>
-    </GuestLayout>
+    </AuthDialogLayout>
 </template>

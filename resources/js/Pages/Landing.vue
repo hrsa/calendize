@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3"
-import { ref } from "vue"
-import { Swiper, SwiperSlide } from "swiper/vue"
-import "swiper/css"
+import { Head, Link } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
 
-import "swiper/css/pagination"
-import "swiper/css/navigation"
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-const calendized = ref<boolean>(false)
+const calendized = ref<boolean>(false);
 </script>
 
 <template>
     <Head>
         <title>Calendize - your calendar's new best friend</title>
-        <meta name="description"
-              content="Flights, trains, concerts, conferences, and all other important events that we can't just add to the calendar in one click... So we ignore them. We forget them. We plan multiple events at the same date and time. This sucks, right? That's why Calendize exists - to save your precious times while keeping your calendar neat and updated!" />
+        <meta
+            name="description"
+            content="Flights, trains, concerts, conferences, and all other important events that we can't just add to the calendar in one click... So we ignore them. We forget them. We plan multiple events at the same date and time. This sucks, right? That's why Calendize exists - to save your precious times while keeping your calendar neat and updated!"
+        />
     </Head>
     <div class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
         <div
@@ -25,24 +27,24 @@ const calendized = ref<boolean>(false)
             >
                 <h1
                     v-show="!calendized"
-                    class="m-5 rounded-lg p-6 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-3xl dark:text-gray-200"
+                    class="rounded-lg text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
                 >
-                    All these important events <br />
+                    All these important emails <br />
                     you can't just add to your calendar<br />
                     in one click...
                 </h1>
                 <h2
                     v-show="calendized"
-                    class="m-5 rounded-lg p-6 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-3xl dark:text-gray-200"
+                    class="rounded-lg text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
                 >
                     All done! Easy, right?<br />
                     Together, we will keep your calendar<br />
                     neat and tidy!
                 </h2>
-                <img src="/calendar.png" alt="Calendize" class="mx-auto my-5 size-36 md:mt-10" />
+                <img src="/calendar.png" alt="Calendize" class="mx-auto size-36 md:mt-10" />
                 <h2
                     v-show="!calendized"
-                    class="m-5 text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-3xl dark:text-gray-200"
+                    class="text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
                 >
                     This sucks, right?
                 </h2>
@@ -62,92 +64,104 @@ const calendized = ref<boolean>(false)
                 </button>
             </div>
             <div class="h-full flex-1 lg:h-screen lg:min-w-[40rem]">
-
                 <swiper
                     :spaceBetween="0"
                     :centeredSlides="true"
                     :grabCursor="true"
                     :loop="true"
-                class="cursor-hand h-full bg-white/85 dark:bg-black/85"
+                    class="cursor-hand h-full bg-white/85 dark:bg-black/85"
                 >
-                <swiper-slide class="flex flex-grow flex-col">
-                    <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
-                        <h2
-                            class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
-                        >
-                            Tours
-                        </h2>
-                        <img
-                            class="mx-auto block rounded-xl lg:hidden"
-                            :src="calendized ? '/home/usage/tour-calendized-mobile.webp' : '/home/usage/tour-mobile.webp'"
-                            alt="tour"
-                        />
-                        <img
-                            class="mx-auto hidden rounded-xl lg:block"
-                            :src="calendized ? '/home/usage/tour-calendized.webp' : '/home/usage/tour.webp'"
-                            alt="tour"
-                        />
-                    </div>
-                </swiper-slide>
-                <swiper-slide class="flex flex-col">
-                    <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
-                        <h2
-                            class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
-                        >
-                            Flights
-                        </h2>
-                        <img
-                            class="mx-auto block rounded-xl lg:hidden"
-                            :src="calendized ? '/home/usage/flight-calendized-mobile.webp' : '/home/usage/flight-mobile.webp'"
-                            alt="flight"
-                        />
-                        <img
-                            class="mx-auto hidden rounded-xl lg:block"
-                            :src="calendized ? '/home/usage/flight-calendized.webp' : '/home/usage/flight.webp'"
-                            alt="flight"
-                        />
-                    </div>
-                </swiper-slide>
-                <swiper-slide class="flex flex-col">
-                    <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
-                        <h2
-                            class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
-                        >
-                            Conferences
-                        </h2>
-                        <img
-                            class="mx-auto block rounded-xl lg:hidden"
-                            :src="calendized ? '/home/usage/event-calendized-mobile.webp' : '/home/usage/event-mobile.webp'"
-                            alt="event"
-                        />
-                        <img
-                            class="mx-auto hidden rounded-xl lg:block"
-                            :src="calendized ? '/home/usage/event-calendized.webp' : '/home/usage/event.webp'"
-                            alt="event"
-                        />
-                    </div>
-                </swiper-slide>
-                <swiper-slide class="flex flex-col">
-                    <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
-                        <h2
-                            class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
-                        >
-                            Concerts
-                        </h2>
-                        <img
-                            class="mx-auto block rounded-xl lg:hidden"
-                            :src="calendized ? '/home/usage/concert-calendized-mobile.webp' : '/home/usage/concert-mobile.webp'"
-                            alt="concert"
-                        />
-                        <img
-                            class="mx-auto hidden rounded-xl lg:block"
-                            :src="calendized ? '/home/usage/concert-calendized.webp' : '/home/usage/concert.webp'"
-                            alt="concert"
-                        />
-                    </div>
-                </swiper-slide>
+                    <swiper-slide class="flex flex-grow flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2
+                                class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
+                            >
+                                Tours
+                            </h2>
+                            <img
+                                class="mx-auto block rounded-xl lg:hidden"
+                                :src="calendized ? '/home/usage/tour-calendized-mobile.webp' : '/home/usage/tour-mobile.webp'"
+                                alt="tour"
+                            />
+                            <img
+                                class="mx-auto hidden rounded-xl lg:block"
+                                :src="calendized ? '/home/usage/tour-calendized.webp' : '/home/usage/tour.webp'"
+                                alt="tour"
+                            />
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2
+                                class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
+                            >
+                                Flights
+                            </h2>
+                            <img
+                                class="mx-auto block rounded-xl lg:hidden"
+                                :src="calendized ? '/home/usage/flight-calendized-mobile.webp' : '/home/usage/flight-mobile.webp'"
+                                alt="flight"
+                            />
+                            <img
+                                class="mx-auto hidden rounded-xl lg:block"
+                                :src="calendized ? '/home/usage/flight-calendized.webp' : '/home/usage/flight.webp'"
+                                alt="flight"
+                            />
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2
+                                class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
+                            >
+                                Conferences
+                            </h2>
+                            <img
+                                class="mx-auto block rounded-xl lg:hidden"
+                                :src="calendized ? '/home/usage/event-calendized-mobile.webp' : '/home/usage/event-mobile.webp'"
+                                alt="event"
+                            />
+                            <img
+                                class="mx-auto hidden rounded-xl lg:block"
+                                :src="calendized ? '/home/usage/event-calendized.webp' : '/home/usage/event.webp'"
+                                alt="event"
+                            />
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide class="flex flex-col">
+                        <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
+                            <h2
+                                class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
+                            >
+                                Concerts
+                            </h2>
+                            <img
+                                class="mx-auto block rounded-xl lg:hidden"
+                                :src="calendized ? '/home/usage/concert-calendized-mobile.webp' : '/home/usage/concert-mobile.webp'"
+                                alt="concert"
+                            />
+                            <img
+                                class="mx-auto hidden rounded-xl lg:block"
+                                :src="calendized ? '/home/usage/concert-calendized.webp' : '/home/usage/concert.webp'"
+                                alt="concert"
+                            />
+                        </div>
+                    </swiper-slide>
                 </swiper>
             </div>
+        </div>
+        <div class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50">
+            Using Calendize implies that you accept my<br />
+            <Link
+                class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
+                :href="route('terms-of-service')"
+                >Terms of service</Link
+            > and
+            <Link
+                class="font-semibold underline transition duration-300 hover:text-black dark:hover:text-white"
+                :href="route('privacy-policy')"
+                >Privacy policy
+            </Link>
         </div>
     </div>
 </template>

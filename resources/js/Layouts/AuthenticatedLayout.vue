@@ -44,7 +44,7 @@ const hidePasswordReminderForToday = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('how-to-use')" :active="route().current('how-to-use')"> Get started </NavLink>
-                                <NavLink :href="route('generate')" :active="route().current('generate')"> Generate </NavLink>
+                                <NavLink :href="route('generate')" :active="route().current('generate')"> Calendize </NavLink>
                                 <NavLink :href="route('my-events')" :active="route().current('my-events')"> My events </NavLink>
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </NavLink>
                             </div>
@@ -130,9 +130,9 @@ const hidePasswordReminderForToday = () => {
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink :href="route('how-to-use')" :active="route().current('how-to-use')">
-                            Get Started
+                            Get started
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('generate')" :active="route().current('generate')"> Generate </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('generate')" :active="route().current('generate')"> Calendize </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('my-events')" :active="route().current('my-events')"> My events </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </ResponsiveNavLink>
                     </div>
