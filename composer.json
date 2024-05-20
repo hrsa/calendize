@@ -13,6 +13,7 @@
         "laravel-notification-channels/telegram": "^5.0",
         "laravel/framework": "^11.7",
         "laravel/horizon": "^5.24.4",
+        "laravel/pulse": "^1.1",
         "laravel/reverb": "@beta",
         "laravel/sanctum": "^4.0.2",
         "laravel/socialite": "^5.14",

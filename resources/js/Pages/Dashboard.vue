@@ -405,7 +405,7 @@ onMounted(() => {
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    1€
+                                    1 €
                                 </div>
                             </div>
                         </a>

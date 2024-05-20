@@ -28,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('errors-under-threshold', fn (User $user) => !$user->hasTooManyErrors());
 
+        Gate::define('is-admin', fn (User $user) => $user->email === config('app.admin.email'));
+
         Http::macro('mistral', function () {
             return Http::withHeaders([
                 'Content-Type' => 'application/json',
