@@ -38,7 +38,8 @@
         "nunomaduro/phpinsights": "^2.11",
         "pestphp/pest": "^2.34.7",
         "pestphp/pest-plugin-laravel": "^2.4",
-        "spatie/laravel-ignition": "^2.7.0"
+        "spatie/laravel-ignition": "^2.7.0",
+        "spatie/laravel-sitemap": "^7.2"
     },
     "autoload": {
         "psr-4": {
