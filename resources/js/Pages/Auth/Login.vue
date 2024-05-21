@@ -70,7 +70,7 @@ watchDebounced(
         <meta name="description"
               content="An email, name and password - that's all you need to keep calendar neat and tidy! Create a new account and get 5 credits for free." />
     </Head>
-        <h1 class="mx-auto px-8 text-center text-xl">Login / Register</h1>
+        <h1 class="mx-auto px-8 text-center text-xl">{{!emailRef ? 'Login / Register' : emailExists ? 'Login' : 'Register'}}</h1>
         <div class="my-6 flex place-items-center justify-center gap-6">
             <div class="cursor-pointer" @click="router.get(route('socialite.google.redirect'))">
                 <img class="size-10" src="/social/google.svg" alt="google" />
@@ -101,14 +101,6 @@ watchDebounced(
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <div class="mt-4" v-if="!emailExists">
-                <InputLabel for="name" value="Name" />
-
-                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" />
-
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
             <div class="mt-4">
                 <InputLabel for="password" value="Password" />
 
@@ -122,6 +114,14 @@ watchDebounced(
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div class="mt-4" v-if="!emailExists">
+                <InputLabel for="name" value="Name" />
+
+                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" />
+
+                <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
             <div v-if="emailExists" class="mt-4 block">

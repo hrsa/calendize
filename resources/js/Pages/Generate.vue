@@ -147,7 +147,7 @@ const downloadIcs = () => {
                                     :disabled="!calendarEvent"
                                     @click="sendCalendarEvent"
                                 >
-                                    Calendize ({{ $page.props.auth.user.credits }} credits remaining)
+                                    Calendize ({{ $page.props.auth.user.credits }} {{ $page.props.auth.user.credits === 1 ? 'credit' : 'credits' }} remaining)
                                 </PrimaryButton>
                             </div>
                         </div>

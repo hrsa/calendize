@@ -52,10 +52,10 @@ const hidePasswordReminderForToday = () => {
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <div>
-                                <span
+                                <span v-if="$page.props.auth.user.credits > 1"
                                     class="text-md inline-flex cursor-default items-center rounded-md border border-transparent bg-white px-3 py-2 font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                 >
-                                    {{ $page.props.auth.user.credits }} credits remaining
+                                    {{ $page.props.auth.user.credits }} {{ $page.props.auth.user.credits === 1 ? 'credit' : 'credits' }} remaining
                                 </span>
                             </div>
                             <!-- Settings Dropdown -->
