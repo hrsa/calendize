@@ -50,7 +50,7 @@ test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
     post('/login', [
-        'email' => $user->email,
+        'email'    => $user->email,
         'password' => 'password',
     ])->assertRedirect(route('dashboard', absolute: false));
 
@@ -61,7 +61,7 @@ test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
 
     post('/login', [
-        'email' => $user->email,
+        'email'    => $user->email,
         'password' => 'wrong-password',
     ]);
 

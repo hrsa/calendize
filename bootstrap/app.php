@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'if-not-guest-redirect-to' => RedirectIfNotGuest::class,
-            'if-not-admin-redirect' => RedirectIfNotAdmin::class,
+            'if-not-admin-redirect'    => RedirectIfNotAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

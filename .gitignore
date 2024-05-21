@@ -6,6 +6,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/lang/php_*.json
 .env
 .env.backup
 .env.production
@@ -23,3 +24,4 @@ supervisord.pid
 /docker/ngrok.yml
 /bin/
 /.env.prod
+

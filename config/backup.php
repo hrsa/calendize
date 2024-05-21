@@ -193,12 +193,12 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \App\Notifications\Telegram\Admin\BackupHasFailedNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\BackupHasFailedNotification::class         => ['telegram'],
             \App\Notifications\Telegram\Admin\UnhealthyBackupWasFoundNotification::class => ['telegram'],
-            \App\Notifications\Telegram\Admin\CleanupHasFailedNotification::class => ['telegram'],
-            \App\Notifications\Telegram\Admin\BackupWasSuccessfulNotification::class => ['telegram'],
-            \App\Notifications\Telegram\Admin\HealthyBackupWasFoundNotification::class => ['telegram'],
-            \App\Notifications\Telegram\Admin\CleanupWasSuccessfulNotification::class => ['telegram'],
+            \App\Notifications\Telegram\Admin\CleanupHasFailedNotification::class        => ['telegram'],
+            \App\Notifications\Telegram\Admin\BackupWasSuccessfulNotification::class     => ['telegram'],
+            \App\Notifications\Telegram\Admin\HealthyBackupWasFoundNotification::class   => ['telegram'],
+            \App\Notifications\Telegram\Admin\CleanupWasSuccessfulNotification::class    => ['telegram'],
         ],
 
         /*
@@ -212,7 +212,7 @@ return [
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name'    => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
 
@@ -256,10 +256,10 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => 'backups',
-            'disks' => ['google'],
+            'name'          => 'backups',
+            'disks'         => ['google'],
             'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class          => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
             ],
         ],

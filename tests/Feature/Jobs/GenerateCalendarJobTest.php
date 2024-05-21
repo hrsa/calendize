@@ -9,7 +9,7 @@ use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
 test('ICS event is updated with successful OpenAI response', function () {
-    $ics = IcsEvent::factory()->icsProcessed()->create();
+    $ics          = IcsEvent::factory()->icsProcessed()->create();
     $validIcsData = str_replace("\n", '\\n', $ics->ics);
     $ics->update(['ics' => null]);
     $ics->refresh();
@@ -23,7 +23,7 @@ test('ICS event is updated with successful OpenAI response', function () {
             'choices' => [
                 [
                     'message' => [
-                        'role' => 'assistant',
+                        'role'    => 'assistant',
                         'content' => '{"ics": "' . $validIcsData . '"}',
                     ],
                 ],
@@ -52,7 +52,7 @@ test('ICS event is updated with error from OpenAI response', function () {
             'choices' => [
                 [
                     'message' => [
-                        'role' => 'assistant',
+                        'role'    => 'assistant',
                         'content' => '{"error": "Sorry an error is faked here!"}',
                     ],
                 ],
@@ -69,7 +69,7 @@ test('ICS event is updated with error from OpenAI response', function () {
 });
 
 test('ICS event is updated with data from Mistral in case OpenAI fails', function () {
-    $ics = IcsEvent::factory()->icsProcessed()->create();
+    $ics          = IcsEvent::factory()->icsProcessed()->create();
     $validIcsData = str_replace("\n", '\\n', $ics->ics);
     $ics->update(['ics' => null]);
     $ics->refresh();
@@ -84,16 +84,16 @@ test('ICS event is updated with data from Mistral in case OpenAI fails', functio
     Http::fake([
         'api.mistral.ai/*' => Http::response([
             'choices' => [0 => [
-                'index' => 0,
+                'index'   => 0,
                 'message' => [
-                    'role' => 'assistant',
+                    'role'    => 'assistant',
                     'content' => '{"ics": "' . $validIcsData . '"}',
                 ],
                 'finish_reason' => 'stop',
             ], ],
             'usage' => [
-                'prompt_tokens' => 14,
-                'total_tokens' => 29,
+                'prompt_tokens'     => 14,
+                'total_tokens'      => 29,
                 'completion_tokens' => 15,
             ],
         ]),
@@ -119,16 +119,16 @@ test('ICS event is updated with error from Mistral response after OpenAI fails',
     Http::fake([
         'api.mistral.ai/*' => Http::response([
             'choices' => [0 => [
-                'index' => 0,
+                'index'   => 0,
                 'message' => [
-                    'role' => 'assistant',
+                    'role'    => 'assistant',
                     'content' => '{"error": "Sorry an error is faked here!"}',
                 ],
                 'finish_reason' => 'stop',
             ], ],
             'usage' => [
-                'prompt_tokens' => 14,
-                'total_tokens' => 29,
+                'prompt_tokens'     => 14,
+                'total_tokens'      => 29,
                 'completion_tokens' => 15,
             ],
         ]),

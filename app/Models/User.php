@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
 
@@ -98,9 +98,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return match ($this->subscriptions()->active()?->first()?->variant_id) {
             config('lemon-squeezy.sales.beginner.variant') => 'beginner',
-            config('lemon-squeezy.sales.classic.variant') => 'classic',
-            config('lemon-squeezy.sales.power.variant') => 'power',
-            default => 'none',
+            config('lemon-squeezy.sales.classic.variant')  => 'classic',
+            config('lemon-squeezy.sales.power.variant')    => 'power',
+            default                                        => 'none',
         };
     }
 

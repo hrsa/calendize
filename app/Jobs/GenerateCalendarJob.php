@@ -32,9 +32,9 @@ class GenerateCalendarJob implements ShouldQueue
 
     public function handle(): void
     {
-        $result = null;
+        $result       = null;
         $systemPrompt = config('openai.system_prompt');
-        $now = Carbon::now();
+        $now          = Carbon::now();
         $systemPrompt .= " As of today, the date is {$now}.";
 
         if ($this->icsEvent->timezone) {
@@ -91,12 +91,12 @@ class GenerateCalendarJob implements ShouldQueue
     private function generateOpenAIResponse(string $systemPrompt): CreateResponse
     {
         return OpenAI::chat()->create([
-            'model' => 'gpt-4o',
+            'model'    => 'gpt-4o',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user', 'content' => $this->icsEvent->prompt],
             ],
-            'max_tokens' => 2800,
+            'max_tokens'      => 2800,
             'response_format' => ['type' => 'json_object'],
         ]);
     }
@@ -107,12 +107,12 @@ class GenerateCalendarJob implements ShouldQueue
     private function generateMistralResponse(string $systemPrompt): stdClass
     {
         $response = Http::mistral()->timeout(10)->post('/chat/completions', [
-            'model' => 'mistral-large-latest',
+            'model'    => 'mistral-large-latest',
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user', 'content' => $this->icsEvent->prompt],
             ],
-            'max_tokens' => 2800,
+            'max_tokens'      => 2800,
             'response_format' => ['type' => 'json_object'],
         ]);
 

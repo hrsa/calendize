@@ -19,8 +19,8 @@ class SubscriptionController extends Controller
         $subscription = request()->user()->subscriptions()->active()->first();
 
         return response()->json([
-            'renewsAt' => $subscription->renews_at,
-            'endsAt' => $subscription->ends_at,
+            'renewsAt'         => $subscription->renews_at,
+            'endsAt'           => $subscription->ends_at,
             'paymentMethodUrl' => $subscription->updatePaymentMethodUrl(),
         ]);
     }
@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
 
     public function swap(): JsonResponse
     {
-        $subscription = request()->user()->subscriptions()->active()->first();
+        $subscription    = request()->user()->subscriptions()->active()->first();
         $newSubscription = request('newSubscription');
 
         if (request('swapDate') === 'now') {

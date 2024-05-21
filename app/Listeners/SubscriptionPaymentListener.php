@@ -12,7 +12,7 @@ class SubscriptionPaymentListener
         $lmSqueezySubscription = Subscription::find($event->subscription->id);
 
         /* @var $user \App\Models\User */
-        $user = $lmSqueezySubscription->billable()->first();
+        $user     = $lmSqueezySubscription->billable()->first();
         $variants = ['beginner', 'classic', 'power'];
 
         foreach ($variants as $variant) {

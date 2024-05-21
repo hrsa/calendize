@@ -12,7 +12,7 @@ Route::post('/guest-generate-calendar', [CalendarGeneratorController::class, 'gu
 Route::post('/generate-calendar', [CalendarGeneratorController::class, 'generate'])->middleware('auth:sanctum')->name('generate-calendar');
 
 Route::group([
-    'as' => 'socialite.',
+    'as'         => 'socialite.',
     'middleware' => 'web',
     'controller' => SocialiteLoginController::class,
 ], function () {
@@ -23,7 +23,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => '/users',
+    'prefix'     => '/users',
     'controller' => UserController::class,
 ], function () {
     Route::post('/check', 'checkEmail')->name('user.check-email');
@@ -31,8 +31,8 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => '/subscriptions',
-    'as' => 'subscriptions.',
+    'prefix'     => '/subscriptions',
+    'as'         => 'subscriptions.',
     'middleware' => 'auth', 'verified',
     'controller' => SubscriptionController::class,
 ], function () {

@@ -25,9 +25,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/generate', function () {
             return Inertia::render('Generate', [
                 'serverErrorMessage' => request('serverErrorMessage'),
-                'serverSuccess' => request('serverSuccess'),
-                'eventId' => request('eventId'),
-                'eventSecret' => request('eventSecret'),
+                'serverSuccess'      => request('serverSuccess'),
+                'eventId'            => request('eventId'),
+                'eventSecret'        => request('eventSecret'),
             ]);
         })->name('generate');
     });

@@ -17,7 +17,7 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
 it('validates icsEvent requests', function () {
-    $email = fake()->word();
+    $email         = fake()->word();
     $calendarEvent = '';
 
     $response = post(route('guest-generate-calendar'), compact('email', 'calendarEvent'));
@@ -41,9 +41,9 @@ test('guest can generate icsEvent', function () {
     $user = User::find(1);
     $this->assertNull($user);
 
-    $email = fake()->unique()->safeEmail();
+    $email         = fake()->unique()->safeEmail();
     $calendarEvent = fake()->text(150);
-    $timeZone = fake()->timezone();
+    $timeZone      = fake()->timezone();
 
     post(route('guest-generate-calendar'),
         compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)
@@ -82,8 +82,8 @@ test('guest can generate icsEvent', function () {
 
     get($verificationUrl)->assertRedirect(route('generate', [
         'serverSuccess' => "Your email is verified, thank you! I've also gave you some free credits to start.",
-        'eventId' => $icsEvent->id,
-        'eventSecret' => $icsEvent->secret,
+        'eventId'       => $icsEvent->id,
+        'eventSecret'   => $icsEvent->secret,
     ], absolute: false));
 
     Event::assertDispatched(Verified::class);
@@ -99,9 +99,9 @@ test("guest can't generate icsEvent twice", function () {
     $user = User::find(1);
     $this->assertNull($user);
 
-    $email = fake()->unique()->safeEmail();
+    $email         = fake()->unique()->safeEmail();
     $calendarEvent = fake()->text(150);
-    $timeZone = fake()->timezone();
+    $timeZone      = fake()->timezone();
 
     post(route('guest-generate-calendar'),
         compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)
@@ -118,7 +118,7 @@ test('user can generate icsEvents', function () {
     Queue::fake();
 
     $user = User::factory()->create([
-        'credits' => 5,
+        'credits'           => 5,
         'email_verified_at' => Carbon::now(),
     ]);
 
@@ -135,7 +135,7 @@ test("user with no credits can't generate icsEvents", function () {
     Queue::fake();
 
     $user = User::factory()->create([
-        'credits' => 0,
+        'credits'           => 0,
         'email_verified_at' => Carbon::now(),
     ]);
 
@@ -153,8 +153,8 @@ test("user with too many errors can't generate icsEvents", function () {
     Queue::fake();
 
     $user = User::factory()->create([
-        'credits' => 5,
-        'failed_requests' => 6,
+        'credits'           => 5,
+        'failed_requests'   => 6,
         'email_verified_at' => Carbon::now(),
     ]);
 

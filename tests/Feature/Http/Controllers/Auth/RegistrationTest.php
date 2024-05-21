@@ -11,8 +11,8 @@ test('registration screen can be rendered', function () {
 
 test('new users can register', function () {
     post('/register', [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
+        'name'     => 'Test User',
+        'email'    => 'test@example.com',
         'password' => 'password123',
     ])->assertRedirect(route('generate', absolute: false));
 
