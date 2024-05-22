@@ -35,17 +35,12 @@ test('terms of service and privacy policy pages are displayed', function (string
     get(route($route))->assertOk();
 })->with(['route' => 'terms-of-service'], ['route' => 'privacy-policy']);
 
-test('Horizon and Pulse pages are only accessible to admin', function () {
-    get('/horizon')->assertRedirectToRoute('home');
-    get('/pulse')->assertRedirectToRoute('home');
+test('Horizon and Pulse pages are only accessible to admin', function (string $uri) {
+    get($uri)->assertRedirectToRoute('home');
 
     $user = User::factory()->create();
-
-    actingAs($user)->get('/pulse')->assertRedirectToRoute('how-to-use');
-    actingAs($user)->get('/horizon')->assertRedirectToRoute('how-to-use');
+    actingAs($user)->get($uri)->assertRedirectToRoute('how-to-use');
 
     $admin = User::factory()->create(['email' => config('app.admin.email')]);
-
-    actingAs($admin)->get('/pulse')->assertOk();
-    actingAs($admin)->get('/horizon')->assertForbidden(); //because no Redis is running in test environment
-});
+    actingAs($admin)->get($uri)->assertOk();
+})->with(['uri' => '/horizon'], ['uri' => '/pulse']);
