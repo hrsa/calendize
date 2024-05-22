@@ -4,7 +4,10 @@
         "simplified_null_return": true,
         "array_indentation": true,
         "binary_operator_spaces": {
-            "default": "align_single_space_minimal"
+            "default": "single_space",
+            "operators": {
+                "=>": "align_single_space_minimal"
+            }
         },
         "align_multiline_comment": true,
         "concat_space": {

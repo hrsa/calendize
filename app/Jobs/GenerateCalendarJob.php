@@ -32,9 +32,9 @@ class GenerateCalendarJob implements ShouldQueue
 
     public function handle(): void
     {
-        $result       = null;
+        $result = null;
         $systemPrompt = config('openai.system_prompt');
-        $now          = Carbon::now();
+        $now = Carbon::now();
         $systemPrompt .= " As of today, the date is {$now}.";
 
         if ($this->icsEvent->timezone) {

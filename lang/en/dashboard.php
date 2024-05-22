@@ -4,12 +4,12 @@ return [
     'title'   => 'Dashboard',
     'meta'    => 'Manage your subscriptions and top up credits on the Calendize Dashboard. Choose from Beginner, Classic, and Power plans to fit your needs. Modify, upgrade, or downgrade your subscription effortlessly.',
     'pricing' => [
-        'title' => 'Pricing',
-        'meta'  => 'Discover our transparent pricing: 3 subscriptions or bulk credit purchase. Your first 5 credits are free!',
+        'title'       => 'Pricing',
+        'meta'        => 'Discover our transparent pricing: 3 subscriptions or bulk credit purchase. Your first 5 credits are free!',
         'description' => [
-            'main' => "My pricing is simple: the more you use Calendize - the better deal i can offer!",
-            'cancellation' => "All subscriptions can be stopped anytime.",
-            'refunds' => "Refunds are possible if none of the credits were used."
+            'main'         => 'My pricing is simple: the more you use Calendize - the better deal i can offer!',
+            'cancellation' => 'All subscriptions can be stopped anytime.',
+            'refunds'      => 'Refunds are possible if none of the credits were used.',
         ],
     ],
     'subscriptions' => [

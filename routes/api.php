@@ -20,6 +20,8 @@ Route::group([
     Route::get('/google/callback', 'handleGoogleCallback')->name('google.callback');
     Route::get('/linkedin/redirect', 'redirectToLinkedin')->name('linkedin.redirect');
     Route::get('/linkedin/callback', 'handleLinkedinCallback')->name('linkedin.callback');
+    Route::get('/twitter/redirect', 'redirectToTwitter')->name('twitter.redirect');
+    Route::get('/twitter/callback', 'handleTwitterCallback')->name('twitter.callback');
 });
 
 Route::group([

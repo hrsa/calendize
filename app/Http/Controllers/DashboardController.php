@@ -31,19 +31,19 @@ class DashboardController extends Controller
 
         switch ($payment) {
             case 'credits':
-                $paymentConfirmation['title']   = __('dashboard.popup.credits.title');
+                $paymentConfirmation['title'] = __('dashboard.popup.credits.title');
                 $paymentConfirmation['content'] = __('dashboard.popup.credits.content');
                 break;
             case 'beginner':
-                $paymentConfirmation['title']   = __('dashboard.popup.beginner.title');
+                $paymentConfirmation['title'] = __('dashboard.popup.beginner.title');
                 $paymentConfirmation['content'] = __('dashboard.popup.beginner.content');
                 break;
             case 'classic':
-                $paymentConfirmation['title']   = __('dashboard.popup.classic.title');
+                $paymentConfirmation['title'] = __('dashboard.popup.classic.title');
                 $paymentConfirmation['content'] = __('dashboard.popup.classic.content');
                 break;
             case 'power':
-                $paymentConfirmation['title']   = __('dashboard.popup.power.title');
+                $paymentConfirmation['title'] = __('dashboard.popup.power.title');
                 $paymentConfirmation['content'] = __('dashboard.popup.power.content');
                 break;
         }

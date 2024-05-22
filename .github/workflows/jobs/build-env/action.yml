@@ -132,6 +132,12 @@ inputs:
     required: true
   LINKEDIN_REDIRECT_URI:
     required: true
+  TWITTER_CLIENT_ID:
+    required: true
+  TWITTER_CLIENT_SECRET:
+    required: true
+  TWITTER_REDIRECT_URI:
+    required: true
 
 runs:
   using: "composite"
@@ -205,3 +211,6 @@ runs:
         sed -i "s|LINKEDIN_CLIENT_ID=.*|LINKEDIN_CLIENT_ID=${{ inputs.LINKEDIN_CLIENT_ID }}|" .env
         sed -i "s|LINKEDIN_CLIENT_SECRET=.*|LINKEDIN_CLIENT_SECRET=${{ inputs.LINKEDIN_CLIENT_SECRET }}|" .env
         sed -i "s|LINKEDIN_REDIRECT_URI=.*|LINKEDIN_REDIRECT_URI=${{ inputs.LINKEDIN_REDIRECT_URI }}|" .env
+        sed -i "s|TWITTER_CLIENT_ID=.*|TWITTER_CLIENT_ID=${{ inputs.TWITTER_CLIENT_ID }}|" .env
+        sed -i "s|TWITTER_CLIENT_SECRET=.*|TWITTER_CLIENT_SECRET=${{ inputs.TWITTER_CLIENT_SECRET }}|" .env
+        sed -i "s|TWITTER_REDIRECT_URI=.*|TWITTER_REDIRECT_URI=${{ inputs.TWITTER_REDIRECT_URI }}|" .env

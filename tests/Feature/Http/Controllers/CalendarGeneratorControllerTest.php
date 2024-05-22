@@ -17,7 +17,7 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
 it('validates icsEvent requests', function () {
-    $email         = fake()->word();
+    $email = fake()->word();
     $calendarEvent = '';
 
     $response = post(route('guest-generate-calendar'), compact('email', 'calendarEvent'));
@@ -41,9 +41,9 @@ test('guest can generate icsEvent', function () {
     $user = User::find(1);
     $this->assertNull($user);
 
-    $email         = fake()->unique()->safeEmail();
+    $email = fake()->unique()->safeEmail();
     $calendarEvent = fake()->text(150);
-    $timeZone      = fake()->timezone();
+    $timeZone = fake()->timezone();
 
     post(route('guest-generate-calendar'),
         compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)
@@ -99,9 +99,9 @@ test("guest can't generate icsEvent twice", function () {
     $user = User::find(1);
     $this->assertNull($user);
 
-    $email         = fake()->unique()->safeEmail();
+    $email = fake()->unique()->safeEmail();
     $calendarEvent = fake()->text(150);
-    $timeZone      = fake()->timezone();
+    $timeZone = fake()->timezone();
 
     post(route('guest-generate-calendar'),
         compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)

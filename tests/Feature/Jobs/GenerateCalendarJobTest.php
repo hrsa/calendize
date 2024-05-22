@@ -9,7 +9,7 @@ use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
 test('ICS event is updated with successful OpenAI response', function () {
-    $ics          = IcsEvent::factory()->icsProcessed()->create();
+    $ics = IcsEvent::factory()->icsProcessed()->create();
     $validIcsData = str_replace("\n", '\\n', $ics->ics);
     $ics->update(['ics' => null]);
     $ics->refresh();
@@ -69,7 +69,7 @@ test('ICS event is updated with error from OpenAI response', function () {
 });
 
 test('ICS event is updated with data from Mistral in case OpenAI fails', function () {
-    $ics          = IcsEvent::factory()->icsProcessed()->create();
+    $ics = IcsEvent::factory()->icsProcessed()->create();
     $validIcsData = str_replace("\n", '\\n', $ics->ics);
     $ics->update(['ics' => null]);
     $ics->refresh();

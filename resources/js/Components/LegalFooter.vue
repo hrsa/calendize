@@ -6,7 +6,7 @@ withDefaults(
         class?: string;
     }>(),
     {
-        class: "mx-auto -mb-6 mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50",
+        class: "mx-auto lg:-mb-6 mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50",
     },
 );
 </script>

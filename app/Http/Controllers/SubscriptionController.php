@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
 
     public function swap(): JsonResponse
     {
-        $subscription    = request()->user()->subscriptions()->active()->first();
+        $subscription = request()->user()->subscriptions()->active()->first();
         $newSubscription = request('newSubscription');
 
         if (request('swapDate') === 'now') {

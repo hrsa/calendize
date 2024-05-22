@@ -8,7 +8,7 @@ import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import { watchDebounced } from "@vueuse/core";
 import { ref } from "vue";
-import LegalFooter from "@/Components/LegalFooter.vue"
+import LegalFooter from "@/Components/LegalFooter.vue";
 
 defineProps<{
     canResetPassword?: boolean;
@@ -46,18 +46,18 @@ const register = () => {
 watchDebounced(
     emailRef,
     (newValue) => {
-            window.axios
-                .post(route("user.check-email"), { email: newValue })
-                .then(() => {
-                    emailExists.value = false
-                })
-                .catch((error) => {
-                    if (error.response.status === 403) {
-                        emailExists.value = true
-                    } else {
-                        console.log(error.response.data.error)
-                    }
-                })
+        window.axios
+            .post(route("user.check-email"), { email: newValue })
+            .then(() => {
+                emailExists.value = false;
+            })
+            .catch((error) => {
+                if (error.response.status === 403) {
+                    emailExists.value = true;
+                } else {
+                    console.log(error.response.data.error);
+                }
+            });
     },
     { debounce: 100, maxWait: 500 },
 );
@@ -67,11 +67,18 @@ watchDebounced(
     <AuthDialogLayout>
         <Head>
             <title>Log in / Register</title>
-        <meta name="description"
-              content="An email, name and password - that's all you need to keep calendar neat and tidy! Create a new account and get 5 credits for free." />
-    </Head>
-        <h1 class="mx-auto px-8 text-center text-xl">{{!emailRef ? 'Login / Register' : emailExists ? 'Login' : 'Register'}}</h1>
+            <meta
+                name="description"
+                content="An email, name and password - that's all you need to keep calendar neat and tidy! Create a new account and get 5 credits for free."
+            />
+        </Head>
+        <h1 class="mx-auto px-8 text-center text-xl">
+            {{ !emailRef ? "Login / Register" : emailExists ? "Login" : "Register" }}
+        </h1>
         <div class="my-6 flex place-items-center justify-center gap-6">
+            <div class="cursor-pointer" @click="router.get(route('socialite.twitter.redirect'))">
+                <img class="size-10" src="/social/twitter.svg" alt="twitter" />
+            </div>
             <div class="cursor-pointer" @click="router.get(route('socialite.google.redirect'))">
                 <img class="size-10" src="/social/google.svg" alt="google" />
             </div>
@@ -140,7 +147,7 @@ watchDebounced(
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton  @click="login" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <PrimaryButton @click="login" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>
             </div>

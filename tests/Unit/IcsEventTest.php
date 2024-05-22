@@ -26,9 +26,9 @@ test('IcsEvent with an error has no ics and throws NoSummaryException', function
 test('valid IcsEvent with multiple events has both events in the summary', function () {
     $ics = IcsEvent::factory()->icsProcessed()->create();
 
-    $firstTitle  = fake()->words(3, true);
+    $firstTitle = fake()->words(3, true);
     $secondTitle = fake()->words(1, true);
-    $thirdTitle  = fake()->words(7, true);
+    $thirdTitle = fake()->words(7, true);
 
     $ics->ics = "BEGIN:VCALENDAR\n" .
                 "VERSION:2.0\n" .
