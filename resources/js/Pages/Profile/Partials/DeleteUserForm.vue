@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { nextTick, ref } from 'vue';
+import DangerButton from "@/Components/DangerButton.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import Modal from "@/Components/Modal.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { useForm } from "@inertiajs/vue3";
+import { nextTick, ref } from "vue";
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref<HTMLInputElement | null>(null);
 
 const form = useForm({
-    password: '',
+    password: "",
 });
 
 const confirmUserDeletion = () => {
@@ -22,7 +22,7 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-    form.delete(route('profile.destroy'), {
+    form.delete(route("profile.destroy"), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onError: () => passwordInput.value?.focus(),
@@ -42,32 +42,27 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header class="text-center">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $t("delete-account.title") }}</h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
-                your account, please download any data or information that you wish to retain.
+                {{ $t("delete-account.description") }}
             </p>
         </header>
 
         <div class="flex justify-center">
-            <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+            <DangerButton @click="confirmUserDeletion">{{ $t("delete-account.button") }}</DangerButton>
         </div>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
-                <img alt="Calendize logo" class="m-auto mb-6 size-24" src='/calendar-sad.png' />
-                <h2 class="text-lg font-medium text-center text-gray-900 dark:text-gray-100">
-                    Are you sure you want to delete your account?
+                <img alt="Calendize logo" class="m-auto mb-6 size-24" src="/calendar-sad.png" />
+                <h2 class="text-center text-lg font-medium text-gray-900 dark:text-gray-100">
+                    {{ $t("delete-account.modal.title") }}
                 </h2>
 
-                <p class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400">
-                    Once your account is deleted, all of its resources and data will be <span class="text-red-500">permanently deleted!</span>
-                </p>
+                <p v-html="$t('delete-account.modal.description')" class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400" />
 
-                <p class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400">
-                    Please enter your password to confirm you would like to <span class="text-red-500">permanently delete</span> your account.
-                </p>
+                <p v-html="$t('delete-account.modal.enter-password')" class="mt-1 text-center text-sm text-gray-600 dark:text-gray-400" />
 
                 <div class="mt-6">
                     <InputLabel for="password" value="Password" class="sr-only" />
@@ -77,24 +72,19 @@ const closeModal = () => {
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-3/4 mx-auto"
-                        placeholder="Password"
+                        class="mx-auto mt-1 block w-3/4"
+                        :placeholder="$t('delete-account.password')"
                         @keyup.enter="deleteUser"
                     />
 
-                    <InputError :message="form.errors.password" class="mt-2 mx-auto flex justify-center" />
+                    <InputError :message="form.errors.password" class="mx-auto mt-2 flex justify-center" />
                 </div>
 
                 <div class="mt-6 flex justify-center">
-                    <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+                    <SecondaryButton @click="closeModal"> {{ $t('delete-account.cancel') }} </SecondaryButton>
 
-                    <DangerButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Delete Account
+                    <DangerButton class="ms-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing" @click="deleteUser">
+                        {{ $t('delete-account.button') }}
                     </DangerButton>
                 </div>
             </div>

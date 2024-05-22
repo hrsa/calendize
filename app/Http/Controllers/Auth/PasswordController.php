@@ -16,7 +16,7 @@ class PasswordController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password' => ['required'],
         ]);
 
         $request->user()->update([
