@@ -7,6 +7,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { defaultConfig, plugin as formkitPlugin } from "@formkit/vue";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import { i18nVue } from "laravel-vue-i18n"
+import { LanguageJsonFileInterface } from "laravel-vue-i18n/interfaces/language-json-file"
 
 const appName = import.meta.env.VITE_APP_NAME || "Calendize";
 
@@ -19,9 +20,9 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(formkitPlugin, defaultConfig)
             .use(i18nVue, {
-                resolve: async (lang: string) => {
+                resolve: async (lang: string): Promise<LanguageJsonFileInterface> => {
                     const langs = import.meta.glob("../../lang/*.json");
-                    return await langs[`../../lang/${lang}.json`]();
+                    return await langs[`../../lang/php_${lang}.json`]() as LanguageJsonFileInterface;
                 },
             })
             .mount(el);

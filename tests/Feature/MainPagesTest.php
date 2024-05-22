@@ -31,10 +31,9 @@ test('Guest-only pages are displayed to guests and redirect users',
         ],
     ]);
 
-test('terms of service and privacy policy pages are displayed', function () {
-    get(route('terms-of-service'))->assertOk();
-    get(route('privacy-policy'))->assertOk();
-});
+test('terms of service and privacy policy pages are displayed', function (string $route) {
+    get(route($route))->assertOk();
+})->with(['route' => 'terms-of-service'], ['route' => 'privacy-policy']);
 
 test('Horizon and Pulse pages are only accessible to admin', function () {
     get('/horizon')->assertRedirectToRoute('home');
