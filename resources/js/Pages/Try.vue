@@ -8,10 +8,6 @@ import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue"
 import LegalFooter from "@/Components/LegalFooter.vue"
 
-defineProps<{
-    canLogin?: boolean;
-    canRegister?: boolean;
-}>();
 const email = ref<string>("");
 const showNotice = ref<boolean>(true);
 const calendarEvent = ref<string>("");
