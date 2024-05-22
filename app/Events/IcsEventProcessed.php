@@ -31,11 +31,11 @@ class IcsEventProcessed implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'id' => $this->icsEvent->id,
+            'id'      => $this->icsEvent->id,
             'summary' => $this->icsEvent->ics ? $this->icsEvent->getSummary() : null,
-            'ics' => $this->icsEvent->ics,
-            'secret' => $this->icsEvent->secret,
-            'error' => $this->icsEvent->error,
+            'ics'     => $this->icsEvent->ics,
+            'secret'  => $this->icsEvent->secret,
+            'error'   => $this->icsEvent->error,
         ];
     }
 

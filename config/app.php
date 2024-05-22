@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name'  => env('APP_NAME', 'Laravel'),
     'admin' => [
         'firstname' => env('ADMIN_FIRSTNAME'),
-        'lastname' => env('ADMIN_LASTNAME'),
-        'fullname' => env('ADMIN_FIRSTNAME') . ' ' . env('ADMIN_LASTNAME'),
-        'email' => env('ADMIN_EMAIL'),
+        'lastname'  => env('ADMIN_LASTNAME'),
+        'fullname'  => env('ADMIN_FIRSTNAME') . ' ' . env('ADMIN_LASTNAME'),
+        'email'     => env('ADMIN_EMAIL'),
     ],
 
     /*
@@ -126,7 +126,7 @@ return [
 
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+        'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
 ];

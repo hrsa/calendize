@@ -42,7 +42,7 @@ class SocialiteLoginController extends Controller
     public function handleLinkedinCallback(UserService $userService)
     {
         $linkedinUser = Socialite::driver('linkedin-openid')->stateless()->user();
-        $user = $userService->createOrGetSocialiteUser(
+        $user         = $userService->createOrGetSocialiteUser(
             email: $linkedinUser->getEmail(),
             name: $linkedinUser->getName(),
             provider: 'linkedin',

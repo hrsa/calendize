@@ -1,41 +1,45 @@
 <script setup lang="ts">
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import {useForm} from '@inertiajs/vue3';
-import {ref} from 'vue';
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
 
-withDefaults(defineProps<{
-    titleLabel: string,
-    descriptionLabel: string,
-    buttonLabel: string,
-    newPasswordLabel: string,
-    confirmPasswordLabel: string
-}>(), {
-    titleLabel: "Update Password",
-    descriptionLabel: "Ensure your account is using a long, random password to stay secure.",
-    newPasswordLabel: "New password",
-    confirmPasswordLabel: "Confirm password",
-    buttonLabel: "Update Password"
-});
+withDefaults(
+    defineProps<{
+        titleLabel: string;
+        descriptionLabel: string;
+        buttonLabel: string;
+        newPasswordLabel: string;
+        successMessage: string | undefined;
+    }>(),
+    {
+        titleLabel: "Update Password",
+        descriptionLabel: "Ensure your account is using a long, random password to stay secure.",
+        newPasswordLabel: "New password",
+        buttonLabel: "Update Password",
+        successMessage: "Password was updated!",
+    },
+);
 
 const passwordInput = ref<HTMLInputElement | null>(null);
+const emit = defineEmits(["password-set"]);
 
 const form = useForm({
-    password: '',
-    password_confirmation: '',
+    password: "",
 });
 
 const updatePassword = () => {
-    form.put(route('password.update'), {
+    form.put(route("password.update"), {
         preserveScroll: true,
         onSuccess: () => {
+            emit("password-set");
             form.reset();
         },
         onError: () => {
             if (form.errors.password) {
-                form.reset('password', 'password_confirmation');
+                form.reset("password");
                 passwordInput.value?.focus();
             }
         },
@@ -54,9 +58,8 @@ const updatePassword = () => {
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-
             <div>
-                <InputLabel for="password" :value="newPasswordLabel"/>
+                <InputLabel for="password" :value="newPasswordLabel" />
 
                 <TextInput
                     id="password"
@@ -67,32 +70,19 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2"/>
+                <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div>
-                <InputLabel for="password_confirmation" :value="confirmPasswordLabel"/>
-
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-
-                <InputError :message="form.errors.password_confirmation" class="mt-2"/>
-            </div>
-
-            <div class="flex items-center flex-col gap-4 flex justify-center">
+            <div class="flex flex-col items-center justify-center gap-4">
                 <Transition
                     enter-active-class="transition ease-in-out"
                     enter-from-class="opacity-0"
                     leave-active-class="transition ease-in-out"
                     leave-to-class="opacity-0"
                 >
-                    <p v-if="form.recentlySuccessful" class="text-sm text-green-700 dark:text-green-600">Password was
-                        updated!</p>
+                    <p v-if="form.recentlySuccessful" class="text-sm text-green-700 dark:text-green-600">
+                        {{ successMessage }}
+                    </p>
                 </Transition>
 
                 <PrimaryButton :disabled="form.processing">{{ buttonLabel }}</PrimaryButton>

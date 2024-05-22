@@ -26,9 +26,9 @@ class MailProcessingService
             && IcsEvent::whereEmailId($email->id())->doesntExist()
         ) {
             $icsEvent = IcsEvent::create([
-                'user_id' => $user->id,
-                'prompt' => $email->text(),
-                'secret' => Str::random(32),
+                'user_id'  => $user->id,
+                'prompt'   => $email->text(),
+                'secret'   => Str::random(32),
                 'email_id' => $email->id(),
             ]);
 

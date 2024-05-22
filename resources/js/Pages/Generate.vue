@@ -87,13 +87,13 @@ const downloadIcs = () => {
 
 <template>
     <Head>
-        <title>Calendize an event</title>
-        <meta name="description" content="Generate and manage calendar events effortlessly with our intuitive solution. Paste your event details or email us to calendize. Download ICS files easily and get them by email." />
+        <title>{{ $t("generate.title") }}</title>
+        <meta name="description" :content="$t('generate.meta')" />
     </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Calendize</h1>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ $t("generate.title") }}</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">
@@ -104,8 +104,8 @@ const downloadIcs = () => {
                             class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                         >
                             <h3 class="mx-auto px-2 text-center text-lg sm:text-xl">
-                                I'm ready to calendize everything that you paste here!<br />
-                                Don't forget - you can forward me an email you want to calendize:
+                                {{ $t("generate.tagline") }}<br />
+                                {{ $t("generate.forward-email") }}
                                 <a class="font-semibold underline" href="mailto:hey@calendize.it">hey@calendize.it</a>
                             </h3>
                             <div class="mx-auto flex flex-col gap-6">
@@ -130,13 +130,13 @@ const downloadIcs = () => {
                                     class="mx-auto"
                                     @click="downloadIcs"
                                 >
-                                    Download ICS
+                                    {{ $t("generate.download-button") }}
                                 </SecondaryButton>
                                 <Link
                                     v-if="noCreditsLeft"
                                     :href="route('dashboard')"
                                     class="mx-auto max-w-sm cursor-pointer rounded-xl border-2 border-orange-600/50 bg-orange-600/50 px-8 py-2 text-center text-white"
-                                    >You have no credits left! Let's get you some more...
+                                    >{{ $t("generate.no-credits") }}
                                 </Link>
                             </div>
                             <EventGenerationTextArea v-model="calendarEvent" :loading v-if="!noCreditsLeft" />
@@ -147,7 +147,11 @@ const downloadIcs = () => {
                                     :disabled="!calendarEvent"
                                     @click="sendCalendarEvent"
                                 >
-                                    Calendize ({{ $page.props.auth.user.credits }} credits remaining)
+                                    Calendize ({{
+                                        $tChoice("global.credits.remaining", $page.props.auth.user.credits, {
+                                            count: $page.props.auth.user.credits.toString(),
+                                        })
+                                    }})
                                 </PrimaryButton>
                             </div>
                         </div>

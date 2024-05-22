@@ -43,10 +43,18 @@ const hidePasswordReminderForToday = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('how-to-use')" :active="route().current('how-to-use')"> Get started </NavLink>
-                                <NavLink :href="route('generate')" :active="route().current('generate')"> Calendize </NavLink>
-                                <NavLink :href="route('my-events')" :active="route().current('my-events')"> My events </NavLink>
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </NavLink>
+                                <NavLink :href="route('how-to-use')" :active="route().current('how-to-use')">
+                                    {{ $t("global.navigation.how-to-use") }}
+                                </NavLink>
+                                <NavLink :href="route('generate')" :active="route().current('generate')">
+                                    {{ $t("global.navigation.generate") }}
+                                </NavLink>
+                                <NavLink :href="route('my-events')" :active="route().current('my-events')">
+                                    {{ $t("global.navigation.my-events") }}
+                                </NavLink>
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                    {{ $t("global.navigation.dashboard") }}
+                                </NavLink>
                             </div>
                         </div>
 
@@ -55,7 +63,11 @@ const hidePasswordReminderForToday = () => {
                                 <span
                                     class="text-md inline-flex cursor-default items-center rounded-md border border-transparent bg-white px-3 py-2 font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                 >
-                                    {{ $page.props.auth.user.credits }} credits remaining
+                                    {{
+                                        $tChoice("global.credits.remaining", $page.props.auth.user.credits, {
+                                            count: $page.props.auth.user.credits.toString(),
+                                        })
+                                    }}
                                 </span>
                             </div>
                             <!-- Settings Dropdown -->
@@ -86,8 +98,10 @@ const hidePasswordReminderForToday = () => {
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile</DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button"> Log Out </DropdownLink>
+                                        <DropdownLink :href="route('profile.edit')"> {{ $t("global.navigation.profile") }} </DropdownLink>
+                                        <DropdownLink :href="route('logout')" method="post" as="button">
+                                            {{ $t("global.navigation.logout") }}
+                                        </DropdownLink>
                                     </template>
                                 </Dropdown>
                             </div>
@@ -130,11 +144,17 @@ const hidePasswordReminderForToday = () => {
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink :href="route('how-to-use')" :active="route().current('how-to-use')">
-                            Get started
+                            {{ $t("global.navigation.how-to-use") }}
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('generate')" :active="route().current('generate')"> Calendize </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('my-events')" :active="route().current('my-events')"> My events </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('generate')" :active="route().current('generate')">
+                            {{ $t("global.navigation.generate") }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('my-events')" :active="route().current('my-events')">
+                            {{ $t("global.navigation.my-events") }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            {{ $t("global.navigation.dashboard") }}
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -147,8 +167,10 @@ const hidePasswordReminderForToday = () => {
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button"> Log Out </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')"> {{ $t("global.navigation.profile") }} </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
+                                {{ $t("global.navigation.logout") }}
+                            </ResponsiveNavLink>
                         </div>
                     </div>
                 </div>
@@ -166,11 +188,12 @@ const hidePasswordReminderForToday = () => {
                 <Modal v-if="showingSetPasswordForm" :show="showingSetPasswordForm" @close="hidePasswordReminderForToday">
                     <UpdatePasswordForm
                         class="p-8"
-                        title-label="Don't forget to set a password!"
-                        description-label="We both want you to be able to login, right?"
-                        new-password-label="Password"
-                        confirm-password-label="Confirm password"
-                        button-label="Set password"
+                        :title-label="$t('update-password.set-password.title')"
+                        :description-label="$t('update-password.set-password.description')"
+                        :new-password-label="$t('update-password.set-password.password-label')"
+                        :button-label="$t('update-password.set-password.button')"
+                        :success-message="$t('update-password.set-password.success')"
+                        @password-set="showingSetPasswordForm = false"
                     />
                 </Modal>
                 <slot />

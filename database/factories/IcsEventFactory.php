@@ -16,14 +16,14 @@ class IcsEventFactory extends Factory
     {
         return [
             'token_usage' => null,
-            'prompt' => $this->faker->words(30, true),
-            'error' => null,
-            'ics' => null,
-            'timezone' => $this->faker->timezone,
-            'secret' => Str::random(32),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-            'user_id' => User::factory(),
+            'prompt'      => $this->faker->words(30, true),
+            'error'       => null,
+            'ics'         => null,
+            'timezone'    => $this->faker->timezone,
+            'secret'      => Str::random(32),
+            'created_at'  => Carbon::now(),
+            'updated_at'  => Carbon::now(),
+            'user_id'     => User::factory(),
         ];
     }
 

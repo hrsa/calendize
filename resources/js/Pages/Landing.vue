@@ -6,17 +6,17 @@ import "swiper/css";
 
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import LegalFooter from "@/Components/LegalFooter.vue"
+import LegalFooter from "@/Components/LegalFooter.vue";
 
 const calendized = ref<boolean>(false);
 </script>
 
 <template>
     <Head>
-        <title>Calendize - your calendar's new best friend</title>
+        <title>{{ $t('home.title') }}</title>
         <meta
             name="description"
-            content="Flights, trains, concerts, conferences, and all other important events that we can't just add to the calendar in one click... So we ignore them. We forget them. We plan multiple events at the same date and time. This sucks, right? That's why Calendize exists - to save your precious times while keeping your calendar neat and updated!"
+            :content="$t('home.meta')"
         />
     </Head>
     <div class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
@@ -29,39 +29,33 @@ const calendized = ref<boolean>(false);
                 <h1
                     v-show="!calendized"
                     class="rounded-lg text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
-                >
-                    All these important emails <br />
-                    you can't just add to your calendar<br />
-                    in one click...
-                </h1>
-                <h2
+                    v-html="$t('home.problem.title')"
+                />
+                <h1
                     v-show="calendized"
                     class="rounded-lg text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
-                >
-                    All done! Easy, right?<br />
-                    Together, we will keep your calendar<br />
-                    neat and tidy!
-                </h2>
+                    v-html="$t('home.solution.title')"
+                />
                 <img src="/calendar.png" alt="Calendize" class="mx-auto size-36 md:mt-10" />
                 <h2
                     v-show="!calendized"
                     class="text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
                 >
-                    This sucks, right?
+                    {{ $t('home.problem.tagline') }}
                 </h2>
                 <Link
                     :href="route('try')"
                     v-show="calendized"
                     class="m-5 w-fit self-center rounded-lg bg-green-700 px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 hover:bg-green-900 md:m-12"
                 >
-                    Cool! I'm in!
+                    {{ $t('home.solution.button.success') }}
                 </Link>
                 <button
                     @click="calendized = !calendized"
                     class="mx-10 mb-5 w-fit self-center rounded-lg px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 md:mb-12"
                     :class="calendized ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-800 hover:bg-blue-900'"
                 >
-                    {{ calendized ? "Wait, let's go back..." : "Calendize them!" }}
+                    {{ calendized ? $t('home.solution.button.back') : $t('home.problem.button') }}
                 </button>
             </div>
             <div class="h-full flex-1 lg:h-screen lg:min-w-[40rem]">
@@ -77,7 +71,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                Tours
+                                {{ $t('home.tours') }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -96,7 +90,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                Flights
+                                {{ $t('home.flights') }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -115,7 +109,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                Conferences
+                                {{ $t('home.conferences') }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -134,7 +128,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                Concerts
+                                {{ $t('home.concerts') }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"

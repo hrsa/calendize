@@ -30,14 +30,14 @@ const setSlide = (num: number) => {
 </script>
 
 <template>
-    <Head title="How to use Calendize?">
-        <title>Quickstart</title>
-        <meta name="description" content="Learn how to use Calendize with our step-by-step guide. Find events, forward them to Calendize, check your email, and add them to your calendar easily." />
+    <Head>
+        <title>{{ $t('how-to-use.title') }}</title>
+        <meta name="description" :content="$t('how-to-use.meta')" />
     </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">How do i use Calendize ?</h1>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ $t('how-to-use.title') }}</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">
@@ -101,7 +101,7 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        Find an event to calendize
+                                        {{ $t('how-to-use.find-an-event') }}
                                     </h2>
                                     <img class="mx-auto block rounded-xl lg:hidden" :src="'/home/usage/tour-mobile.webp'" alt="tour" />
                                     <img class="mx-auto hidden rounded-xl lg:block" :src="'/home/usage/tour.webp'" alt="tour" />
@@ -112,25 +112,25 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        Send it to me
+                                        {{ $t('how-to-use.send-to-me') }}
                                     </h2>
                                     <div class="flex flex-col">
                                         <div
                                             class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                         >
-                                            Forward your email to hey@calendize.it
+                                            {{ $t('how-to-use.forward-email', {email: "hey@calendize.it"}) }}
                                         </div>
                                         <div
                                             class="rounded-lg text-center text-lg font-extrabold uppercase tracking-widest text-gray-900 lg:text-2xl dark:text-gray-400"
                                         >
-                                            or
+                                            {{ $t('how-to-use.or') }}
                                         </div>
                                         <div
                                             class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                         >
-                                            <span class="align-middle">Copy-paste its text here: </span>
+                                            <span class="align-middle">{{ $t('how-to-use.copy-paste') }}</span>
                                             <PrimaryButton @click="router.get(route('generate'))" class="m-auto w-fit">
-                                                Generate
+                                                {{ $t('how-to-use.button') }}
                                             </PrimaryButton>
                                         </div>
                                     </div>
@@ -147,12 +147,12 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        Check your email
+                                        {{ $t('how-to-use.check-email') }}
                                     </h2>
                                     <div
                                         class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                     >
-                                        Emails take some time - expect a reply in about 10 to 30 seconds.
+                                        {{ $t('how-to-use.wait-for-it') }}
                                     </div>
                                     <img
                                         class="mx-auto block rounded-xl lg:hidden"
@@ -171,7 +171,7 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        Add it to your calendar!
+                                        {{ $t('how-to-use.add-to-calendar') }}
                                     </h2>
                                     <img
                                         class="mx-auto block rounded-xl lg:hidden"

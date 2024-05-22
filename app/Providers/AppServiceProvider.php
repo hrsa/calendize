@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
 
         Http::macro('mistral', function () {
             return Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
+                'Content-Type'  => 'application/json',
+                'Accept'        => 'application/json',
                 'Authorization' => 'Bearer ' . config('mistral.api_key'),
             ])->baseUrl('https://api.mistral.ai/v1/');
         });

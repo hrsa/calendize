@@ -1,18 +1,20 @@
-import { createSSRApp, h, DefineComponent } from 'vue';
-import { renderToString } from '@vue/server-renderer';
-import { createInertiaApp } from '@inertiajs/vue3';
-import createServer from '@inertiajs/vue3/server';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import {defaultConfig, plugin as formkitPlugin} from "@formkit/vue";
+import { createSSRApp, DefineComponent, h } from "vue";
+import { renderToString } from "@vue/server-renderer";
+import { createInertiaApp } from "@inertiajs/vue3";
+import createServer from "@inertiajs/vue3/server";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { ZiggyVue } from "../../vendor/tightenco/ziggy";
+import { defaultConfig, plugin as formkitPlugin } from "@formkit/vue";
+import { i18nVue } from "laravel-vue-i18n"
+import { LanguageJsonFileInterface } from "laravel-vue-i18n/interfaces/language-json-file"
 
-const appName = import.meta.env.VITE_APP_NAME || 'Calendize SSR';
+const appName = import.meta.env.VITE_APP_NAME || "Calendize SSR";
 createServer((page) =>
     createInertiaApp({
         page,
         render: renderToString,
         title: (title) => `${title} - ${appName}`,
-        resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob<DefineComponent>('./Pages/**/*.vue')),
+        resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob<DefineComponent>("./Pages/**/*.vue")),
         setup({ App, props, plugin }) {
             return createSSRApp({ render: () => h(App, props) })
                 .use(plugin)
@@ -20,7 +22,14 @@ createServer((page) =>
                 .use(ZiggyVue, {
                     ...page.props.ziggy,
                     location: new URL(page.props.ziggy.location),
+                })
+                .use(i18nVue, {
+                    lang: "en",
+                    resolve: (lang: string) => {
+                        const langs: Record<string, LanguageJsonFileInterface> = import.meta.glob("../../lang/*.json", { eager: true });
+                        return langs[`../../lang/${lang}.json`].default;
+                    },
                 });
         },
-    })
+    }),
 );

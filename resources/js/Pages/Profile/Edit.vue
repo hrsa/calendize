@@ -13,13 +13,13 @@ defineProps<{
 
 <template>
     <Head>
-        <title>Profile</title>
-        <meta name="description" content="Manage your profile settings, update password and email. You can even delete your account, although i wouldn't recommend that!." />
+        <title>{{$t('profile.title')}}</title>
+        <meta name="description" :content="$t('profile.meta')" />
     </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 text-center dark:text-gray-200 leading-tight">Profile</h2>
+            <h1 class="font-semibold text-xl text-gray-800 text-center dark:text-gray-200 leading-tight">{{$t('profile.title')}}</h1>
         </template>
 
         <div class="py-12">
@@ -33,7 +33,13 @@ defineProps<{
                 </div>
 
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                    <UpdatePasswordForm class="max-w-xl" />
+                    <UpdatePasswordForm class="max-w-xl"
+                    :title-label="$t('update-password.title')"
+                        :description-label="$t('update-password.description')"
+                        :new-password-label="$t('update-password.password-label')"
+                        :button-label="$t('update-password.button')"
+                        :success-message="$t('update-password.success')"
+                    />
                 </div>
 
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">

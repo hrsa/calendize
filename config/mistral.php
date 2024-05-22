@@ -12,7 +12,7 @@ return [
     | and organization on your OpenAI dashboard, at https://openai.com.
     */
 
-    'api_key' => env('MISTRAL_API_KEY'),
+    'api_key'       => env('MISTRAL_API_KEY'),
     'system_prompt' => base64_decode(env('OPENAI_SYSTEM_PROMPT')),
 
     /*

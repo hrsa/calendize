@@ -33,8 +33,8 @@ class VerifyEmailController extends Controller
                 ? "Your email is verified, thank you! I've also gave you some free credits to start. Here is your event:  " . $icsEvent->getSummary()
                 : "Your email is verified, thank you! I've also gave you some free credits to start.",
             'serverErrorMessage' => $icsEvent ? $icsEvent->error : null,
-            'eventId' => $icsEvent ? $icsEvent->id : null,
-            'eventSecret' => $icsEvent ? $icsEvent->secret : null,
+            'eventId'            => $icsEvent ? $icsEvent->id : null,
+            'eventSecret'        => $icsEvent ? $icsEvent->secret : null,
         ], absolute: false));
     }
 }

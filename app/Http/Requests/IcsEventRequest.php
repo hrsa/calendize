@@ -10,8 +10,8 @@ class IcsEventRequest extends FormRequest
     {
         return [
             'calendarEvent' => ['required', 'string'],
-            'timeZone' => ['nullable'],
-            'email' => ['nullable', 'email'],
+            'timeZone'      => ['nullable'],
+            'email'         => ['nullable', 'email'],
         ];
     }
 

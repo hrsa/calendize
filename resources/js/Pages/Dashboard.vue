@@ -8,6 +8,7 @@ import { useDateFormat } from "@vueuse/shared";
 import DangerButton from "@/Components/DangerButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { trans } from "laravel-vue-i18n";
 
 interface PaymentConfirmation {
     title: string;
@@ -38,56 +39,58 @@ const cancelEmailCorrect = computed(() => {
 const beginnerSubscriptionText = computed(() => {
     switch (activeSubscription) {
         case "none":
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
         case "beginner":
-            return "Modify";
+            return trans("dashboard.subscriptions.modify");
         case "classic":
-            return "Downgrade";
+            return trans("dashboard.subscriptions.downgrade");
         case "power":
-            return "Downgrade";
+            return trans("dashboard.subscriptions.downgrade");
         default:
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
     }
 });
 
 const classicSubscriptionText = computed(() => {
     switch (activeSubscription) {
         case "none":
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
         case "beginner":
-            return "Upgrade";
+            return trans("dashboard.subscriptions.upgrade");
         case "classic":
-            return "Modify";
+            return trans("dashboard.subscriptions.modify");
         case "power":
-            return "Downgrade";
+            return trans("dashboard.subscriptions.downgrade");
         default:
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
     }
 });
 
 const powerSubscriptionText = computed(() => {
     switch (activeSubscription) {
         case "none":
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
         case "beginner":
-            return "Upgrade";
+            return trans("dashboard.subscriptions.upgrade");
         case "classic":
-            return "Upgrade";
+            return trans("dashboard.subscriptions.upgrade");
         case "power":
-            return "Modify";
+            return trans("dashboard.subscriptions.modify");
         default:
-            return "Subscribe";
+            return trans("dashboard.subscriptions.subscribe");
     }
 });
 
 const swapAction = computed(() => {
     switch (activeSubscription) {
         case "beginner":
-            return "Upgrade";
+            return trans("dashboard.subscriptions.upgrade");
         case "power":
-            return "Downgrade";
+            return trans("dashboard.subscriptions.downgrade");
         case "classic":
-            return newSubscription.value === "beginner" ? "Downgrade" : "Upgrade";
+            return newSubscription.value === "beginner"
+                ? trans("dashboard.subscriptions.downgrade")
+                : trans("dashboard.subscriptions.upgrade");
     }
 });
 
@@ -147,13 +150,13 @@ onMounted(() => {
 
 <template>
     <Head>
-        <title>Dashboard</title>
-        <meta name="description" content="Manage your subscriptions and top up credits on the Calendize Dashboard. Choose from Beginner, Classic, and Power plans to fit your needs. Modify, upgrade, or downgrade your subscription effortlessly." />
+        <title>{{ $t("dashboard.title") }}</title>
+        <meta name="description" :content="$t('dashboard.meta')" />
     </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">Dashboard</h1>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ $t("dashboard.title") }}</h1>
         </template>
 
         <Modal v-if="props.paymentConfirmation" :show="modalOpen === 'paymentConfirmation'" @close="modalOpen = ''">
@@ -174,7 +177,9 @@ onMounted(() => {
                 <div
                     class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] sm:rounded-lg dark:bg-gray-800 dark:ring-zinc-800 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
-                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Subscription plans</div>
+                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                        {{ $t("dashboard.subscriptions.title") }}
+                    </div>
                     <div class="m-auto flex w-fit flex-wrap items-center gap-6 self-center p-6">
                         <div
                             class="relative mx-auto max-w-48 cursor-pointer rounded-lg border transition duration-300"
@@ -198,16 +203,22 @@ onMounted(() => {
                                 </h3>
                             </div>
                             <div class="flex flex-col items-center gap-4 p-2">
-                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Beginner</h3>
+                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                                    {{ $t("dashboard.subscriptions.beginner") }}
+                                </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/beginner.png" alt="basic" />
-                                    <p class="mt-2 text-sm text-gray-300">10 credits / month</p>
-                                    <p class="mt-2 text-sm text-gray-300">2 revolving credits</p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.credits-per-month", { credits: "10" }) }}
+                                    </p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.revolving-credits", { credits: "2" }) }}
+                                    </p>
                                 </div>
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    1 € / month
+                                    {{ $t("dashboard.subscriptions.price", { price: "1" }) }}
                                 </div>
                             </div>
                         </div>
@@ -234,17 +245,23 @@ onMounted(() => {
                                 </h3>
                             </div>
                             <div class="flex flex-col items-center gap-4 p-2">
-                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Classic</h3>
+                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                                    {{ $t("dashboard.subscriptions.classic") }}
+                                </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/classic.png" alt="classic" />
-                                    <p class="mt-2 text-sm text-gray-300">25 credits / month</p>
-                                    <p class="mt-2 text-sm text-gray-300">5 revolving credits</p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.credits-per-month", { credits: "25" }) }}
+                                    </p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.revolving-credits", { credits: "5" }) }}
+                                    </p>
                                 </div>
 
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    2 € / month
+                                    {{ $t("dashboard.subscriptions.price", { price: "2" }) }}
                                 </div>
                             </div>
                         </div>
@@ -271,16 +288,22 @@ onMounted(() => {
                                 </h3>
                             </div>
                             <div class="flex flex-col items-center gap-4 p-2">
-                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Power</h3>
+                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                                    {{ $t("dashboard.subscriptions.power") }}
+                                </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/power.png" alt="power" />
-                                    <p class="mt-2 text-sm text-gray-300">100 credits / month</p>
-                                    <p class="mt-2 text-sm text-gray-300">20 revolving credits</p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.credits-per-month", { credits: "100" }) }}
+                                    </p>
+                                    <p class="mt-2 text-sm text-gray-300">
+                                        {{ $t("dashboard.subscriptions.revolving-credits", { credits: "20" }) }}
+                                    </p>
                                 </div>
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
                                 >
-                                    5 € / month
+                                    {{ $t("dashboard.subscriptions.price", { price: "5" }) }}
                                 </div>
                             </div>
                         </div>
@@ -289,19 +312,23 @@ onMounted(() => {
                     <Modal :show="modalOpen === 'subscriptionModification'" @close="modalOpen = ''">
                         <div class="p-6">
                             <h2 class="mb-4 text-center text-xl font-medium uppercase tracking-widest text-gray-900 dark:text-gray-100">
-                                Your subscription: {{ newSubscription }}
+                                {{ $t("dashboard.subscriptions.current-subscription", { subscription: newSubscription }) }}
                             </h2>
                             <img :alt="newSubscription" class="m-auto mb-6 h-36" :src="`/${newSubscription}.png`" />
 
                             <template v-if="subscriptionRenewalDate">
-                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">Renewal date:</p>
+                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">
+                                    {{ $t("dashboard.subscriptions.renewal-date") }}
+                                </p>
                                 <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
                                     {{ subscriptionRenewalDate }}
                                 </p>
                             </template>
 
                             <template v-if="subscriptionEndDate">
-                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">End date:</p>
+                                <p class="text-center text-lg text-gray-600 dark:text-gray-300">
+                                    {{ $t("dashboard.subscriptions.end-date") }}
+                                </p>
                                 <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
                                     {{ subscriptionEndDate }}
                                 </p>
@@ -311,9 +338,11 @@ onMounted(() => {
                                 <a
                                     :href="paymentMethodUrl"
                                     class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
-                                    >Change payment method</a
+                                    >{{ $t("dashboard.subscriptions.change-payment-method") }}</a
                                 >
-                                <DangerButton @click="modalOpen = 'subscriptionCancel'"> Cancel subscription </DangerButton>
+                                <DangerButton @click="modalOpen = 'subscriptionCancel'">
+                                    {{ $t("dashboard.subscriptions.cancel") }}
+                                </DangerButton>
                             </div>
                         </div>
                     </Modal>
@@ -326,16 +355,22 @@ onMounted(() => {
                             <img :alt="newSubscription" class="m-auto mb-6 h-36" :src="`/${newSubscription}.png`" />
 
                             <p class="text-center text-lg text-gray-600 dark:text-gray-300">
-                                {{ subscriptionRenewalDate ? "Renewal date:" : "End date:" }}
+                                {{
+                                    subscriptionRenewalDate
+                                        ? $t("dashboard.subscriptions.renewal-date")
+                                        : $t("dashboard.subscriptions.end-date")
+                                }}
                             </p>
                             <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
                                 {{ subscriptionRenewalDate ?? subscriptionEndDate }}
                             </p>
 
                             <div class="mt-6 flex justify-around">
-                                <SecondaryButton @click="swapSubscription('at renewal')">{{ swapAction }} on renewal date </SecondaryButton>
+                                <SecondaryButton @click="swapSubscription('at renewal')"
+                                    >{{ swapAction }} {{ $t("dashboard.subscriptions.on-renewal") }}
+                                </SecondaryButton>
                                 <SecondaryButton @click="swapSubscription('now')" class="!bg-green-600/50 hover:!bg-green-600/75"
-                                    >{{ swapAction }} now
+                                    >{{ swapAction }} {{ $t("dashboard.subscriptions.now") }}
                                 </SecondaryButton>
                             </div>
                         </div>
@@ -344,20 +379,24 @@ onMounted(() => {
                     <Modal :show="modalOpen === 'subscriptionCancel'" @close="modalOpen = ''">
                         <div class="p-6">
                             <h2 class="mb-4 text-center text-xl font-medium uppercase tracking-widest text-gray-900 dark:text-gray-100">
-                                Oh, you aren't happy with my results?
+                                {{ $t("dashboard.cancel-modal.title") }}
                             </h2>
                             <img alt="sad Cally" class="m-auto mb-6 h-36" src="/calendar-sad.png" />
 
                             <p class="text-center text-lg text-gray-600 dark:text-gray-300">
-                                Are you really-really sure? I'll be so sad to see you go...
+                                {{ $t("dashboard.cancel-modal.tagline") }}
                             </p>
                             <p class="mt-2 text-center text-lg text-gray-600 dark:text-gray-300">
-                                {{ activeSubscription !== "beginner" ? "How about downgrading first?" : "Please come back soon!" }}
+                                {{
+                                    activeSubscription !== "beginner"
+                                        ? $t("dashboard.cancel-modal.downgrade-first")
+                                        : $t("dashboard.cancel-modal.come-back")
+                                }}
                             </p>
 
                             <div class="mt-4 flex flex-col justify-center gap-2">
                                 <p class="text-center text-sm text-gray-600 dark:text-gray-300">
-                                    If you still want to cancel - please fill in your email to confirm.
+                                    {{ $t("dashboard.cancel-modal.fill-in-email") }}
                                 </p>
                                 <TextInput class="m-auto mt-2" v-model="cancelEmail" />
                             </div>
@@ -368,16 +407,18 @@ onMounted(() => {
                                     @click="modalOpen = ''"
                                     class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
                                 >
-                                    Yes, let's downgrade!
+                                    {{ $t("dashboard.cancel-modal.lets-downgrade") }}
                                 </button>
                                 <DangerButton :disabled="!cancelEmailCorrect" @click="cancelSubscription" class="disabled:opacity-25"
-                                    >Cancel subscription
+                                    >{{ $t("dashboard.subscriptions.cancel") }}
                                 </DangerButton>
                             </div>
                         </div>
                     </Modal>
 
-                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Top up credits</div>
+                    <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                        {{ $t("dashboard.top-up.title") }}
+                    </div>
                     <div class="m-auto flex w-fit items-center gap-6 p-6">
                         <a
                             :href="props.buyCreditsLink"
@@ -392,15 +433,17 @@ onMounted(() => {
                                 <h3
                                     class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100"
                                 >
-                                    Buy credits
+                                    {{ $t("dashboard.top-up.buy-credits") }}
                                 </h3>
                             </div>
                             <div class="flex flex-col items-center gap-4 px-4 py-2">
-                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">Top up</h3>
+                                <h3 class="text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
+                                    {{ $t("dashboard.top-up.top-up") }}
+                                </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/credits.png" alt="top-up" />
-                                    <p class="mt-2 text-sm text-gray-300">Get 5 credits</p>
-                                    <p class="mt-2 text-sm text-gray-300">valid for 1 year</p>
+                                    <p class="mt-2 text-sm text-gray-300">{{ $t("dashboard.top-up.get-credits", { credits: "5" }) }}</p>
+                                    <p class="mt-2 text-sm text-gray-300">{{ $t("dashboard.top-up.expiration") }}</p>
                                 </div>
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"

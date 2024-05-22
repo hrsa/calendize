@@ -11,10 +11,10 @@ class UserService
     public function createGuestWithCredits(string $email, ?string $password = null, ?int $credits = 1): User
     {
         return User::create([
-            'email' => $email,
-            'password' => bcrypt($password ?? Str::random(10)),
+            'email'        => $email,
+            'password'     => bcrypt($password ?? Str::random(10)),
             'has_password' => false,
-            'credits' => $credits,
+            'credits'      => $credits,
         ]);
     }
 
@@ -45,14 +45,14 @@ class UserService
 
         if (!$user) {
             $user = User::create([
-                'email' => $email,
-                'name' => $name,
-                'provider' => $provider,
-                'provider_id' => $provider_id,
+                'email'             => $email,
+                'name'              => $name,
+                'provider'          => $provider,
+                'provider_id'       => $provider_id,
                 'email_verified_at' => Carbon::now(),
-                'password' => bcrypt(Str::random(10)),
-                'has_password' => false,
-                'credits' => 5,
+                'password'          => bcrypt(Str::random(10)),
+                'has_password'      => false,
+                'credits'           => 5,
             ]);
         }
 
