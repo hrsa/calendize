@@ -31,6 +31,8 @@ use LemonSqueezy\Laravel\Billable;
  * @property string|null $remember_token
  * @property string|null $provider
  * @property string|null $provider_id
+ * @property string|null $telegram_id
+ * @property bool $send_tg_notifications
  * @property Carbon|null $hide_pw_reminder
  * @property IcsEvent $icsEvents
  */
@@ -57,6 +59,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'provider',
         'provider_id',
         'hide_pw_reminder',
+        'telegram_id',
+        'send_tg_notifications',
     ];
 
     /**
@@ -87,6 +91,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function icsEvents(): HasMany
     {
         return $this->hasMany(IcsEvent::class);
+    }
+
+    public function processedIcsEvents(): HasMany
+    {
+        return $this->icsEvents()->whereNotNull('ics');
     }
 
     public function hasTooManyErrors(): bool

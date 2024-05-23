@@ -120,6 +120,8 @@ inputs:
     required: true
   TELEGRAM_ADMIN_CHAT_ID:
     required: true
+  TELEGRAM_HEADER_TOKEN:
+    required: true
   GOOGLE_CLIENT_ID:
     required: true
   GOOGLE_CLIENT_SECRET:
@@ -205,6 +207,7 @@ runs:
         sed -i "s|LEMON_SQUEEZY_ROLLOVER_POWER=.*|LEMON_SQUEEZY_ROLLOVER_POWER=${{ inputs.LEMON_SQUEEZY_ROLLOVER_POWER }}|" .env
         sed -i "s|TELEGRAM_BOT_TOKEN=.*|TELEGRAM_BOT_TOKEN=${{ inputs.TELEGRAM_BOT_TOKEN }}|" .env
         sed -i "s|TELEGRAM_ADMIN_CHAT_ID=.*|TELEGRAM_ADMIN_CHAT_ID=${{ inputs.TELEGRAM_ADMIN_CHAT_ID }}|" .env
+        sed -i "s|TELEGRAM_HEADER_TOKEN=.*|TELEGRAM_HEADER_TOKEN=${{ inputs.TELEGRAM_HEADER_TOKEN }}|" .env
         sed -i "s|GOOGLE_CLIENT_ID=.*|GOOGLE_CLIENT_ID=${{ inputs.GOOGLE_CLIENT_ID }}|" .env
         sed -i "s|GOOGLE_CLIENT_SECRET=.*|GOOGLE_CLIENT_SECRET=${{ inputs.GOOGLE_CLIENT_SECRET }}|" .env
         sed -i "s|GOOGLE_REDIRECT_URI=.*|GOOGLE_REDIRECT_URI=${{ inputs.GOOGLE_REDIRECT_URI }}|" .env

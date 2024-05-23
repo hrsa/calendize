@@ -5,11 +5,16 @@
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\CalendarGeneratorController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/guest-generate-calendar', [CalendarGeneratorController::class, 'guestGenerate'])->name('guest-generate-calendar');
-Route::post('/generate-calendar', [CalendarGeneratorController::class, 'generate'])->middleware('auth:sanctum')->name('generate-calendar');
+Route::group([
+    'controller' => CalendarGeneratorController::class,
+], function () {
+    Route::post('/guest-generate-calendar', 'guestGenerate')->name('guest-generate-calendar');
+    Route::post('/generate-calendar', 'generate')->middleware('auth:sanctum')->name('generate-calendar');
+});
 
 Route::group([
     'as'         => 'socialite.',
@@ -42,4 +47,12 @@ Route::group([
     Route::get('/get-modification-data', 'getModificationData')->name('get-modification-data');
     Route::post('/cancel', 'cancel')->name('cancel');
     Route::post('/swap', 'swap')->name('swap');
+});
+Route::group([
+    'prefix'     => '/telegram',
+    'as'         => 'telegram.',
+    'controller' => TelegramController::class,
+], function () {
+    Route::post('/hook', 'processWebhook')->name('process-webhook');
+    Route::get('/connect', 'connectTelegram')->middleware('web')->name('connect');
 });

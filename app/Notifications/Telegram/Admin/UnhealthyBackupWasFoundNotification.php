@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Notifications\Telegram\Admin;
+namespace App\Notifications\Telegram\User\Admin;
 
+use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\UnhealthyBackupWasFound;
 use Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification as SpatieUnhealthyBackupWasFoundNotification;
@@ -13,7 +14,7 @@ class UnhealthyBackupWasFoundNotification extends SpatieUnhealthyBackupWasFoundN
         parent::__construct($event);
     }
 
-    public function toTelegram($notifiable): \NotificationChannels\Telegram\TelegramBase|TelegramMessage
+    public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
             ->to(config('backup.notifications.telegram.chat_id'))

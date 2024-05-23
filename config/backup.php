@@ -193,12 +193,12 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \App\Notifications\Telegram\Admin\BackupHasFailedNotification::class         => ['telegram'],
-            \App\Notifications\Telegram\Admin\UnhealthyBackupWasFoundNotification::class => ['telegram'],
-            \App\Notifications\Telegram\Admin\CleanupHasFailedNotification::class        => ['telegram'],
-            \App\Notifications\Telegram\Admin\BackupWasSuccessfulNotification::class     => ['telegram'],
-            \App\Notifications\Telegram\Admin\HealthyBackupWasFoundNotification::class   => ['telegram'],
-            \App\Notifications\Telegram\Admin\CleanupWasSuccessfulNotification::class    => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\BackupHasFailedNotification::class         => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\UnhealthyBackupWasFoundNotification::class => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\CleanupHasFailedNotification::class        => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\BackupWasSuccessfulNotification::class     => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\HealthyBackupWasFoundNotification::class   => ['telegram'],
+            \App\Notifications\Telegram\User\Admin\CleanupWasSuccessfulNotification::class    => ['telegram'],
         ],
 
         /*

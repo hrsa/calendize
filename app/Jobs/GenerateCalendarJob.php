@@ -6,6 +6,8 @@ use App\Events\IcsEventProcessed;
 use App\Mail\IcsError;
 use App\Mail\IcsValid;
 use App\Models\IcsEvent;
+use App\Notifications\Telegram\User\IcsEventError;
+use App\Notifications\Telegram\User\IcsEventValid;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,6 +34,7 @@ class GenerateCalendarJob implements ShouldQueue
 
     public function handle(): void
     {
+        $user = $this->icsEvent->user;
         $result = null;
         $systemPrompt = config('openai.system_prompt');
         $now = Carbon::now();
@@ -72,14 +75,25 @@ class GenerateCalendarJob implements ShouldQueue
         $decodedReply = json_decode($jsonIcs, true);
         if (array_key_exists('ics', $decodedReply) && isset($decodedReply['ics'])) {
             $this->icsEvent->update(['ics' => $decodedReply['ics']]);
-            $this->icsEvent->user->decrement('credits');
-            Mail::to($this->icsEvent->user->email)->send(new IcsValid($this->icsEvent));
+            $user->decrement('credits');
+
+            Mail::to($user->email)->send(new IcsValid($this->icsEvent));
+
+            if ($user->telegram_id && $user->send_tg_notifications) {
+                $user->notify(new IcsEventValid(icsEvent: $this->icsEvent, message: 'Your event was calendized! 🤗'));
+            }
         } else {
             $this->icsEvent->update(['error' => $decodedReply['error']]);
-            $this->icsEvent->user->increment('failed_requests');
-            Mail::to($this->icsEvent->user->email)->send(new IcsError($this->icsEvent));
-            if ($this->icsEvent->user->failed_requests >= $this->icsEvent->user->credits) {
-                $this->icsEvent->user->decrement('credits');
+            $user->increment('failed_requests');
+
+            Mail::to($user->email)->send(new IcsError($this->icsEvent));
+
+            if ($user->telegram_id && $user->send_tg_notifications) {
+                $user->notify(new IcsEventError($this->icsEvent));
+            }
+
+            if ($user->failed_requests >= $user->credits) {
+                $user->decrement('credits');
             }
         }
 
@@ -117,7 +131,7 @@ class GenerateCalendarJob implements ShouldQueue
         ]);
 
         if ($response->failed()) {
-            throw new Exception('Mistral HTTP Error: ' . $response->body(), $response->getStatusCode());
+            throw new Exception('Mistral HTTP Error: ' . $response->body());
         }
 
         $result = $response->json();

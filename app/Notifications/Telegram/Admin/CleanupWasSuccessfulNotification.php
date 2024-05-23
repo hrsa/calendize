@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Notifications\Telegram\Admin;
+namespace App\Notifications\Telegram\User\Admin;
 
+use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\CleanupWasSuccessful;
 use Spatie\Backup\Notifications\BaseNotification;
@@ -12,7 +13,7 @@ class CleanupWasSuccessfulNotification extends BaseNotification
     {
     }
 
-    public function toTelegram($notifiable): \NotificationChannels\Telegram\TelegramBase|TelegramMessage
+    public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
             ->to(config('backup.notifications.telegram.chat_id'))

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Notifications\Telegram\User\CreditsRemaining;
 
 class UserObserver
 {
@@ -19,6 +20,9 @@ class UserObserver
      */
     public function updated(User $user): void
     {
+        if ($user->telegram_id && $user->send_tg_notifications && $user->credits < 3) {
+            $user->notify(new CreditsRemaining());
+        }
     }
 
     /**
