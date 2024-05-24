@@ -2,10 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Data\IcsEvent\IcsEventData;
+use App\Data\IcsEvent\IcsEventsArray;
 use App\Events\IcsEventProcessed;
+use App\Helpers\IcsGenerator;
 use App\Mail\IcsError;
 use App\Mail\IcsValid;
 use App\Models\IcsEvent;
+use App\Models\User;
 use App\Notifications\Telegram\User\IcsEventError;
 use App\Notifications\Telegram\User\IcsEventValid;
 use Exception;
@@ -28,8 +32,11 @@ class GenerateCalendarJob implements ShouldQueue
 
     protected int $tries = 5;
 
+    private array $aiMessages;
+
     public function __construct(public icsEvent $icsEvent)
     {
+        $this->aiMessages = [];
     }
 
     public function handle(): void
@@ -41,18 +48,23 @@ class GenerateCalendarJob implements ShouldQueue
         $systemPrompt .= " As of today, the date is {$now}.";
 
         if ($this->icsEvent->timezone) {
-            $systemPrompt .= "User's timezone: " . $this->icsEvent->timezone;
+            $systemPrompt .= "User's timezone: {$this->icsEvent->timezone}.";
         }
 
+        $this->aiMessages = [
+            ['role' => 'system', 'content' => $systemPrompt],
+            ['role' => 'user', 'content' => $this->icsEvent->prompt],
+        ];
+
         try {
-            $result = $this->generateOpenAIResponse($systemPrompt);
+            $result = $this->generateOpenAIResponse();
         } catch (Exception $e) {
             Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
         }
 
         if (!$result) {
             try {
-                $result = $this->generateMistralResponse($systemPrompt);
+                $result = $this->generateMistralResponse();
             } catch (Exception $e) {
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
@@ -70,47 +82,63 @@ class GenerateCalendarJob implements ShouldQueue
             Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
             IcsEventProcessed::dispatch($this->icsEvent);
             $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
+
+            return;
         }
 
+        $this->aiMessages[] = ['role' => 'assistant', 'content' => $jsonIcs];
+        $tokenUsage = $result->usage?->totalTokens ?? $result->usage->total_tokens;
+        $this->icsEvent->update(['token_usage' => $tokenUsage]);
+
         $decodedReply = json_decode($jsonIcs, true);
-        if (array_key_exists('ics', $decodedReply) && isset($decodedReply['ics'])) {
-            $this->icsEvent->update(['ics' => $decodedReply['ics']]);
-            $user->decrement('credits');
 
-            Mail::to($user->email)->send(new IcsValid($this->icsEvent));
-
-            if ($user->telegram_id && $user->send_tg_notifications) {
-                $user->notify(new IcsEventValid(icsEvent: $this->icsEvent, message: 'Your event was calendized! 🤗'));
-            }
-        } else {
+        if (array_key_exists('error', $decodedReply) && isset($decodedReply['error'])) {
             $this->icsEvent->update(['error' => $decodedReply['error']]);
             $user->increment('failed_requests');
-
-            Mail::to($user->email)->send(new IcsError($this->icsEvent));
-
-            if ($user->telegram_id && $user->send_tg_notifications) {
-                $user->notify(new IcsEventError($this->icsEvent));
-            }
 
             if ($user->failed_requests >= $user->credits) {
                 $user->decrement('credits');
             }
+            $this->notifyUserError($user);
+            IcsEventProcessed::dispatch($this->icsEvent);
+            return;
         }
 
-        $tokenUsage = $result->usage?->totalTokens ?? $result->usage->total_tokens;
-        $this->icsEvent->update(['token_usage' => $tokenUsage]);
-        IcsEventProcessed::dispatch($this->icsEvent);
+        if (array_key_exists('events', $decodedReply) && isset($decodedReply['events'])) {
+            try {
+                $events = IcsEventsArray::from($decodedReply);
+                $this->generateAndSaveIcs(event: null, events: $events, user: $user);
+            } catch (Exception $e) {
+                Log::error("Ics {$this->icsEvent->id} error: {$e->getMessage()}", $decodedReply);
+                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+                Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
+                IcsEventProcessed::dispatch($this->icsEvent);
+                $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
+
+                return;
+            }
+        } else {
+            try {
+                $event = IcsEventData::from($decodedReply);
+                $this->generateAndSaveIcs(event: $event, events: null, user: $user);
+            } catch (Exception $e) {
+                Log::error("Ics {$this->icsEvent->id} error: {$e->getMessage()}", $decodedReply);
+                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+                Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
+                IcsEventProcessed::dispatch($this->icsEvent);
+                $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
+
+                return;
+            }
+        }
     }
 
-    private function generateOpenAIResponse(string $systemPrompt): CreateResponse
+    private function generateOpenAIResponse(): CreateResponse
     {
         return OpenAI::chat()->create([
-            'model'    => 'gpt-4o',
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $this->icsEvent->prompt],
-            ],
-            'max_tokens'      => 2800,
+            'model'           => 'gpt-4-turbo',
+            'messages'        => $this->aiMessages,
+            'max_tokens'      => 3700,
             'response_format' => ['type' => 'json_object'],
         ]);
     }
@@ -118,15 +146,12 @@ class GenerateCalendarJob implements ShouldQueue
     /**
      * @throws Exception
      */
-    private function generateMistralResponse(string $systemPrompt): stdClass
+    private function generateMistralResponse(): stdClass
     {
         $response = Http::mistral()->timeout(10)->post('/chat/completions', [
-            'model'    => 'mistral-large-latest',
-            'messages' => [
-                ['role' => 'system', 'content' => $systemPrompt],
-                ['role' => 'user', 'content' => $this->icsEvent->prompt],
-            ],
-            'max_tokens'      => 2800,
+            'model'           => 'mistral-large-latest',
+            'messages'        => $this->aiMessages,
+            'max_tokens'      => 3700,
             'response_format' => ['type' => 'json_object'],
         ]);
 
@@ -137,5 +162,36 @@ class GenerateCalendarJob implements ShouldQueue
         $result = $response->json();
 
         return json_decode(json_encode($result));
+    }
+
+    private function notifyUserSuccess(User $user): void
+    {
+        Mail::to($user->email)->send(new IcsValid($this->icsEvent));
+
+        if ($user->telegram_id && $user->send_tg_notifications) {
+            $user->notify(new IcsEventValid(icsEvent: $this->icsEvent, message: 'Your event was calendized! 🤗'));
+        }
+    }
+
+    private function notifyUserError(User $user): void
+    {
+        Mail::to($user->email)->send(new IcsError($this->icsEvent));
+
+        if ($user->telegram_id && $user->send_tg_notifications) {
+            $user->notify(new IcsEventError($this->icsEvent));
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function generateAndSaveIcs(?IcsEventData $event, ?IcsEventsArray $events, User $user): void
+    {
+        $calendar = IcsGenerator::generateCalendar(event: $event, events: $events);
+        $this->icsEvent->update(['ics' => $calendar->get()]);
+        $user->decrement('credits');
+
+        $this->notifyUserSuccess($user);
+        IcsEventProcessed::dispatch($this->icsEvent);
     }
 }

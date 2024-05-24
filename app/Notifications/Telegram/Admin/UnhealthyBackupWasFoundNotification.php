@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications\Telegram\User\Admin;
+namespace App\Notifications\Telegram\Admin;
 
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;

@@ -8,14 +8,45 @@ use Illuminate\Support\Facades\Http;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
-test('ICS event is updated with successful OpenAI response', function () {
-    $ics = IcsEvent::factory()->icsProcessed()->create();
-    $validIcsData = str_replace("\n", '\\n', $ics->ics);
-    $ics->update(['ics' => null]);
-    $ics->refresh();
+beforeEach(function () {
+    $this->validResponseData = '{
+    "starts": {
+            "at": "2024-05-24T12:00:00",
+            "timezone": "Europe/Lisbon"
+        }
+    ,
+    "ends": {
+            "at": "2024-05-24T12:30:00",
+            "timezone": "Europe/Lisbon"
+        }
+    ,
+    "name": "A fine title",
+    "description": "A nice description",
+    "address": "Sesame street, 44",
+    "addressName": "",
+    "url": "https://google.com",
+    "googleConference": "meet.google.com/que-cejk-foj",
+    "microsoftTeams": "",
+    "organizer": {
+        "name": "Jack Black",
+        "email": "jack@black.com"
+    },
+    "attendees": [
+        {
+            "name": "Tester of Tests",
+            "email": "test@test.com"
+        }
+    ],
+    "isFullDay": false,
+    "rrule": []
+}';
 
-    expect($ics->ics)->toBeNull()
-        ->and($validIcsData)->toBeString();
+});
+
+test('ICS event is updated with successful OpenAI response', function () {
+    $ics = IcsEvent::factory()->create();
+
+    expect($ics->ics)->toBeNull();
 
     Event::fake();
     OpenAI::fake([
@@ -24,7 +55,7 @@ test('ICS event is updated with successful OpenAI response', function () {
                 [
                     'message' => [
                         'role'    => 'assistant',
-                        'content' => '{"ics": "' . $validIcsData . '"}',
+                        'content' => $this->validResponseData,
                     ],
                 ],
             ],
@@ -35,6 +66,7 @@ test('ICS event is updated with successful OpenAI response', function () {
     Event::assertDispatched(IcsEventProcessed::class);
 
     $ics->refresh();
+    ray($ics);
     expect($ics->ics)->not()->toBeNull()
         ->and($ics->error)->toBeNull()
         ->and($ics->getSummary())->toBeString();
@@ -69,13 +101,9 @@ test('ICS event is updated with error from OpenAI response', function () {
 });
 
 test('ICS event is updated with data from Mistral in case OpenAI fails', function () {
-    $ics = IcsEvent::factory()->icsProcessed()->create();
-    $validIcsData = str_replace("\n", '\\n', $ics->ics);
-    $ics->update(['ics' => null]);
-    $ics->refresh();
+    $ics = IcsEvent::factory()->create();
 
-    expect($ics->ics)->toBeNull()
-        ->and($validIcsData)->toBeString();
+    expect($ics->ics)->toBeNull();
 
     Event::fake();
     OpenAI::fake([
@@ -83,14 +111,16 @@ test('ICS event is updated with data from Mistral in case OpenAI fails', functio
 
     Http::fake([
         'api.mistral.ai/*' => Http::response([
-            'choices' => [0 => [
-                'index'   => 0,
-                'message' => [
-                    'role'    => 'assistant',
-                    'content' => '{"ics": "' . $validIcsData . '"}',
+            'choices' => [
+                0 => [
+                    'index'   => 0,
+                    'message' => [
+                        'role'    => 'assistant',
+                        'content' => $this->validResponseData,
+                    ],
+                    'finish_reason' => 'stop',
                 ],
-                'finish_reason' => 'stop',
-            ], ],
+            ],
             'usage' => [
                 'prompt_tokens'     => 14,
                 'total_tokens'      => 29,
@@ -118,14 +148,16 @@ test('ICS event is updated with error from Mistral response after OpenAI fails',
     OpenAI::fake([]);
     Http::fake([
         'api.mistral.ai/*' => Http::response([
-            'choices' => [0 => [
-                'index'   => 0,
-                'message' => [
-                    'role'    => 'assistant',
-                    'content' => '{"error": "Sorry an error is faked here!"}',
+            'choices' => [
+                0 => [
+                    'index'   => 0,
+                    'message' => [
+                        'role'    => 'assistant',
+                        'content' => '{"error": "Sorry an error is faked here!"}',
+                    ],
+                    'finish_reason' => 'stop',
                 ],
-                'finish_reason' => 'stop',
-            ], ],
+            ],
             'usage' => [
                 'prompt_tokens'     => 14,
                 'total_tokens'      => 29,

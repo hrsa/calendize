@@ -21,6 +21,7 @@
         "lemonsqueezy/laravel": "^1.5.3",
         "masbug/flysystem-google-drive-ext": "^2.3",
         "openai-php/laravel": "^0.8.1",
+        "spatie/icalendar-generator": "^2.8",
         "spatie/laravel-backup": "^8.8",
         "spatie/laravel-data": "^4.6",
         "spatie/laravel-ray": "^1.36.2",

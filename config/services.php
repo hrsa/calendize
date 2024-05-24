@@ -32,8 +32,8 @@ return [
     ],
 
     'telegram-bot-api' => [
-        'token' => env('TELEGRAM_BOT_TOKEN'),
-        'header-token' => env('TELEGRAM_HEADER_TOKEN')
+        'token'        => env('TELEGRAM_BOT_TOKEN'),
+        'header-token' => env('TELEGRAM_HEADER_TOKEN'),
     ],
 
     'google' => [

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,7 +39,7 @@ class GoogleDriveStorageProvider extends ServiceProvider
                 return new \Illuminate\Filesystem\FilesystemAdapter($driver, $adapter);
             });
         } catch (\Exception $e) {
-            ray($e);
+            Log::error($e->getMessage());
         }
     }
 }
