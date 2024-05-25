@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LemonSqueezyProduct;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class UserService
 
     public function createTopUpCreditsLink(User $user): string
     {
-        return $user->checkout(config('lemon-squeezy.sales.topup.variant'))
+        return $user->checkout(LemonSqueezyProduct::TopUp->variant())
             ->withThankYouNote('Thanks for trusting us!')
             ->redirectTo(route('dashboard', ['payment' => 'credits']))
             ->url();

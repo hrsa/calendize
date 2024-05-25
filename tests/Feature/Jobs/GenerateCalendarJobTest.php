@@ -66,7 +66,7 @@ test('ICS event is updated with successful OpenAI response', function () {
     Event::assertDispatched(IcsEventProcessed::class);
 
     $ics->refresh();
-    ray($ics);
+
     expect($ics->ics)->not()->toBeNull()
         ->and($ics->error)->toBeNull()
         ->and($ics->getSummary())->toBeString();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\LemonSqueezyProduct;
 use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -105,12 +106,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getActiveSubscriptionAttribute(): string
     {
-        return match ($this->subscriptions()->active()?->first()?->variant_id) {
-            config('lemon-squeezy.sales.beginner.variant') => 'beginner',
-            config('lemon-squeezy.sales.classic.variant')  => 'classic',
-            config('lemon-squeezy.sales.power.variant')    => 'power',
-            default                                        => 'none',
-        };
+        $variantId = $this->subscriptions()->active()?->first()?->variant_id;
+
+        foreach (LemonSqueezyProduct::cases() as $product) {
+            if ($product->variant() === $variantId) {
+                return $product->value;
+            }
+        }
+
+        return 'none';
     }
 
     public function getDaysSincePasswordReminderAttribute(): int

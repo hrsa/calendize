@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function index(UserService $userService): \Inertia\Response
+    public function index(UserService $userService): Response
     {
         request()->validate([
             'payment' => 'in:credits,beginner,classic,power',
@@ -25,27 +27,12 @@ class DashboardController extends Controller
                 'imageSrc' => "/{$payment}.png",
                 'imageAlt' => 'Calendize',
             ];
+
+            $paymentProduct = LemonSqueezyProduct::from($payment);
+            $paymentConfirmation['title'] = __("dashboard.popup.{$paymentProduct->value}.title");
+            $paymentConfirmation['content'] = __("dashboard.popup.{$paymentProduct->value}.content");
         } else {
             $paymentConfirmation = null;
-        }
-
-        switch ($payment) {
-            case 'credits':
-                $paymentConfirmation['title'] = __('dashboard.popup.credits.title');
-                $paymentConfirmation['content'] = __('dashboard.popup.credits.content');
-                break;
-            case 'beginner':
-                $paymentConfirmation['title'] = __('dashboard.popup.beginner.title');
-                $paymentConfirmation['content'] = __('dashboard.popup.beginner.content');
-                break;
-            case 'classic':
-                $paymentConfirmation['title'] = __('dashboard.popup.classic.title');
-                $paymentConfirmation['content'] = __('dashboard.popup.classic.content');
-                break;
-            case 'power':
-                $paymentConfirmation['title'] = __('dashboard.popup.power.title');
-                $paymentConfirmation['content'] = __('dashboard.popup.power.content');
-                break;
         }
 
         return Inertia::render('Dashboard', compact('buyCreditsLink', 'paymentConfirmation'));

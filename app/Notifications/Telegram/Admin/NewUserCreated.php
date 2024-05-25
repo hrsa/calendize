@@ -25,6 +25,6 @@ class NewUserCreated extends Notification
             ->to(config('app.admin.telegram_chat_id'))
             ->content('🎉 A new user just signed up! 🎉')
             ->line('')
-            ->line(":{$this->user->name} ({$this->user->email})");
+            ->line("{$this->user->name} ({$this->user->email})");
     }
 }

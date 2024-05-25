@@ -79,10 +79,10 @@ class CalendarGeneratorController extends Controller
 
     public function usersEvents(): \Inertia\Response
     {
-        $icsEvents = IcsEvent::whereUserId(request()->user()->id)
-            ->whereNotNull('ics')
-            ->orderByDesc('id')
-            ->paginate(10);
+        $icsEvents = Auth::user()
+                    ->processedIcsEvents()
+                    ->latest()
+                    ->paginate(10);
 
         return Inertia::render('MyEvents', ['events' => IcsEventsResource::collection($icsEvents)]);
     }
