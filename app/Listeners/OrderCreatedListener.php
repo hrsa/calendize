@@ -2,6 +2,8 @@
 
 namespace App\Listeners;
 
+use App\Enums\LemonSqueezyProduct;
+use App\Models\User;
 use LemonSqueezy\Laravel\Events\OrderCreated;
 use LemonSqueezy\Laravel\Order;
 
@@ -14,11 +16,12 @@ class OrderCreatedListener
     {
         $lmSqueezyOrder = Order::find($event->order->id);
 
-        if ($lmSqueezyOrder?->paid() && $lmSqueezyOrder->variant_id == config('lemon-squeezy.sales.topup.variant')) {
+        /** @var Order $lmSqueezyOrder */
+        if ($lmSqueezyOrder?->paid() && $lmSqueezyOrder->variant_id == LemonSqueezyProduct::TopUp->variant()) {
 
-            /* @var $user \App\Models\User */
+            /* @var $user User */
             $user = $lmSqueezyOrder->billable()->first();
-            $user->increment('credits', config('lemon-squeezy.sales.topup.credits'));
+            $user->increment('credits', LemonSqueezyProduct::TopUp->credits());
             $user->update(['failed_requests' => 0]);
         }
 

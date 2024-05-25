@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -37,20 +38,24 @@ class SubscriptionController extends Controller
 
     public function swap(): JsonResponse
     {
+        request()->validate([
+            'newSubscription' => 'in:beginner,classic,power',
+        ]);
+
         $subscription = request()->user()->subscriptions()->active()->first();
-        $newSubscription = request('newSubscription');
+        $newSubscription = LemonSqueezyProduct::from(request('newSubscription'));
 
         if (request('swapDate') === 'now') {
             $subscription->swapAndInvoice(
-                config("lemon-squeezy.sales.{$newSubscription}.product"),
-                config("lemon-squeezy.sales.{$newSubscription}.variant")
+                $newSubscription->product(),
+                $newSubscription->variant()
             );
         }
 
         if (request('swapDate') === 'at renewal') {
             $subscription->swap(
-                config("lemon-squeezy.sales.{$newSubscription}.product"),
-                config("lemon-squeezy.sales.{$newSubscription}.variant")
+                $newSubscription->product(),
+                $newSubscription->variant()
             );
         }
 
