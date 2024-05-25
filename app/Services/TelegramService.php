@@ -19,7 +19,7 @@ class TelegramService
 {
     public function process(IncomingTelegramMessage $telegramMessage): void
     {
-        $user = User::whereTelegramId($telegramMessage->author->id)->first();
+        $user = User::with('icsEvents')->whereTelegramId($telegramMessage->author->id)->first();
 
         if (!$user) {
             Notification::send('', new ReplyToUnknownUser($telegramMessage->author));
@@ -81,7 +81,7 @@ class TelegramService
 
     private function handleMyEvents(User $user, int $page = 1): void
     {
-        $events = $user->processedIcsEvents()->paginate(6, page: $page);
+        $events = $user->processedIcsEvents()->latest()->paginate(6, page: $page);
         $user->notify(new MyEvents($events));
     }
 
