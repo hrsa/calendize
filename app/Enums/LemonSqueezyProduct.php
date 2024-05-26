@@ -48,4 +48,9 @@ enum LemonSqueezyProduct: string
             self::TopUp    => null
         };
     }
+
+    public static function subscriptions(): array
+    {
+        return [self::Beginner, self::Classic, self::Power];
+    }
 }

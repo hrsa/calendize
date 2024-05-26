@@ -39,7 +39,7 @@ test('guest can generate icsEvent', function () {
     $this->assertGuest();
 
     $user = User::find(1);
-    $this->assertNull($user);
+    expect($user)->toBeNull();
 
     $email = fake()->unique()->safeEmail();
     $calendarEvent = fake()->text(150);

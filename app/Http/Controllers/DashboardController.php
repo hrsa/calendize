@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -12,8 +13,10 @@ class DashboardController extends Controller
 {
     public function index(UserService $userService): Response
     {
+        $products = array_map(fn ($product) => $product->value, LemonSqueezyProduct::cases());
+
         request()->validate([
-            'payment' => 'in:credits,beginner,classic,power',
+            'payment' => Rule::in($products),
         ]);
 
         $payment = request('payment');

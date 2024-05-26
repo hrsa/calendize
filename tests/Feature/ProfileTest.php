@@ -2,84 +2,68 @@
 
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
+
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
-        ->get(route('profile.edit'));
-
-    $response->assertOk();
+    actingAs($user)
+        ->get(route('profile.edit'))
+        ->assertOk();
 });
 
 test('profile information can be updated', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
+    actingAs($user)
         ->patch(route('profile.update'), [
             'name'  => 'Test User',
             'email' => 'test@example.com',
-        ]);
-
-    $response
-        ->assertSessionHasNoErrors()
+        ])->assertSessionHasNoErrors()
         ->assertRedirect(route('profile.edit'));
 
     $user->refresh();
 
-    $this->assertSame('Test User', $user->name);
-    $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
+    expect($user->name)->toEqual('Test User')
+        ->and($user->email)->toEqual('test@example.com')
+        ->and($user->email_verified_at)->toBeNull();
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
+    actingAs($user)
         ->patch(route('profile.update'), [
             'name'  => 'Test User',
             'email' => $user->email,
-        ]);
-
-    $response
-        ->assertSessionHasNoErrors()
+        ])->assertSessionHasNoErrors()
         ->assertRedirect('/profile');
 
-    $this->assertNotNull($user->refresh()->email_verified_at);
+    expect($user->refresh()->email_verified_at)->not()->toBeNull();
 });
 
 test('user can delete their account', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
+    actingAs($user)
         ->delete(route('profile.destroy'), [
             'password' => 'password',
-        ]);
-
-    $response
-        ->assertSessionHasNoErrors()
+        ])->assertSessionHasNoErrors()
         ->assertRedirect('/');
 
     $this->assertGuest();
-    $this->assertNotNull($user->fresh()->deleted_at);
+    expect($user->fresh()->deleted_at)->not()->toBeNull();
 });
 
 test('correct password must be provided to delete account', function () {
     $user = User::factory()->create();
 
-    $response = $this
-        ->actingAs($user)
+    actingAs($user)
         ->from(route('profile.edit'))
         ->delete(route('profile.destroy'), [
             'password' => 'wrong-password',
-        ]);
-
-    $response
-        ->assertSessionHasErrors('password')
+        ])->assertSessionHasErrors('password')
         ->assertRedirect(route('profile.edit'));
 
-    $this->assertNotNull($user->fresh());
+    expect($user->fresh())->not()->toBeNull();
 });

@@ -54,5 +54,5 @@ Route::group([
     'controller' => TelegramController::class,
 ], function () {
     Route::post('/hook', 'processWebhook')->name('process-webhook');
-    Route::get('/connect', 'connectTelegram')->middleware('web')->name('connect');
+    Route::get('/connect', 'connectTelegram')->middleware('web', 'auth')->name('connect');
 });

@@ -10,23 +10,29 @@ use App\Services\TelegramService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TelegramController extends Controller
 {
-    public function connectTelegram(): RedirectResponse
+    public function connectTelegram(): Response|RedirectResponse
     {
+        if (!request()->query('tgid')) {
+            return redirect()->to(route('home'));
+        }
+
         $telegramId = (base64_decode(request()->query('tgid')));
 
         Auth::user()->update(['telegram_id' => $telegramId]);
 
         Auth::user()->notifyNow(new CustomMesssage('Congratulations! Your Calendize account is now connected 😊'));
 
-        return redirect()->to(route('generate', [
+        return Inertia::render('Generate', [
             'serverSuccess'      => 'Your Telegram account is successfully connected!',
             'serverErrorMessage' => null,
             'eventId'            => null,
             'eventSecret'        => null,
-        ], absolute: false));
+        ]);
     }
 
     public function processWebhook(TelegramService $telegramService)

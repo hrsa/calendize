@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class SubscriptionController extends Controller
 {
@@ -38,8 +39,10 @@ class SubscriptionController extends Controller
 
     public function swap(): JsonResponse
     {
+        $subscriptions = array_map(fn ($product) => $product->value, LemonSqueezyProduct::subscriptions());
+
         request()->validate([
-            'newSubscription' => 'in:beginner,classic,power',
+            'newSubscription' => Rule::in($subscriptions),
         ]);
 
         $subscription = request()->user()->subscriptions()->active()->first();
