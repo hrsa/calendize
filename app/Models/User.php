@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -97,6 +98,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function processedIcsEvents(): HasMany
     {
         return $this->icsEvents()->whereNotNull('ics');
+    }
+
+    public function latestIcsEvent(): HasOne
+    {
+        return $this->hasOne(IcsEvent::class)->latest();
     }
 
     public function hasTooManyErrors(): bool
