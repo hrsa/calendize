@@ -20,9 +20,9 @@ class ComposerOutdatedRecorder
 
     public function record(SharedBeat $event)
     {
-                if ($event->time !== $event->time->startOfDay()) {
-                    return;
-                }
+        if ($event->time !== $event->time->startOfDay()) {
+            return;
+        }
 
         $outdated = Process::run('composer outdated -D -f json');
 

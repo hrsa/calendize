@@ -49,7 +49,7 @@ test('password can be reset with valid token', function () {
             'password'              => 'password',
             'password_confirmation' => 'password',
         ])->assertSessionHasNoErrors()
-          ->assertRedirect(route('login'));
+            ->assertRedirect(route('login'));
 
         return true;
     });

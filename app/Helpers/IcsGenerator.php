@@ -69,7 +69,7 @@ class IcsGenerator
         if ($data->rrule?->frequency) {
             $rRule = new RRule(RecurrenceFrequency::from($data->rrule->frequency));
 
-            if ($data->rrule->times) {
+            if ($data->rrule->times && $data->rrule->interval && !$data->rrule->until) {
                 $rRule->times((int) $data->rrule->times);
             }
             if ($data->rrule->interval) {

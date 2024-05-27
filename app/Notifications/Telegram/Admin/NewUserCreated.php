@@ -2,7 +2,6 @@
 
 namespace App\Notifications\Telegram\Admin;
 
-use App\Data\Telegram\IncomingTelegramMessage;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramBase;

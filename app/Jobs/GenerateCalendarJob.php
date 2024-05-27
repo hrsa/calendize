@@ -45,7 +45,7 @@ class GenerateCalendarJob implements ShouldQueue
         $result = null;
         $systemPrompt = config('openai.system_prompt');
         $now = Carbon::now();
-        $systemPrompt .= " As of today, the date is {$now}.";
+        $systemPrompt .= " As of today, the date is {$now}. If not present in my data, add {$user->name} {$user->email} as attendee.";
 
         if ($this->icsEvent->timezone) {
             $systemPrompt .= "User's timezone: {$this->icsEvent->timezone}.";
@@ -101,6 +101,7 @@ class GenerateCalendarJob implements ShouldQueue
             }
             $this->notifyUserError($user);
             IcsEventProcessed::dispatch($this->icsEvent);
+
             return;
         }
 

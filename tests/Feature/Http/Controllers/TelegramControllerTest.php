@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use App\Notifications\Telegram\User\CustomMesssage;
-use App\Services\UserService;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia;
 

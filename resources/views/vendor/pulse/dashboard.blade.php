@@ -1,6 +1,4 @@
 <x-pulse>
-    @vite(['resources/css/app.css'])
-
     <livewire:pulse.servers cols="full" />
     <livewire:statistics cols="4" rows="2" />
     <livewire:pulse.usage cols="4" rows="2" />
