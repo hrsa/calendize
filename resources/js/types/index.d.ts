@@ -9,6 +9,7 @@ export interface User {
     rollover_credits: number | undefined;
     failed_requests: number;
     has_password: boolean;
+    is_admin: boolean;
     active_subscription: string;
     hide_pw_reminder: string | undefined;
     days_since_password_reminder: number;

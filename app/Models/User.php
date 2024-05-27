@@ -79,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $appends = ['active_subscription', 'days_since_password_reminder'];
+    protected $appends = ['is_admin', 'active_subscription', 'days_since_password_reminder'];
 
     /**
      * Get the attributes that should be cast.
@@ -114,14 +114,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->failed_requests > $this->credits;
     }
 
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->email === config('app.admin.email');
+    }
+
     public function getActiveSubscriptionAttribute(): string
     {
         /** @var Subscription $subscription */
         $subscription = $this->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
 
-        foreach (LemonSqueezyProduct::cases() as $product) {
-            if ($subscription->hasVariant($product->variant())) {
-                return $product->value;
+        if ($subscription) {
+            foreach (LemonSqueezyProduct::cases() as $product) {
+                if ($subscription->hasVariant($product->variant())) {
+                    return $product->value;
+                }
             }
         }
 
