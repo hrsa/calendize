@@ -18,7 +18,7 @@ class ComposerOutdatedRecorder
         //
     }
 
-    public function record(SharedBeat $event)
+    public function record(SharedBeat $event): void
     {
         if ($event->time !== $event->time->startOfDay()) {
             return;

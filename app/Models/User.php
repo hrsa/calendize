@@ -7,15 +7,19 @@ use App\Enums\LemonSqueezyProduct;
 use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use LemonSqueezy\Laravel\Billable;
+use LemonSqueezy\Laravel\LemonSqueezy;
+use LemonSqueezy\Laravel\Subscription;
 
 /**
  * @property int $id
@@ -112,10 +116,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getActiveSubscriptionAttribute(): string
     {
-        $variantId = $this->subscriptions()->active()?->first()?->variant_id;
+        /** @var Subscription $subscription */
+        $subscription = $this->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
 
         foreach (LemonSqueezyProduct::cases() as $product) {
-            if ($product->variant() === $variantId) {
+            if ($subscription->hasVariant($product->variant())) {
                 return $product->value;
             }
         }

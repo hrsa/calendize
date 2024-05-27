@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
 
 class MailProcessingService
 {
+    /**
+     * @param InboundEmail $email
+     */
     public function process(InboundEmail $email): void
     {
         $user = User::whereEmail($email->from())->first();

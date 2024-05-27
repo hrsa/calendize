@@ -35,7 +35,7 @@ class UserService
             ->url();
     }
 
-    public function createOrGetSocialiteUser(string $email, string $name, string $provider, string $provider_id)
+    public function createOrGetSocialiteUser(string $email, string $name, string $provider, string $provider_id): User
     {
         $user = User::where(compact('provider', 'provider_id'))
             ->orWhere('email', $email)->first();

@@ -15,6 +15,8 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+        $icsEvent = null;
+
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('generate', absolute: false));
         }

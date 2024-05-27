@@ -14,12 +14,13 @@ class OrderCreatedListener
      */
     public function handle(OrderCreated $event): void
     {
+        /** @var Order $lmSqueezyOrder */
         $lmSqueezyOrder = Order::find($event->order->id);
 
-        /** @var Order $lmSqueezyOrder */
-        if ($lmSqueezyOrder?->paid() && $lmSqueezyOrder->variant_id == LemonSqueezyProduct::TopUp->variant()) {
 
-            /* @var $user User */
+        if ($lmSqueezyOrder->paid() && $lmSqueezyOrder->hasVariant(LemonSqueezyProduct::TopUp->variant())) {
+
+            /** @var User $user */
             $user = $lmSqueezyOrder->billable()->first();
             $user->increment('credits', LemonSqueezyProduct::TopUp->credits());
             $user->update(['failed_requests' => 0]);

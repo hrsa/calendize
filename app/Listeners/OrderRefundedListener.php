@@ -19,12 +19,12 @@ class OrderRefundedListener
      */
     public function handle(OrderRefunded $event): void
     {
+        /** @var Order $lmSqueezyOrder */
         $lmSqueezyOrder = Order::find($event->order->id);
 
-        /** @var Order $lmSqueezyOrder */
-        if ($lmSqueezyOrder?->refunded() && $lmSqueezyOrder->variant_id == LemonSqueezyProduct::TopUp->variant()) {
+        if ($lmSqueezyOrder->refunded() && $lmSqueezyOrder->hasVariant(LemonSqueezyProduct::TopUp->variant())) {
 
-            /* @var $user User */
+            /** @var User $user */
             $user = $lmSqueezyOrder->billable()->first();
             $user->decrement('credits', LemonSqueezyProduct::TopUp->credits());
         }

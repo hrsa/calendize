@@ -55,7 +55,7 @@ class IcsEvent extends Model
     public function getSummary(): string
     {
         if (!$this->ics) {
-            throw new NoSummaryException("The event {$this->id} has no ics data to create a summary.");
+            throw new NoSummaryException($this);
         }
 
         $icsData = explode('BEGIN:VEVENT', $this->ics);

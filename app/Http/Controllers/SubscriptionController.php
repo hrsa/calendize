@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
+use LemonSqueezy\Laravel\Subscription;
 
 class SubscriptionController extends Controller
 {
@@ -18,22 +20,24 @@ class SubscriptionController extends Controller
 
     public function getModificationData(): JsonResponse
     {
-        $subscription = request()->user()->subscriptions()->active()->first();
+        /** @var Subscription $subscription */
+        $subscription = request()->user()->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
 
         return response()->json([
-            'renewsAt'         => $subscription->renews_at,
-            'endsAt'           => $subscription->ends_at,
+            'renewsAt'         => $subscription->renews_at ?? null,
+            'endsAt'           => $subscription->ends_at ?? null,
             'paymentMethodUrl' => $subscription->updatePaymentMethodUrl(),
         ]);
     }
 
     public function cancel(): JsonResponse
     {
-        $subscription = request()->user()->subscriptions()->active()->first();
+        /** @var Subscription $subscription */
+        $subscription = request()->user()->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
         $subscription->cancel();
 
         return response()->json([
-            'endsAt' => $subscription->ends_at,
+            'endsAt' => $subscription->ends_at ?? null,
         ]);
     }
 
@@ -45,7 +49,8 @@ class SubscriptionController extends Controller
             'newSubscription' => Rule::in($subscriptions),
         ]);
 
-        $subscription = request()->user()->subscriptions()->active()->first();
+        /** @var Subscription $subscription */
+        $subscription = request()->user()->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
         $newSubscription = LemonSqueezyProduct::from(request('newSubscription'));
 
         if (request('swapDate') === 'now') {

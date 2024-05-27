@@ -75,7 +75,7 @@ class GenerateCalendarJob implements ShouldQueue
             }
         }
 
-        $jsonIcs = $result?->choices[0]->message->content;
+        $jsonIcs = $result->choices[0]->message->content;
 
         if (!$jsonIcs) {
             $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);

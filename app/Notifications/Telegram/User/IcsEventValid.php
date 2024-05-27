@@ -29,7 +29,7 @@ class IcsEventValid extends Notification implements ShouldQueue
 
         $telegramMessage = TelegramFile::create()
             ->to($notifiable->telegram_id)
-            ->content($message ?? $this->icsEvent->getSummary())
+            ->content($this->message ?? $this->icsEvent->getSummary())
             ->document($filename, $this->icsEvent->getSummary() . '.ics');
 
         unlink($filename);
