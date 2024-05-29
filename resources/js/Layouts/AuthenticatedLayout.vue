@@ -55,16 +55,17 @@ const hidePasswordReminderForToday = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     {{ $t("global.navigation.dashboard") }}
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')">
+                                <a v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')"
+                                class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
                                     Pulse
-                                </NavLink>
-                                <NavLink
-                                    v-if="$page.props.auth.user.is_admin"
-                                    :href="route('horizon.index')"
-                                    :active="route().current('horizon.index')"
+                                </a>
+                                <a v-if="$page.props.auth.user.is_admin"
+                                   :href="route('horizon.index')"
+                                   :active="route().current('horizon.index')"
+                                   class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
                                 >
                                     Horizon
-                                </NavLink>
+                                </a>
                             </div>
                         </div>
 
@@ -165,13 +166,17 @@ const hidePasswordReminderForToday = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             {{ $t("global.navigation.dashboard") }}
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')">
+                        <a v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')"
+                        class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out"
+                        >
                             Pulse
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            v-if="$page.props.auth.user.is_admin" :href="route('horizon.index')" :active="route().current('horizon.index')">
+                        </a>
+                        <a
+                            v-if="$page.props.auth.user.is_admin" :href="route('horizon.index')" :active="route().current('horizon.index')"
+                        class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out"
+                        >
                             Horizon
-                        </ResponsiveNavLink>
+                        </a>
                     </div>
 
                     <!-- Responsive Settings Options -->
