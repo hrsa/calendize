@@ -2,18 +2,16 @@
 
 namespace App\Services;
 
-use App\Jobs\GenerateCalendarJob;
 use App\Mail\ForwardEmail;
 use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class MailProcessingService
 {
-    public function process(InboundEmail $email): void
+    public function process(InboundEmail $email, IcsEventService $icsEventService): void
     {
         $user = User::whereEmail($email->from())->first();
 
@@ -25,14 +23,7 @@ class MailProcessingService
             && Gate::forUser($user)->allows('errors-under-threshold')
             && IcsEvent::whereEmailId($email->id())->doesntExist()
         ) {
-            $icsEvent = IcsEvent::create([
-                'user_id'  => $user->id,
-                'prompt'   => $email->text(),
-                'secret'   => Str::random(32),
-                'email_id' => $email->id(),
-            ]);
-
-            GenerateCalendarJob::dispatch($icsEvent);
+            $icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id(), dispatchJob: true);
         }
     }
 

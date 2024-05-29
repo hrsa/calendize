@@ -11,9 +11,10 @@ class SubscriptionPaymentListener
 {
     public function handle(SubscriptionPaymentSuccess $event): void
     {
+        /** @var Subscription $lmSqueezySubscription */
         $lmSqueezySubscription = Subscription::find($event->subscription->id);
 
-        /* @var $user User */
+        /** @var User $user */
         $user = $lmSqueezySubscription->billable()->first();
 
         foreach (LemonSqueezyProduct::cases() as $product) {
@@ -21,7 +22,7 @@ class SubscriptionPaymentListener
                 continue;
             }
 
-            if ($lmSqueezySubscription->variant_id == $product->variant()) {
+            if ($lmSqueezySubscription->hasVariant($product->variant())) {
 
                 $rollover = $user->rollover_credits ?? $product->rollover();
 

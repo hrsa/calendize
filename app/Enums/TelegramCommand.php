@@ -8,4 +8,5 @@ enum TelegramCommand: string
     case NotifyMe = '/notify';
     case DontNotifyMe = '/stop';
     case MyCredits = '/credits';
+    case Calendize = '/calendize';
 }

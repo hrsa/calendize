@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Data\Telegram\IncomingTelegramMessageAuthor;
-use App\Enums\TelegramCommand;
 use App\Notifications\Telegram\User\CustomMesssage;
 use App\Services\TelegramService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -57,25 +55,6 @@ class TelegramController extends Controller
             $telegramMessage->text ?? null,
             $telegramMessage->data ?? null,
         );
-
-        $this->findCommand($telegramMessageData);
-
         $telegramService->process($telegramMessageData);
-
-    }
-
-    private function findCommand(IncomingTelegramMessage $incomingTelegramMessage): void
-    {
-        foreach (TelegramCommand::cases() as $command) {
-            if (Str::startsWith($incomingTelegramMessage->text, $command->value)) {
-                if (Str::length($incomingTelegramMessage->text) === Str::length($command->value)) {
-                    $incomingTelegramMessage->text = '';
-                } else {
-                    $incomingTelegramMessage->text = Str::of($incomingTelegramMessage->text)->replaceStart($command->value . ' ', '')->value();
-                }
-                $incomingTelegramMessage->command = $command;
-                break;
-            }
-        }
     }
 }

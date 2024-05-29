@@ -4,8 +4,6 @@ namespace App\Notifications\Telegram;
 
 use App\Data\Telegram\IncomingTelegramMessageAuthor;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
-use JsonException;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 
@@ -22,18 +20,14 @@ class ReplyToUnknownUser extends Notification
 
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
-        try {
-            return TelegramMessage::create()
-                ->to($this->author->id)
-                ->content("Hmm... I'm not sure if you are already a Calendize user, {$this->author->firstName}...")
-                ->line('')
-                ->line('')
-                ->line("If you are - let's authorize you!")
-                ->line('')
-                ->line("Don't forget to log in **BEFORE** you click the button!")
-                ->button('Log In', route('telegram.connect', ['tgid' => base64_encode($this->author->id)]));
-        } catch (JsonException $e) {
-            Log::error($e->getMessage(), [$e]);
-        }
+        return TelegramMessage::create()
+            ->to($this->author->id)
+            ->content("Hmm... I'm not sure if you are already a Calendize user, {$this->author->firstName}...")
+            ->line('')
+            ->line('')
+            ->line("If you are - let's authorize you!")
+            ->line('')
+            ->line("Don't forget to log in **BEFORE** you click the button!")
+            ->button('Log In', route('telegram.connect', ['tgid' => base64_encode($this->author->id)]));
     }
 }

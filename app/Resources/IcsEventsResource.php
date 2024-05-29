@@ -2,13 +2,20 @@
 
 namespace App\Resources;
 
+use App\Exceptions\NoSummaryException;
 use App\Models\IcsEvent;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @mixin IcsEvent */
 class IcsEventsResource extends JsonResource
 {
+    /**
+     * @return array{'id': int, 'summary': string, 'error': string|null, 'ics': string|null, 'created_at': DateTime, 'token_usage': int|null, 'secret': string|null }
+     *
+     * @throws NoSummaryException
+     */
     public function toArray(Request $request): array
     {
         return [

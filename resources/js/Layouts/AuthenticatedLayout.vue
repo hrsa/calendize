@@ -55,6 +55,16 @@ const hidePasswordReminderForToday = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     {{ $t("global.navigation.dashboard") }}
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')">
+                                    Pulse
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user.is_admin"
+                                    :href="route('horizon.index')"
+                                    :active="route().current('horizon.index')"
+                                >
+                                    Horizon
+                                </NavLink>
                             </div>
                         </div>
 
@@ -154,6 +164,13 @@ const hidePasswordReminderForToday = () => {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             {{ $t("global.navigation.dashboard") }}
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')">
+                            Pulse
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user.is_admin" :href="route('horizon.index')" :active="route().current('horizon.index')">
+                            Horizon
                         </ResponsiveNavLink>
                     </div>
 

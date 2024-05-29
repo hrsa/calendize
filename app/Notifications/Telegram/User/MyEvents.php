@@ -17,6 +17,9 @@ class MyEvents extends Notification
     {
     }
 
+    /**
+     * @return array<string>
+     */
     public function via(): array
     {
         return ['telegram'];

@@ -7,6 +7,7 @@ use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\AbstractProvider;
 use League\OAuth1\Client\Credentials\TemporaryCredentials;
 
 class SocialiteLoginController extends Controller
@@ -20,7 +21,10 @@ class SocialiteLoginController extends Controller
 
     public function handleGoogleCallback(UserService $userService)
     {
-        $googleUser = Socialite::driver('google')->stateless()->user();
+        /** @var AbstractProvider $socialiteDriver */
+        $socialiteDriver = Socialite::driver('google');
+
+        $googleUser = $socialiteDriver->stateless()->user();
 
         $user = $userService->createOrGetSocialiteUser(
             email: $googleUser->getEmail(),
@@ -42,7 +46,10 @@ class SocialiteLoginController extends Controller
 
     public function handleLinkedinCallback(UserService $userService)
     {
-        $linkedinUser = Socialite::driver('linkedin-openid')->stateless()->user();
+        /** @var AbstractProvider $socialiteDriver */
+        $socialiteDriver = Socialite::driver('linkedin-openid');
+
+        $linkedinUser = $socialiteDriver->stateless()->user();
         $user = $userService->createOrGetSocialiteUser(
             email: $linkedinUser->getEmail(),
             name: $linkedinUser->getName(),
