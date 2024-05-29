@@ -3,7 +3,10 @@
 namespace App\Notifications\Telegram;
 
 use App\Data\Telegram\IncomingTelegramMessage;
+use App\Enums\TelegramCallback;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use JsonException;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 
@@ -20,7 +23,7 @@ class ReplyToUnknownCommand extends Notification
 
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
-        return TelegramMessage::create()
+        $telegramMessage = TelegramMessage::create()
             ->to($this->incomingMessage->author->id)
             ->content('I got your message!')
             ->line('')
@@ -29,5 +32,15 @@ class ReplyToUnknownCommand extends Notification
             ->line('Are you sure you have used the right command?')
             ->line('')
             ->line("To be sure we don't miss anything, I've forwarded your message to my creator. He'll be able to help!");
+
+        try {
+            $telegramMessage->buttonWithCallback(
+                text: 'No, calendize my message!',
+                callback_data: TelegramCallback::Calendize->value . '=' . $this->incomingMessage->author->id);
+        } catch (JsonException $e) {
+            Log::error($e->getMessage(), [$e]);
+        }
+
+        return $telegramMessage;
     }
 }

@@ -19,11 +19,11 @@ class UserService
         ]);
     }
 
-    public function createSubscriptionLink(User $user, string $subscriptionType): string
+    public function createSubscriptionLink(User $user, LemonSqueezyProduct $subscription): string
     {
-        return $user->subscribe(config("lemon-squeezy.sales.{$subscriptionType}.variant"))
+        return $user->subscribe($subscription->variant())
             ->withThankYouNote('Thanks for joining my adventure!')
-            ->redirectTo(route('dashboard', ['payment' => $subscriptionType]))
+            ->redirectTo(route('dashboard', ['payment' => $subscription->value]))
             ->url();
     }
 
@@ -31,7 +31,7 @@ class UserService
     {
         return $user->checkout(LemonSqueezyProduct::TopUp->variant())
             ->withThankYouNote('Thanks for trusting us!')
-            ->redirectTo(route('dashboard', ['payment' => 'credits']))
+            ->redirectTo(route('dashboard', ['payment' => LemonSqueezyProduct::TopUp->value]))
             ->url();
     }
 

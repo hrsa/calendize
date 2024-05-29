@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\LemonSqueezyProduct;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use LemonSqueezy\Laravel\Subscription;
 
@@ -13,15 +12,25 @@ class SubscriptionController extends Controller
 {
     public function subscribe(UserService $userService): JsonResponse
     {
-        $subscriptionLink = $userService->createSubscriptionLink(request()->user(), request('type'));
+        $subscriptions = array_map(fn ($subscription) => $subscription->value, LemonSqueezyProduct::subscriptions());
+
+        request()->validate([
+            'type' => Rule::in($subscriptions),
+        ]);
+
+        $subscriptionLink = $userService->createSubscriptionLink(request()->user(), LemonSqueezyProduct::from(request('type')));
 
         return response()->json($subscriptionLink);
     }
 
     public function getModificationData(): JsonResponse
     {
-        /** @var Subscription $subscription */
+        /** @var Subscription|null $subscription */
         $subscription = request()->user()->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
+
+        if ($subscription === null) {
+            return response()->json(['error' => "You don't have a subscription"], 400);
+        }
 
         return response()->json([
             'renewsAt'         => $subscription->renews_at ?? null,
@@ -32,8 +41,13 @@ class SubscriptionController extends Controller
 
     public function cancel(): JsonResponse
     {
-        /** @var Subscription $subscription */
+        /** @var Subscription|null $subscription */
         $subscription = request()->user()->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
+
+        if ($subscription === null) {
+            return response()->json(['error' => "You don't have a subscription"], 400);
+        }
+
         $subscription->cancel();
 
         return response()->json([

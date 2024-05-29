@@ -15,7 +15,7 @@ class UserObserver
     public function created(User $user): void
     {
         if (config('app.env') === 'production') {
-            Notification::send('', new NewUserCreated($user));
+            Notification::send([], new NewUserCreated($user));
         }
     }
 
@@ -24,7 +24,7 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        if ($user->wasChanged('credits') && $user->credits < 3 && $user->telegram_id && $user->send_tg_notifications) {
+        if (config('app.env') === 'production' && $user->wasChanged('credits') && $user->credits < 3 && $user->telegram_id && $user->send_tg_notifications) {
             $user->notify(new CreditsRemaining());
         }
     }

@@ -17,7 +17,6 @@ class OrderCreatedListener
         /** @var Order $lmSqueezyOrder */
         $lmSqueezyOrder = Order::find($event->order->id);
 
-
         if ($lmSqueezyOrder->paid() && $lmSqueezyOrder->hasVariant(LemonSqueezyProduct::TopUp->variant())) {
 
             /** @var User $user */

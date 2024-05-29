@@ -9,7 +9,6 @@ use LemonSqueezy\Laravel\Subscription;
 
 class SubscriptionPaymentListener
 {
-
     public function handle(SubscriptionPaymentSuccess $event): void
     {
         /** @var Subscription $lmSqueezySubscription */

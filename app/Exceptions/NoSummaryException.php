@@ -11,8 +11,6 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class NoSummaryException extends Exception
 {
-
-
     public function __construct(public IcsEvent $icsEvent)
     {
     }

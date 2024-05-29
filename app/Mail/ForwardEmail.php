@@ -37,8 +37,7 @@ class ForwardEmail extends Mailable
     {
         $attachments = [];
 
-
-            /** @var MessagePart $attachment */
+        /** @var MessagePart $attachment */
         foreach ($this->inboundEmail->attachments() as $attachment) {
             if ($attachment->getFilename()) {
                 $attachments[] = Attachment::fromData(fn () => $attachment->getContent(), $attachment->getFilename())
