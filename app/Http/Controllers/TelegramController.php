@@ -21,7 +21,7 @@ class TelegramController extends Controller
 
         $telegramId = (base64_decode(request()->query('tgid')));
 
-        Auth::user()->update(['telegram_id' => $telegramId]);
+        Auth::user()->update(['telegram_id' => $telegramId, 'send_tg_notifications' => true]);
 
         Auth::user()->notifyNow(new CustomMesssage('Congratulations! Your Calendize account is now connected 😊'));
 
