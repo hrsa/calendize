@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Data\Telegram\IncomingTelegramMessageAuthor;
 use App\Notifications\Telegram\User\CustomMesssage;
-use App\Services\TelegramService;
+use App\Services\Telegram\TelegramService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -55,6 +55,7 @@ class TelegramController extends Controller
             $telegramMessage->text ?? null,
             $telegramMessage->data ?? null,
         );
+
         $telegramService->process($telegramMessageData);
     }
 }

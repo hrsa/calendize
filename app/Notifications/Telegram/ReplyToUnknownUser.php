@@ -26,8 +26,8 @@ class ReplyToUnknownUser extends Notification
             ->line('')
             ->line("If you are - let's authorize you!")
             ->line('')
-            ->line("Don't forget to log in **BEFORE** you click the button!")
-            ->button('Login', route('login'))
-            ->button('Connect my account', route('telegram.connect', ['tgid' => base64_encode($this->author->id)]));
+            ->line("Don't forget to login **BEFORE** you click the \"Connect\" button!")
+            ->button('1️⃣ Login', route('login'))
+            ->button('2️⃣ Connect my account', route('telegram.connect', ['tgid' => base64_encode($this->author->id)]));
     }
 }
