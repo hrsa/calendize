@@ -57,7 +57,7 @@ test('users can add a telegram account, guests cannot', function () {
 
     expect($user->telegram_id)->toBeNull();
 
-    actingAs($user)->get(route('telegram.connect'))->assertRedirectToRoute('home');
+    actingAs($user)->get(route('telegram.connect'))->assertRedirectToRoute('login');
 
     actingAs($user)->get(route('telegram.connect',
         ['tgid' => base64_encode((string) $telegramId)]))
