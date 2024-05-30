@@ -4,21 +4,15 @@ namespace App\Services\Telegram;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Enums\TelegramCallback;
-use App\Enums\TelegramCommand;
 use App\Models\IcsEvent;
 use App\Models\User;
-use App\Notifications\Telegram\User\CreditsRemaining;
 use App\Notifications\Telegram\User\CustomMesssage;
 use App\Notifications\Telegram\User\IcsEventValid;
-use App\Notifications\Telegram\User\MyEvents;
-use App\Services\IcsEventService;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class TelegramCallbackQueryHandler
 {
-
     private TelegramCommandHandler $commandHandler;
 
     public function __construct(public User $user, public IncomingTelegramMessage $telegramMessage)

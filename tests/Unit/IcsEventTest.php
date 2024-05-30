@@ -30,10 +30,11 @@ test('valid IcsEvent with multiple events has both events in the summary', funct
     $secondTitle = fake()->words(1, true);
     $thirdTitle = fake()->words(7, true);
 
-    $ics->ics = "BEGIN:VCALENDAR\n" .
-                "VERSION:2.0\n" .
-                "PRODID:-//Calendar//Calendize 2.0//EN\n" .
-                "BEGIN:VEVENT\n" .
+    $ics->ics = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Calendar//Calendize 2.0//EN
+BEGIN:VEVENT
+' .
                 "SUMMARY: {$firstTitle}\n" .
                 "END:VEVENT\n" .
                 "BEGIN:VEVENT\n" .

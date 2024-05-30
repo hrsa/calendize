@@ -57,9 +57,9 @@ beforeEach(function () {
     ];
 
     $this->telegramCallbackQueryData = [
-        'update_id' => 123456789,
+        'update_id'      => 123456789,
         'callback_query' => [
-            'id' => '1234567890:ABCDEFGH',
+            'id'   => '1234567890:ABCDEFGH',
             'from' => [
                 'id'            => $this->tgUserId,
                 'is_bot'        => false,
@@ -70,7 +70,7 @@ beforeEach(function () {
             ],
             'message' => [
                 'message_id' => 123,
-                'from' => [
+                'from'       => [
                     'id'            => $this->tgUserId,
                     'is_bot'        => false,
                     'first_name'    => 'John',

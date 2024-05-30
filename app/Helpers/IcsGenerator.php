@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Data\IcsEvent\IcsEventData;
 use App\Data\IcsEvent\IcsEventsArray;
+use App\Data\IcsEvent\Person;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Support\Str;
@@ -56,14 +57,12 @@ class IcsGenerator
             $event->microsoftTeams($data->microsoftTeams);
         }
 
-        if ($data->organizer) {
+        if ($data->organizer instanceof Person) {
             $event->organizer($data->organizer->email, $data->organizer->name);
         }
 
-        if (!empty($data->attendees)) {
-            foreach ($data->attendees as $attendee) {
-                $event->attendee($attendee->email, $attendee->name);
-            }
+        foreach ($data->attendees as $attendee) {
+            $event->attendee($attendee->email, $attendee->name);
         }
 
         if ($data->rrule?->frequency) {
@@ -101,11 +100,11 @@ class IcsGenerator
         $calendar = Calendar::create('Calendize calendar')
             ->productIdentifier('Calendize');
 
-        if ($event) {
+        if ($event instanceof IcsEventData) {
             $calendar->event(self::generateEvent($event));
         }
 
-        if ($events) {
+        if ($events instanceof IcsEventsArray) {
             foreach ($events->events as $event) {
                 $calendar->event(self::generateEvent($event));
             }

@@ -17,7 +17,7 @@ class IncomingTelegramMessage extends Data
 
     public function hasCommand(): bool
     {
-        return $this->command !== null;
+        return $this->command instanceof \App\Enums\TelegramCommand;
     }
 
     public function hasText(): bool

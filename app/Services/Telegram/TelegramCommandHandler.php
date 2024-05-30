@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 
 class TelegramCommandHandler
 {
-
     public function __construct(public User $user, public IncomingTelegramMessage $telegramMessage)
     {
     }

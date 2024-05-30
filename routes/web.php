@@ -4,7 +4,6 @@ use App\Http\Controllers\CalendarGeneratorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::middleware('if-not-guest-redirect-to:generate')->group(function () {
     Route::inertia('/', 'Landing')->name('home');
@@ -23,14 +22,12 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/generate', function () {
-            return Inertia::render('Generate', [
-                'serverErrorMessage' => request('serverErrorMessage'),
-                'serverSuccess'      => request('serverSuccess'),
-                'eventId'            => request('eventId'),
-                'eventSecret'        => request('eventSecret'),
-            ]);
-        })->name('generate');
+        Route::inertia('/generate', 'Generate', [
+            'serverErrorMessage' => request('serverErrorMessage'),
+            'serverSuccess'      => request('serverSuccess'),
+            'eventId'            => request('eventId'),
+            'eventSecret'        => request('eventSecret'),
+        ])->name('generate');
     });
 });
 

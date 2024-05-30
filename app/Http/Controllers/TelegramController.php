@@ -33,7 +33,7 @@ class TelegramController extends Controller
         ]);
     }
 
-    public function processWebhook(TelegramService $telegramService)
+    public function processWebhook(TelegramService $telegramService): void
     {
         if (request()->header('x-telegram-bot-api-secret-token') !== config('services.telegram-bot-api.header-token')) {
             return;

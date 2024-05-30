@@ -32,11 +32,10 @@ class GenerateCalendarJob implements ShouldQueue
 
     protected int $tries = 5;
 
-    private array $aiMessages;
+    private array $aiMessages = [];
 
     public function __construct(public icsEvent $icsEvent)
     {
-        $this->aiMessages = [];
     }
 
     public function handle(): void
@@ -62,7 +61,7 @@ class GenerateCalendarJob implements ShouldQueue
             Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
         }
 
-        if (!$result) {
+        if (!$result instanceof \OpenAI\Responses\Chat\CreateResponse) {
             try {
                 $result = $this->generateMistralResponse();
             } catch (Exception $e) {
