@@ -1,8 +1,11 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\Telegram\Admin\UnknownMessageReceived;
+use App\Notifications\Telegram\ReplyToUnknownUser;
 use App\Notifications\Telegram\User\CustomMesssage;
 use App\Services\TelegramService;
+use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia;
 
@@ -54,7 +57,7 @@ test('users can add a telegram account, guests cannot', function () {
 
     expect($user->telegram_id)->toBeNull();
 
-    actingAs($user)->get(route('telegram.connect'))->assertRedirectToRoute('home');
+    actingAs($user)->get(route('telegram.connect'))->assertRedirectToRoute('login');
 
     actingAs($user)->get(route('telegram.connect',
         ['tgid' => base64_encode((string) $telegramId)]))
@@ -74,14 +77,12 @@ test('users can add a telegram account, guests cannot', function () {
 
 test('telegram webhook is processed only with a valid secret token header', function () {
 
-    $mockTelegramService = Mockery::mock(TelegramService::class);
-    $mockTelegramService->shouldReceive('process')->once();
-    $this->instance(TelegramService::class, $mockTelegramService);
-
+    Notification::assertCount(0);
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData)->assertOk();
-    expect($mockTelegramService)->shouldNotHaveBeenCalled();
+    Notification::assertNothingSent();
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    expect($mockTelegramService)->shouldHaveReceived('process');
-
+    Notification::assertSentTo(new AnonymousNotifiable(), UnknownMessageReceived::class);
+    Notification::assertSentTo(new AnonymousNotifiable(), ReplyToUnknownUser::class);
+    Notification::assertCount(2);
 });

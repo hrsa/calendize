@@ -28,28 +28,24 @@ class TelegramService
         $user = User::with('icsEvents')->whereTelegramId($telegramMessage->author->id)->first();
 
         if (!$user) {
-            Notification::send('', new ReplyToUnknownUser($telegramMessage->author));
-            Notification::send('', new UnknownMessageReceived($telegramMessage));
+            $this->replyToUnknownUser($telegramMessage);
 
             return;
         }
 
-        if (!$telegramMessage->command && $telegramMessage->text) {
+        if (!$telegramMessage->hasCommand() && $telegramMessage->hasText()) {
             $this->forwardToAdminAndReply($telegramMessage);
+
+            return;
         }
 
-        if ($telegramMessage->data) {
+        if ($telegramMessage->hasCallbackData()) {
             $this->processCallbackQuery($telegramMessage, $user);
+
+            return;
         }
 
-        if ($telegramMessage->command === TelegramCommand::Calendize) {
-            $this->handleCalendize($user, $telegramMessage->text);
-        } else {
-            $method = 'handle' . ($telegramMessage->command?->name);
-            if (method_exists($this, $method)) {
-                $this->$method($user);
-            }
-        }
+        $this->processCommand($telegramMessage, $user);
     }
 
     private function findCommand(IncomingTelegramMessage $telegramMessage): void
@@ -69,9 +65,9 @@ class TelegramService
 
     public function forwardToAdminAndReply(IncomingTelegramMessage $telegramMessage): void
     {
-        Notification::send('', new UnknownMessageReceived($telegramMessage));
+        Notification::route('telegram', config('app.admin.telegram_chat_id'))->notify(new UnknownMessageReceived($telegramMessage));
         Redis::set($telegramMessage->author->id, $telegramMessage->text, 3600);
-        Notification::send('', new ReplyToUnknownCommand($telegramMessage));
+        Notification::route('telegram', $telegramMessage->author->id)->notify(new ReplyToUnknownCommand($telegramMessage));
     }
 
     private function processCallbackQuery(IncomingTelegramMessage $telegramMessage, User $user): void
@@ -176,5 +172,23 @@ class TelegramService
         }
 
         $user->notify(new IcsEventValid(icsEvent: $event, message: 'Here is your event!'));
+    }
+
+    private function replyToUnknownUser(IncomingTelegramMessage $telegramMessage): void
+    {
+        Notification::route('telegram', $telegramMessage->author->id)->notify(new ReplyToUnknownUser($telegramMessage->author));
+        Notification::route('telegram', config('app.admin.telegram_chat_id'))->notify(new UnknownMessageReceived($telegramMessage));
+    }
+
+    private function processCommand(IncomingTelegramMessage $telegramMessage, User $user): void
+    {
+        if ($telegramMessage->command === TelegramCommand::Calendize) {
+            $this->handleCalendize($user, $telegramMessage->text);
+        } else {
+            $method = 'handle' . ($telegramMessage->command?->name);
+            if (method_exists($this, $method)) {
+                $this->$method($user);
+            }
+        }
     }
 }

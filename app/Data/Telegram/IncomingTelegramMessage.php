@@ -14,4 +14,19 @@ class IncomingTelegramMessage extends Data
         public ?TelegramCommand $command = null,
     ) {
     }
+
+    public function hasCommand(): bool
+    {
+        return $this->command !== null;
+    }
+
+    public function hasText(): bool
+    {
+        return $this->text !== null;
+    }
+
+    public function hasCallbackData(): bool
+    {
+        return $this->data !== null;
+    }
 }
