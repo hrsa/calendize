@@ -16,7 +16,7 @@ class TelegramController extends Controller
     public function connectTelegram(): Response|RedirectResponse
     {
         if (!request()->query('tgid')) {
-            return redirect()->to(route('home'));
+            return redirect()->to(route('login'));
         }
 
         $telegramId = (base64_decode(request()->query('tgid')));

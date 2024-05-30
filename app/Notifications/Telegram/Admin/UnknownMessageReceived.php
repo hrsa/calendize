@@ -23,7 +23,6 @@ class UnknownMessageReceived extends Notification
         $author = $this->incomingMessage->author;
 
         $telegramMessage = TelegramMessage::create()
-            ->to(config('app.admin.telegram_chat_id'))
             ->content('Unknown command!')
             ->line('')
             ->line("From: {$author->firstName} {$author->lastName} (@{$author->userName})")

@@ -24,7 +24,6 @@ class ReplyToUnknownCommand extends Notification
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
-            ->to($this->incomingMessage->author->id)
             ->content('I got your message!')
             ->line('')
             ->line('')
