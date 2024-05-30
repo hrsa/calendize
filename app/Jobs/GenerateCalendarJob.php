@@ -61,13 +61,14 @@ class GenerateCalendarJob implements ShouldQueue
             Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
         }
 
-        if (!$result instanceof \OpenAI\Responses\Chat\CreateResponse) {
+        if (!$result instanceof CreateResponse) {
             try {
                 $result = $this->generateMistralResponse();
             } catch (Exception $e) {
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
                 IcsEventProcessed::dispatch($this->icsEvent);
+                $this->notifyUserError($this->icsEvent->user);
                 $this->fail("{$e->getCode()} : {$e->getMessage()}");
 
                 return;
@@ -80,6 +81,7 @@ class GenerateCalendarJob implements ShouldQueue
             $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
             Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
             IcsEventProcessed::dispatch($this->icsEvent);
+            $this->notifyUserError($this->icsEvent->user);
             $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
 
             return;
@@ -126,6 +128,7 @@ class GenerateCalendarJob implements ShouldQueue
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
                 IcsEventProcessed::dispatch($this->icsEvent);
+                $this->notifyUserError($this->icsEvent->user);
                 $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
 
                 return;
