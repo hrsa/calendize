@@ -6,7 +6,7 @@ use App\Data\Telegram\IncomingTelegramMessage;
 use App\Enums\TelegramCommand;
 use App\Models\User;
 use App\Notifications\Telegram\User\CreditsRemaining;
-use App\Notifications\Telegram\User\CustomMesssage;
+use App\Notifications\Telegram\User\CustomMessage;
 use App\Notifications\Telegram\User\MyEvents;
 use App\Services\IcsEventService;
 use Illuminate\Support\Facades\Gate;
@@ -44,7 +44,7 @@ class TelegramCommandHandler
     public function handleCalendize(User $user, string $text): void
     {
         if (Str::length($text) < 5) {
-            $user->notify(new CustomMesssage("That's not much i can calendize here... are you sure to have included all the information?"));
+            $user->notify(new CustomMessage("That's not much i can calendize here... are you sure to have included all the information?"));
 
             return;
         }
@@ -57,20 +57,20 @@ class TelegramCommandHandler
 
         $icsEventService = new IcsEventService();
 
-        $user->notify(new CustomMesssage('Got it! Give me 10 seconds to process that...'));
+        $user->notify(new CustomMessage('Got it! Give me 10 seconds to process that...'));
         $icsEventService->createIcsEvent(userId: $user->id, prompt: $text, dispatchJob: true);
     }
 
     private function handleNotifyMe(User $user): void
     {
         $user->update(['send_tg_notifications' => true]);
-        $user->notify(new CustomMesssage("Great! Now I'll send you calendized events via Telegram! 😎"));
+        $user->notify(new CustomMessage("Great! Now I'll send you calendized events via Telegram! 😎"));
     }
 
     private function handleDontNotifyMe(User $user): void
     {
         $user->update(['send_tg_notifications' => false]);
-        $user->notify(new CustomMesssage('Alright... no more notifications about calendized events!'));
+        $user->notify(new CustomMessage('Alright... no more notifications about calendized events!'));
     }
 
     public function handleMyEvents(User $user, int $page = 1): void
