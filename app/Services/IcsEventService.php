@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class IcsEventService
@@ -23,5 +24,15 @@ class IcsEventService
         }
 
         return $icsEvent;
+    }
+
+    public function processPendingEvents(User $user): void
+    {
+        $pendingEvents = $user->pendingIcsEvents()->get();
+
+        /** @var IcsEvent $icsEvent */
+        foreach ($pendingEvents as $icsEvent) {
+            GenerateCalendarJob::dispatch($icsEvent);
+        }
     }
 }

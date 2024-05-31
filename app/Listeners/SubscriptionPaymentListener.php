@@ -4,12 +4,13 @@ namespace App\Listeners;
 
 use App\Enums\LemonSqueezyProduct;
 use App\Models\User;
+use App\Services\UserService;
 use LemonSqueezy\Laravel\Events\SubscriptionPaymentSuccess;
 use LemonSqueezy\Laravel\Subscription;
 
 class SubscriptionPaymentListener
 {
-    public function handle(SubscriptionPaymentSuccess $event): void
+    public function handle(SubscriptionPaymentSuccess $event, UserService $userService): void
     {
         /** @var Subscription $lmSqueezySubscription */
         $lmSqueezySubscription = Subscription::find($event->subscription->id);
@@ -17,22 +18,9 @@ class SubscriptionPaymentListener
         /** @var User $user */
         $user = $lmSqueezySubscription->billable()->first();
 
-        foreach (LemonSqueezyProduct::cases() as $product) {
-            if ($product === LemonSqueezyProduct::TopUp) {
-                continue;
-            }
-
+        foreach (LemonSqueezyProduct::subscriptions() as $product) {
             if ($lmSqueezySubscription->hasVariant($product->variant())) {
-
-                $rollover = $user->rollover_credits ?? $product->rollover();
-
-                if ($user->credits > $rollover) {
-                    $user->credits = $rollover + $product->credits();
-                } else {
-                    $user->credits += $product->credits();
-                }
-
-                $user->failed_requests = 0;
+                $userService->handleSubscriptionPayment($user, $product);
                 break;
             }
         }

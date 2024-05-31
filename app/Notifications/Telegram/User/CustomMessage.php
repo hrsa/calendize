@@ -2,11 +2,12 @@
 
 namespace App\Notifications\Telegram\User;
 
+use App\Models\User;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 
-class CustomMesssage extends Notification
+class CustomMessage extends Notification
 {
     public function __construct(public $message)
     {
@@ -17,7 +18,7 @@ class CustomMesssage extends Notification
         return ['telegram'];
     }
 
-    public function toTelegram($notifiable): TelegramBase|TelegramMessage
+    public function toTelegram(User $notifiable): TelegramBase|TelegramMessage
     {
         return TelegramMessage::create()
             ->to($notifiable->telegram_id)

@@ -54,6 +54,7 @@ class TelegramService
                 } else {
                     $telegramMessage->text = Str::of($telegramMessage->text)->replaceStart($command->value . ' ', '')->value();
                 }
+
                 $telegramMessage->command = $command;
                 break;
             }

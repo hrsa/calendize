@@ -4,21 +4,15 @@ namespace App\Services\Telegram;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Enums\TelegramCallback;
-use App\Enums\TelegramCommand;
 use App\Models\IcsEvent;
 use App\Models\User;
-use App\Notifications\Telegram\User\CreditsRemaining;
-use App\Notifications\Telegram\User\CustomMesssage;
+use App\Notifications\Telegram\User\CustomMessage;
 use App\Notifications\Telegram\User\IcsEventValid;
-use App\Notifications\Telegram\User\MyEvents;
-use App\Services\IcsEventService;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
 class TelegramCallbackQueryHandler
 {
-
     private TelegramCommandHandler $commandHandler;
 
     public function __construct(public User $user, public IncomingTelegramMessage $telegramMessage)
@@ -43,6 +37,7 @@ class TelegramCallbackQueryHandler
                         $this->handleCalendizeCallback($this->user, (int) $parameter);
                         break;
                 }
+
                 break;
             }
         }
@@ -53,7 +48,7 @@ class TelegramCallbackQueryHandler
         $prompt = Redis::get($redisKey);
 
         if (!$prompt) {
-            $user->notify(new CustomMesssage("Sorry, i have forgot about that data...\n I only remember what you told me less than 1 hour ago 😊 \nCould you please re-send it to me?"));
+            $user->notify(new CustomMessage("Sorry, i have forgot about that data...\n I only remember what you told me less than 1 hour ago 😊 \nCould you please re-send it to me?"));
 
             return;
         }
@@ -67,13 +62,13 @@ class TelegramCallbackQueryHandler
         $event = $user->icsEvents->find($eventId);
 
         if ($event === null) {
-            $user->notify(new CustomMesssage("That event doesn't exist! Have you deleted it?"));
+            $user->notify(new CustomMessage("That event doesn't exist! Have you deleted it?"));
 
             return;
         }
 
-        if (!$event->is_successful()) {
-            $user->notify(new CustomMesssage("I couldn't calendize this event, because of this error: \n\n**{$event->error}**\n\nSo I can't send you the file 😥"));
+        if (!$event->isProcessed()) {
+            $user->notify(new CustomMessage("I couldn't calendize this event, because of this error: \n\n**{$event->error}**\n\nSo I can't send you the file 😥"));
 
             return;
         }

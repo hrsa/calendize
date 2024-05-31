@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\ForwardEmail;
+use App\Mail\NoMoreCreditsError;
 use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
@@ -15,15 +16,15 @@ class MailProcessingService
     {
         $user = User::whereEmail($email->from())->first();
 
-        if (!$user) {
+        if (!$user || IcsEvent::whereEmailId($email->id())->exists()) {
             return;
         }
 
-        if (Gate::forUser($user)->allows('has-credits')
-            && Gate::forUser($user)->allows('errors-under-threshold')
-            && IcsEvent::whereEmailId($email->id())->doesntExist()
-        ) {
+        if (Gate::forUser($user)->allows('has-credits')) {
             $icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id(), dispatchJob: true);
+        } else {
+            $icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id());
+            Mail::to($user->email)->send(new NoMoreCreditsError());
         }
     }
 

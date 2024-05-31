@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\LemonSqueezyProduct;
 use App\Models\User;
+use App\Services\UserService;
 use LemonSqueezy\Laravel\Events\OrderCreated;
 use LemonSqueezy\Laravel\Order;
 
@@ -12,7 +13,7 @@ class OrderCreatedListener
     /**
      * Handle the event.
      */
-    public function handle(OrderCreated $event): void
+    public function handle(OrderCreated $event, UserService $userService): void
     {
         /** @var Order $lmSqueezyOrder */
         $lmSqueezyOrder = Order::find($event->order->id);
@@ -21,8 +22,7 @@ class OrderCreatedListener
 
             /** @var User $user */
             $user = $lmSqueezyOrder->billable()->first();
-            $user->increment('credits', LemonSqueezyProduct::TopUp->credits());
-            $user->update(['failed_requests' => 0]);
+            $userService->handleTopUp($user, LemonSqueezyProduct::TopUp->credits());
         }
 
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Data\Telegram\IncomingTelegramMessageAuthor;
-use App\Notifications\Telegram\User\CustomMesssage;
+use App\Notifications\Telegram\User\CustomMessage;
 use App\Services\Telegram\TelegramService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class TelegramController extends Controller
 
         Auth::user()->update(['telegram_id' => $telegramId, 'send_tg_notifications' => true]);
 
-        Auth::user()->notifyNow(new CustomMesssage('Congratulations! Your Calendize account is now connected 😊'));
+        Auth::user()->notifyNow(new CustomMessage('Congratulations! Your Calendize account is now connected 😊'));
 
         return Inertia::render('Generate', [
             'serverSuccess'      => 'Your Telegram account is successfully connected!',
@@ -33,7 +33,7 @@ class TelegramController extends Controller
         ]);
     }
 
-    public function processWebhook(TelegramService $telegramService)
+    public function processWebhook(TelegramService $telegramService): void
     {
         if (request()->header('x-telegram-bot-api-secret-token') !== config('services.telegram-bot-api.header-token')) {
             return;

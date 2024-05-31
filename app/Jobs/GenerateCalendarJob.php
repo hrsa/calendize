@@ -32,11 +32,10 @@ class GenerateCalendarJob implements ShouldQueue
 
     protected int $tries = 5;
 
-    private array $aiMessages;
+    private array $aiMessages = [];
 
     public function __construct(public icsEvent $icsEvent)
     {
-        $this->aiMessages = [];
     }
 
     public function handle(): void
@@ -58,17 +57,18 @@ class GenerateCalendarJob implements ShouldQueue
 
         try {
             $result = $this->generateOpenAIResponse();
-        } catch (Exception $e) {
-            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
+        } catch (Exception $exception) {
+            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$exception->getMessage()}");
         }
 
-        if (!$result) {
+        if (!$result instanceof CreateResponse) {
             try {
                 $result = $this->generateMistralResponse();
             } catch (Exception $e) {
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
                 IcsEventProcessed::dispatch($this->icsEvent);
+                $this->notifyUserError($this->icsEvent->user);
                 $this->fail("{$e->getCode()} : {$e->getMessage()}");
 
                 return;
@@ -81,6 +81,7 @@ class GenerateCalendarJob implements ShouldQueue
             $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
             Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
             IcsEventProcessed::dispatch($this->icsEvent);
+            $this->notifyUserError($this->icsEvent->user);
             $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
 
             return;
@@ -99,6 +100,7 @@ class GenerateCalendarJob implements ShouldQueue
             if ($user->failed_requests >= $user->credits) {
                 $user->decrement('credits');
             }
+
             $this->notifyUserError($user);
             IcsEventProcessed::dispatch($this->icsEvent);
 
@@ -127,6 +129,7 @@ class GenerateCalendarJob implements ShouldQueue
                 $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
                 Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
                 IcsEventProcessed::dispatch($this->icsEvent);
+                $this->notifyUserError($this->icsEvent->user);
                 $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
 
                 return;

@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Notifications\Telegram\Admin\UnknownMessageReceived;
 use App\Notifications\Telegram\ReplyToUnknownUser;
 use App\Notifications\Telegram\User\CreditsRemaining;
-use App\Notifications\Telegram\User\CustomMesssage;
+use App\Notifications\Telegram\User\CustomMessage;
 use App\Notifications\Telegram\User\IcsEventValid;
 use App\Notifications\Telegram\User\MyEvents;
 use App\Notifications\Telegram\User\ReplyToUnknownCommand;
@@ -57,9 +57,9 @@ beforeEach(function () {
     ];
 
     $this->telegramCallbackQueryData = [
-        'update_id' => 123456789,
+        'update_id'      => 123456789,
         'callback_query' => [
-            'id' => '1234567890:ABCDEFGH',
+            'id'   => '1234567890:ABCDEFGH',
             'from' => [
                 'id'            => $this->tgUserId,
                 'is_bot'        => false,
@@ -70,7 +70,7 @@ beforeEach(function () {
             ],
             'message' => [
                 'message_id' => 123,
-                'from' => [
+                'from'       => [
                     'id'            => $this->tgUserId,
                     'is_bot'        => false,
                     'first_name'    => 'John',
@@ -117,7 +117,7 @@ test('users can add a telegram account, guests cannot', function () {
 
     expect($user->telegram_id)->toEqual($telegramId);
 
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
 });
 
 test('telegram webhook is processed only with a valid secret token header', function () {
@@ -176,7 +176,7 @@ test('"notify me" and "don\'t notify me" commands from users are processed', fun
     $this->telegramWebHookData['message']['text'] = TelegramCommand::DontNotifyMe->value;
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(1);
     $user->refresh();
     expect($user->send_tg_notifications)->toBeFalsy();
@@ -184,7 +184,7 @@ test('"notify me" and "don\'t notify me" commands from users are processed', fun
     $this->telegramWebHookData['message']['text'] = TelegramCommand::NotifyMe->value;
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(2);
     $user->refresh();
     expect($user->send_tg_notifications)->toBeTruthy();
@@ -206,13 +206,13 @@ test('get event callback command from users is processed', function () {
     $this->telegramCallbackQueryData['callback_query']['data'] = TelegramCallback::GetEvent->value . '=1';
 
     postJson(route('telegram.process-webhook'), $this->telegramCallbackQueryData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(1);
 
     IcsEvent::factory()->icsError()->create(['user_id' => $user->id]);
 
     postJson(route('telegram.process-webhook'), $this->telegramCallbackQueryData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(2);
 
     IcsEvent::factory()->icsProcessed()->count(5)->create(['user_id' => $user->id]);
@@ -229,7 +229,7 @@ test('user can calendize its last message by using a command', function () {
     $this->telegramWebHookData['message']['text'] = TelegramCommand::Calendize->value;
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(1);
     Queue::assertNothingPushed();
 
@@ -238,14 +238,14 @@ test('user can calendize its last message by using a command', function () {
     $user->update(['credits' => 0]);
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(2);
     Queue::assertNothingPushed();
 
     $user->update(['credits' => 3]);
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(3);
     Queue::assertPushed(GenerateCalendarJob::class);
 });
@@ -258,14 +258,14 @@ test('user can calendize its last message by using a callback', function () {
     Redis::shouldReceive('get')->once()->with($this->tgUserId)->andReturn(null);
 
     postJson(route('telegram.process-webhook'), $this->telegramCallbackQueryData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(1);
     Queue::assertNothingPushed();
 
     Redis::shouldReceive('get')->once()->with($this->tgUserId)->andReturn('a long string about the event to calendize');
 
     postJson(route('telegram.process-webhook'), $this->telegramCallbackQueryData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo($user, CustomMesssage::class);
+    Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(2);
     Queue::assertPushed(GenerateCalendarJob::class);
 });

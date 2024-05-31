@@ -38,8 +38,8 @@ class GoogleDriveStorageProvider extends ServiceProvider
 
                 return new \Illuminate\Filesystem\FilesystemAdapter($driver, $adapter);
             });
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
     }
 }

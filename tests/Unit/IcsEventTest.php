@@ -6,7 +6,7 @@ use App\Models\IcsEvent;
 test('valid IcsEvent has ics and summary, no errors', function () {
     $ics = IcsEvent::factory()->icsProcessed()->create();
 
-    expect($ics->is_successful())->toBeTrue()
+    expect($ics->isProcessed())->toBeTrue()
         ->and($ics->secret)->toBeString()
         ->and($ics->ics)->toBeString()
         ->and($ics->error)->toBeNull()
@@ -16,7 +16,7 @@ test('valid IcsEvent has ics and summary, no errors', function () {
 test('IcsEvent with an error has no ics and throws NoSummaryException', function () {
     $ics = IcsEvent::factory()->icsError()->create();
 
-    expect($ics->is_successful())->toBeFalse()
+    expect($ics->isProcessed())->toBeFalse()
         ->and($ics->secret)->toBeString()
         ->and($ics->error)->toBeString()
         ->and($ics->ics)->toBeNull()
@@ -30,10 +30,11 @@ test('valid IcsEvent with multiple events has both events in the summary', funct
     $secondTitle = fake()->words(1, true);
     $thirdTitle = fake()->words(7, true);
 
-    $ics->ics = "BEGIN:VCALENDAR\n" .
-                "VERSION:2.0\n" .
-                "PRODID:-//Calendar//Calendize 2.0//EN\n" .
-                "BEGIN:VEVENT\n" .
+    $ics->ics = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Calendar//Calendize 2.0//EN
+BEGIN:VEVENT
+' .
                 "SUMMARY: {$firstTitle}\n" .
                 "END:VEVENT\n" .
                 "BEGIN:VEVENT\n" .
@@ -44,7 +45,7 @@ test('valid IcsEvent with multiple events has both events in the summary', funct
                 "END:VEVENT\n" .
                 'END:VCALENDAR';
 
-    expect($ics->is_successful())->toBeTrue()
+    expect($ics->isProcessed())->toBeTrue()
         ->and($ics->secret)->toBeString()
         ->and($ics->ics)->toBeString()
         ->and($ics->error)->toBeNull()

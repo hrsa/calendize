@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('has-credits', fn (User $user) => $user->credits > 0);
 
-        Gate::define('errors-under-threshold', fn (User $user) => !$user->hasTooManyErrors());
+        Gate::define('errors-under-threshold', fn (User $user) => (!$user->failed_requests) || ($user->failed_requests < $user->credits));
 
         Gate::define('is-admin', fn (User $user) => $user->email === config('app.admin.email'));
 

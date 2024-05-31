@@ -58,7 +58,7 @@ return [
         ],
         'power' => [
             'title'   => 'Your payment was successful!',
-            'content' => 'Thanks! Power subscription is now active. We\'ve got a lot to do, right?',
+            'content' => "Thanks! Power subscription is now active. We've got a lot to do, right?",
         ],
         'credits' => [
             'title'   => 'Your payment was successful!',

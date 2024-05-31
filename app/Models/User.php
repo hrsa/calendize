@@ -98,17 +98,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function processedIcsEvents(): HasMany
     {
-        return $this->icsEvents()->whereNotNull('ics');
+        return $this->icsEvents()->processed();
+    }
+
+    public function pendingIcsEvents(): HasMany
+    {
+        return $this->icsEvents()->pending();
     }
 
     public function latestIcsEvent(): HasOne
     {
         return $this->hasOne(IcsEvent::class)->latest();
-    }
-
-    public function hasTooManyErrors(): bool
-    {
-        return $this->failed_requests > $this->credits;
     }
 
     public function getIsAdminAttribute(): bool
@@ -118,10 +118,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getActiveSubscriptionAttribute(): string
     {
-        /** @var Subscription $subscription */
+        /** @var Subscription|null $subscription */
         $subscription = $this->subscriptions()->whereStatus(Subscription::STATUS_ACTIVE)->first();
 
-        if ($subscription) {
+        if ($subscription instanceof Subscription) {
             foreach (LemonSqueezyProduct::cases() as $product) {
                 if ($subscription->hasVariant($product->variant())) {
                     return $product->value;

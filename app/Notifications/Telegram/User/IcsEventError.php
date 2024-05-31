@@ -3,9 +3,11 @@
 namespace App\Notifications\Telegram\User;
 
 use App\Models\IcsEvent;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Gate;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class IcsEventError extends Notification implements ShouldQueue
@@ -16,12 +18,12 @@ class IcsEventError extends Notification implements ShouldQueue
     {
     }
 
-    public function via($notifiable): array
+    public function via(): array
     {
         return ['telegram'];
     }
 
-    public function toTelegram($notifiable): TelegramMessage
+    public function toTelegram(User $notifiable): TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
             ->to($notifiable->telegram_id)
@@ -31,7 +33,7 @@ class IcsEventError extends Notification implements ShouldQueue
             ->line("Here is the reason why I couldn't calendize your event:")
             ->line($this->icsEvent->error);
 
-        if ($notifiable->failed_requests >= $notifiable->credits) {
+        if (Gate::forUser($notifiable)->denies('errors-under-threshold')) {
             $telegramMessage->line('')
                 ->line('Because you have more errors than credits,
                     your balance is going down with every new error.')

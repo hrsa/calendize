@@ -1,5 +1,5 @@
-<x-mail.base subject="Sorry, i couldn't do it!" :$ics>
-    <p style="text-align: center;">I can't generate an ICS event out ot that.</p>
+<x-mail.base subject="Sorry, i couldn't do it!" logo="sad" :$ics>
+    <p style="text-align: center;">I can't generate an ICS event out of your data.</p>
 
     <p style="padding: 1.5rem;
 margin-top: 1.5rem;
@@ -22,6 +22,10 @@ line-height: 1.25rem;
 text-align: center;
 color: #9CA3AF;
     ">
+        @if(Gate::forUser($ics->user)->denies('errors-under-threshold'))
+            You have more errors than credits 😟<br>That means your balance is going down with every new error.<br>
+        @endif
+
         @if($ics->user->credits > 0)
             You have <span style="font-size: 1rem;
 line-height: 1.5rem;
@@ -34,7 +38,7 @@ color: #E5E7EB;
         @endif
 
         @if($ics->user->credits < 2)
-            Visit you dashboard for a top-up - or a new subscription!
+            Visit you dashboard for a top-up - or a new subscription plan!
         @endif
     </p>
     @if($ics->user->credits < 2)

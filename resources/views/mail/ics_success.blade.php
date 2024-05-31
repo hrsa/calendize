@@ -1,4 +1,4 @@
-<x-mail.base subject="Your event was calendized!" :$ics>
+<x-mail.base subject="Your event was calendized!" logo="happy" :$ics>
     <p style="text-align: center;">Great news! I've identified the event and calendized it 😊</p>
 
     <a href="{{ route('event.download', ['id' => $ics->id, 'secret' => $ics->secret]) }}">

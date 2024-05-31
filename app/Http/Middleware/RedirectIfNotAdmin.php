@@ -29,7 +29,7 @@ class RedirectIfNotAdmin
 
         try {
             $this->gate->authorize('is-admin');
-        } catch (AuthorizationException $e) {
+        } catch (AuthorizationException $authorizationException) {
             return redirect(route('how-to-use'));
         }
 

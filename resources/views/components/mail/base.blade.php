@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:v="urn:schemas-microsoft-com:vml"
-      xmlns:o="urn:schemas-microsoft-com:office:office">
+>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     @vite(['resources/css/app.css'])
@@ -10,18 +9,16 @@
     <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
     --}}
 
-    {{--@if($subject === $attributes->get('subject'))--}}
     <title>{{ $subject }}</title>
-    {{--@endif--}}
 </head>
 <body>
 <div style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
 color: #E5E7EB; background-color: #111827; text-align: center; margin: auto">
-    @if($ics?->ics)
-    <img src={{asset('calendar.png')}} alt="Calendize logo" style="margin: 1.5rem auto auto;height: 6rem"/>
+    @if($logo === 'happy')
+    <img alt="Calendize logo" style="margin: 1.5rem auto auto;height: 6rem" src={{asset('calendar.png')}} />
     @endif
-    @if($ics?->error)
-    <img src={{asset('calendar-sad.png')}} alt="Calendize logo" style="margin: 1.5rem auto auto;height: 6rem;"/>
+    @if($logo === 'sad')
+    <img alt="Calendize logo" style="margin: 1.5rem auto auto;height: 6rem;" src={{asset('calendar-sad.png')}} />
     @endif
 
     <div style="padding: 3rem 2rem;
