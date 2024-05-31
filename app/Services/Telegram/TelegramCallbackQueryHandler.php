@@ -37,6 +37,7 @@ class TelegramCallbackQueryHandler
                         $this->handleCalendizeCallback($this->user, (int) $parameter);
                         break;
                 }
+
                 break;
             }
         }
@@ -66,7 +67,7 @@ class TelegramCallbackQueryHandler
             return;
         }
 
-        if (!$event->is_successful()) {
+        if (!$event->isProcessed()) {
             $user->notify(new CustomMessage("I couldn't calendize this event, because of this error: \n\n**{$event->error}**\n\nSo I can't send you the file 😥"));
 
             return;

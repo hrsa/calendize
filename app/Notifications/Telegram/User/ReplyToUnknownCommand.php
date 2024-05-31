@@ -36,8 +36,8 @@ class ReplyToUnknownCommand extends Notification
             $telegramMessage->buttonWithCallback(
                 text: 'Yes, calendize my message!',
                 callback_data: TelegramCallback::Calendize->value . '=' . $this->incomingMessage->author->id);
-        } catch (JsonException $e) {
-            Log::error($e->getMessage(), [$e]);
+        } catch (JsonException $jsonException) {
+            Log::error($jsonException->getMessage(), [$jsonException]);
         }
 
         return $telegramMessage;

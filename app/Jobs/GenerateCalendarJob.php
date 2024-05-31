@@ -57,8 +57,8 @@ class GenerateCalendarJob implements ShouldQueue
 
         try {
             $result = $this->generateOpenAIResponse();
-        } catch (Exception $e) {
-            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
+        } catch (Exception $exception) {
+            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$exception->getMessage()}");
         }
 
         if (!$result instanceof CreateResponse) {
@@ -100,6 +100,7 @@ class GenerateCalendarJob implements ShouldQueue
             if ($user->failed_requests >= $user->credits) {
                 $user->decrement('credits');
             }
+
             $this->notifyUserError($user);
             IcsEventProcessed::dispatch($this->icsEvent);
 

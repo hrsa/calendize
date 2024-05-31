@@ -1,4 +1,4 @@
-<x-mail.base subject="Sorry, i couldn't do it!" :$ics>
+<x-mail.base subject="Sorry, i couldn't do it!" logo="sad" :$ics>
     <p style="text-align: center;">I can't generate an ICS event out of your data.</p>
 
     <p style="padding: 1.5rem;
