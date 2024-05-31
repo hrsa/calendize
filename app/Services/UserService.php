@@ -35,6 +35,32 @@ class UserService
             ->url();
     }
 
+    public function handleTopUp(User $user, int $credits): void
+    {
+        $user->increment('credits', $credits);
+        $user->update(['failed_requests' => 0]);
+
+        $icsEventService = new IcsEventService();
+        $icsEventService->processPendingEvents($user);
+    }
+
+    public function handleSubscriptionPayment(User $user, LemonSqueezyProduct $product): void
+    {
+        $rollover = $user->rollover_credits ?? $product->rollover();
+
+        if ($user->credits > $rollover) {
+            $user->credits = $rollover + $product->credits();
+        } else {
+            $user->credits += $product->credits();
+        }
+
+        $user->failed_requests = 0;
+        $user->save();
+
+        $icsEventService = new IcsEventService();
+        $icsEventService->processPendingEvents($user);
+    }
+
     public function createOrGetSocialiteUser(string $email, string $name, string $provider, string $provider_id): User
     {
         $user = User::where(compact('provider', 'provider_id'))

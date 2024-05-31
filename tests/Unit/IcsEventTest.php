@@ -6,7 +6,7 @@ use App\Models\IcsEvent;
 test('valid IcsEvent has ics and summary, no errors', function () {
     $ics = IcsEvent::factory()->icsProcessed()->create();
 
-    expect($ics->is_successful())->toBeTrue()
+    expect($ics->isProcessed())->toBeTrue()
         ->and($ics->secret)->toBeString()
         ->and($ics->ics)->toBeString()
         ->and($ics->error)->toBeNull()
@@ -16,7 +16,7 @@ test('valid IcsEvent has ics and summary, no errors', function () {
 test('IcsEvent with an error has no ics and throws NoSummaryException', function () {
     $ics = IcsEvent::factory()->icsError()->create();
 
-    expect($ics->is_successful())->toBeFalse()
+    expect($ics->isProcessed())->toBeFalse()
         ->and($ics->secret)->toBeString()
         ->and($ics->error)->toBeString()
         ->and($ics->ics)->toBeNull()
@@ -45,7 +45,7 @@ BEGIN:VEVENT
                 "END:VEVENT\n" .
                 'END:VCALENDAR';
 
-    expect($ics->is_successful())->toBeTrue()
+    expect($ics->isProcessed())->toBeTrue()
         ->and($ics->secret)->toBeString()
         ->and($ics->ics)->toBeString()
         ->and($ics->error)->toBeNull()

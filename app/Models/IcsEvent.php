@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Exceptions\NoSummaryException;
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,9 +45,19 @@ class IcsEvent extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function is_successful(): bool
+    public function isProcessed(): bool
     {
         return $this->ics && !$this->error;
+    }
+
+    public function scopeProcessed(Builder $query): Builder
+    {
+        return $query->whereNotNull('ics')->whereNull('error');
+    }
+
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->whereNull('ics')->whereNull('error');
     }
 
     /**

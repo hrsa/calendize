@@ -211,7 +211,6 @@ test('ICS event is updated with error if both Mistral and OpenAI fail', function
     Mail::assertNotSent(IcsValid::class);
     Notification::assertNothingSent();
 
-
     $ics->refresh();
     expect($ics->ics)->toBeNull()
         ->and($ics->error)->toEqual("I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!");

@@ -98,7 +98,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function processedIcsEvents(): HasMany
     {
-        return $this->icsEvents()->whereNotNull('ics');
+        return $this->icsEvents()->processed();
+    }
+
+    public function pendingIcsEvents(): HasMany
+    {
+        return $this->icsEvents()->pending();
     }
 
     public function latestIcsEvent(): HasOne
