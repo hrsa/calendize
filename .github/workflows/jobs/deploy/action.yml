@@ -24,6 +24,7 @@ runs:
     - name: Copy files and restart containers
       run: |
         ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
+        systemctl stop cron
         docker compose -f /var/www/docker-compose-prod.yml down
         docker system prune -a -f
         docker volume rm www_public
@@ -35,5 +36,6 @@ runs:
         scp -o StrictHostKeyChecking=no docker-compose-prod.yml root@${{ inputs.SERVER_IP }}:/var/www
         ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
         docker compose -f /var/www/docker-compose-prod.yml up -d nginx
+        systemctl start cron
         EOF
       shell: bash
