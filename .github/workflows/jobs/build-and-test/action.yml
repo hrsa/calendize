@@ -28,8 +28,9 @@ runs:
         sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ inputs.DB_USERNAME }}|" .env.example
         sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ inputs.DB_PASSWORD }}|" .env.example
         cp .env.example .env
+        cp .env .env.cypress
+        sed -i "s|DB_DATABASE=.*|DB_DATABASE=sqlite|" .env.cypress
         rm .dockerignore
-        cat .env
         docker compose -f docker-compose-ci.yml up -d db
         docker compose -f docker-compose-ci.yml build php
         docker compose -f docker-compose-ci.yml build composer
@@ -40,5 +41,6 @@ runs:
         docker compose -f docker-compose-ci.yml run --rm npm run build
         docker compose -f docker-compose-ci.yml run --rm artisan migrate --force
         docker compose -f docker-compose-ci.yml run --rm artisan test
+        docker compose -f docker-compose-ci.yml run --rm cypress
       shell: bash
 
