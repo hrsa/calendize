@@ -14,7 +14,7 @@ test('new users can register', function () {
         'name'     => 'Test User',
         'email'    => 'test@example.com',
         'password' => 'password123',
-    ])->assertRedirect(route('generate', absolute: false));
+    ])->assertRedirect(route('verification.notice', absolute: false));
 
     $this->assertAuthenticated();
 });
