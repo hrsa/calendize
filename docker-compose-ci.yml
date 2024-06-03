@@ -29,7 +29,6 @@ services:
         depends_on:
             - php
             - redis
-            - db
             - queue
             - cron
         extra_hosts:
@@ -50,8 +49,6 @@ services:
         volumes:
             - ./:/var/www/
         depends_on:
-            db:
-                condition: service_healthy
             redis:
                 condition: service_healthy
         ports:
@@ -76,8 +73,6 @@ services:
         volumes:
             - ./:/var/www/
         depends_on:
-            db:
-                condition: service_healthy
             redis:
                 condition: service_healthy
         networks:
@@ -96,8 +91,6 @@ services:
         container_name: cron
         volumes:
             - ./:/var/www/
-        depends_on:
-            - db
         networks:
             - calendize-network
 
@@ -167,8 +160,6 @@ services:
         container_name: artisan
         volumes:
             - ./:/var/www
-        depends_on:
-            - db
         working_dir: /var/www
         profiles: [ "artisan" ]
         entrypoint: [ 'php', '/var/www/artisan' ]
