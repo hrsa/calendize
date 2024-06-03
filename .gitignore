@@ -12,7 +12,7 @@
 .env.backup
 .env.production
 .env.cypress
-.eng.emergency
+.env.emergency
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
