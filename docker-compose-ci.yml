@@ -72,7 +72,7 @@ services:
                 - USER=${USER:-anton}
         container_name: queue
         ports:
-            - 8080:8080
+            - "8080:8080"
         volumes:
             - ./:/var/www/
         depends_on:

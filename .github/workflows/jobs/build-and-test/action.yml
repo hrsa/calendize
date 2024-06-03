@@ -29,7 +29,8 @@ runs:
         sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ inputs.DB_PASSWORD }}|" .env.example
         cp .env.example .env
         cp .env .env.cypress
-        sed -i "s|DB_DATABASE=.*|DB_DATABASE=sqlite|" .env.cypress
+        sed -i "/^DB_/d" .env.cypress
+        echo "DB_CONNECTION=sqlite" >> .env.cypress
         rm .dockerignore
         docker compose -f docker-compose-ci.yml up -d db
         docker compose -f docker-compose-ci.yml build php

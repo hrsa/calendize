@@ -27,4 +27,5 @@ supervisord.pid
 /docker/ngrok.yml
 /bin/
 /.env.prod
+/tests/cypress/screenshots
 

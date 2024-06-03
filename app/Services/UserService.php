@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\LemonSqueezyProduct;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 class UserService
@@ -21,6 +22,10 @@ class UserService
 
     public function createSubscriptionLink(User $user, LemonSqueezyProduct $subscription): string
     {
+        if (!config('lemon-squeezy.api_key') && !app()->isProduction()) {
+            return 'https://fake.link';
+        }
+
         return $user->subscribe($subscription->variant())
             ->withThankYouNote('Thanks for joining my adventure!')
             ->redirectTo(route('dashboard', ['payment' => $subscription->value]))
@@ -29,6 +34,10 @@ class UserService
 
     public function createTopUpCreditsLink(User $user): string
     {
+        if (!Config::string('lemon-squeezy.api_key') && !app()->isProduction()) {
+            return 'https://fake.link';
+        }
+
         return $user->checkout(LemonSqueezyProduct::TopUp->variant())
             ->withThankYouNote('Thanks for trusting us!')
             ->redirectTo(route('dashboard', ['payment' => LemonSqueezyProduct::TopUp->value]))

@@ -1,15 +1,4 @@
 {
-  "": {
-    "name": null,
-    "domain": null,
-    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
-    "uri": "api/broadcasting/auth",
-    "method": [
-      "GET",
-      "POST",
-      "HEAD"
-    ]
-  },
   "cypress.factory": {
     "name": "cypress.factory",
     "domain": null,
@@ -335,6 +324,17 @@
     "uri": "livewire/update",
     "method": [
       "POST"
+    ]
+  },
+  "": {
+    "name": null,
+    "domain": null,
+    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
+    "uri": "api/broadcasting/auth",
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
     ]
   },
   "livewire.upload-file": {
