@@ -41,6 +41,8 @@ runs:
         docker compose -f docker-compose-ci.yml run --rm npm run build
         docker compose -f docker-compose-ci.yml run --rm artisan migrate --force
         docker compose -f docker-compose-ci.yml run --rm artisan test
+        docker compose -f docker-compose-ci.yml up -d nginx
         docker compose -f docker-compose-ci.yml run --rm cypress
+        docker compose -f docker-compose-ci.yml down
       shell: bash
 
