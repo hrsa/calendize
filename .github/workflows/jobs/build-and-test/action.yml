@@ -24,12 +24,10 @@ runs:
         sed -i "s|APP_ENV=.*|APP_ENV=${{ inputs.APP_ENV }}|" .env.example
         sed -i "s|APP_KEY=.*|APP_KEY=${{ inputs.APP_KEY }}|" .env.example
         sed -i "s|APP_DEBUG=.*|APP_DEBUG=${{ inputs.APP_DEBUG }}|" .env.example
-        sed -i "s|DB_DATABASE=.*|DB_DATABASE=${{ inputs.DB_DATABASE }}|" .env.example
-        sed -i "s|DB_USERNAME=.*|DB_USERNAME=${{ inputs.DB_USERNAME }}|" .env.example
-        sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${{ inputs.DB_PASSWORD }}|" .env.example
+        sed -i "/^DB_/d" .env.example
+        echo "DB_CONNECTION=sqlite" >> .env.example
         cp .env.example .env
         rm .dockerignore
-        cat .env
         docker compose -f docker-compose-ci.yml up -d db
         docker compose -f docker-compose-ci.yml build php
         docker compose -f docker-compose-ci.yml build composer
@@ -40,5 +38,8 @@ runs:
         docker compose -f docker-compose-ci.yml run --rm npm run build
         docker compose -f docker-compose-ci.yml run --rm artisan migrate --force
         docker compose -f docker-compose-ci.yml run --rm artisan test
+        docker compose -f docker-compose-ci.yml up -d nginx
+        docker compose -f docker-compose-ci.yml run --rm cypress
+        docker compose -f docker-compose-ci.yml down
       shell: bash
 

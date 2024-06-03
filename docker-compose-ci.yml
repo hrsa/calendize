@@ -25,11 +25,10 @@ services:
         volumes:
             - ./:/var/www/
         ports:
-            - 8000:8000
+            - "8000:8000"
         depends_on:
             - php
             - redis
-            - db
             - queue
             - cron
         extra_hosts:
@@ -50,8 +49,6 @@ services:
         volumes:
             - ./:/var/www/
         depends_on:
-            db:
-                condition: service_healthy
             redis:
                 condition: service_healthy
         ports:
@@ -72,12 +69,10 @@ services:
                 - USER=${USER:-anton}
         container_name: queue
         ports:
-            - 8080:8080
+            - "8080:8080"
         volumes:
             - ./:/var/www/
         depends_on:
-            db:
-                condition: service_healthy
             redis:
                 condition: service_healthy
         networks:
@@ -96,8 +91,6 @@ services:
         container_name: cron
         volumes:
             - ./:/var/www/
-        depends_on:
-            - db
         networks:
             - calendize-network
 
@@ -112,7 +105,7 @@ services:
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         ports:
-            - 5432:5432
+            - "5432:5432"
         healthcheck:
             test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
             interval: 5s
@@ -167,8 +160,6 @@ services:
         container_name: artisan
         volumes:
             - ./:/var/www
-        depends_on:
-            - db
         working_dir: /var/www
         profiles: [ "artisan" ]
         entrypoint: [ 'php', '/var/www/artisan' ]
@@ -189,7 +180,21 @@ services:
         volumes:
             - ./:/var/www
         ports:
-            - 5173:5173
+            - "5173:5173"
         profiles: [ "npm" ]
         networks:
             - calendize-network
+
+    cypress:
+      image: "cypress/included:13.10.0"
+      depends_on:
+        - php
+      environment:
+        - CYPRESS_baseUrl=http://nginx:8000
+      working_dir: /app
+      volumes:
+        - ./:/app
+      networks:
+        - calendize-network
+      extra_hosts:
+        - "host.docker.internal:host-gateway"

@@ -71,8 +71,8 @@ services:
             - logs:/var/www/storage/logs
             - ./.env:/var/www/.env
         ports:
-            - 80:80
-            - 443:443
+            - "80:80"
+            - "443:443"
         depends_on:
           db:
             condition: service_healthy
@@ -113,7 +113,7 @@ services:
             redis:
                 condition: service_healthy
         ports:
-            - 9000:9000
+            - "9000:9000"
         extra_hosts:
             - "host.docker.internal:host-gateway"
         networks:
@@ -138,7 +138,7 @@ services:
           - certbot_letsencrypt_data:/etc/letsencrypt
           - logs:/var/www/storage/logs
         ports:
-            - 8080:8080
+            - "8080:8080"
         depends_on:
             db:
                 condition: service_healthy

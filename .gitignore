@@ -7,9 +7,12 @@
 /storage/*.key
 /vendor
 /lang/php_*.json
+/cypress
 .env
 .env.backup
 .env.production
+.env.cypress
+.env.emergency
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -24,4 +27,5 @@ supervisord.pid
 /docker/ngrok.yml
 /bin/
 /.env.prod
+/tests/cypress/screenshots
 

@@ -31,6 +31,7 @@
     "require-dev": {
         "driftingly/rector-laravel": "^1.2",
         "fakerphp/faker": "^1.23.1",
+        "laracasts/cypress": "^3.0.2",
         "larastan/larastan": "^2.9.7",
         "laravel/breeze": "^2.0.5",
         "laravel/pint": "^1.16.0",
