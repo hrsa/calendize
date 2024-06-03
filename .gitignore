@@ -7,9 +7,12 @@
 /storage/*.key
 /vendor
 /lang/php_*.json
+/cypress
 .env
 .env.backup
 .env.production
+.env.cypress
+.eng.emergency
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
