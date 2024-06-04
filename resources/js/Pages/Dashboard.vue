@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, router, usePage } from "@inertiajs/vue3";
-import { computed, onMounted, ref } from "vue";
-import Modal from "@/Components/Modal.vue";
-import { User } from "@/types";
-import { useDateFormat } from "@vueuse/shared";
-import DangerButton from "@/Components/DangerButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import { trans } from "laravel-vue-i18n";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
+import { Head, router, usePage } from "@inertiajs/vue3"
+import { computed, onMounted, ref } from "vue"
+import Modal from "@/Components/Modal.vue"
+import { User } from "@/types"
+import { useDateFormat } from "@vueuse/shared"
+import DangerButton from "@/Components/DangerButton.vue"
+import TextInput from "@/Components/TextInput.vue"
+import SecondaryButton from "@/Components/SecondaryButton.vue"
+import { trans } from "laravel-vue-i18n"
 
 interface PaymentConfirmation {
     title: string;
@@ -175,7 +175,8 @@ onMounted(() => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div
-                    class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] sm:rounded-lg dark:bg-gray-800 dark:ring-zinc-800 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                    class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-none
+                        focus-visible:ring-[#FF2D20] sm:rounded-lg dark:bg-gray-800 dark:ring-zinc-800 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
                     <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
                         {{ $t("dashboard.subscriptions.title") }}
@@ -194,7 +195,8 @@ onMounted(() => {
                         >
                             <div
                                 v-if="hover === 'beginner'"
-                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md dark:bg-gray-800/45"
+                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md
+                                    dark:bg-gray-800/45"
                             >
                                 <h3
                                     class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100"
@@ -236,7 +238,8 @@ onMounted(() => {
                         >
                             <div
                                 v-if="hover === 'classic'"
-                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md dark:bg-gray-800/45"
+                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md
+                                    dark:bg-gray-800/45"
                             >
                                 <h3
                                     class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100"
@@ -279,7 +282,8 @@ onMounted(() => {
                         >
                             <div
                                 v-if="hover === 'power'"
-                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md dark:bg-gray-800/45"
+                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md
+                                    dark:bg-gray-800/45"
                             >
                                 <h3
                                     class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100"
@@ -337,7 +341,9 @@ onMounted(() => {
                             <div class="mt-6 flex justify-around">
                                 <a
                                     :href="paymentMethodUrl"
-                                    class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
+                                    class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition
+                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
+                                        dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
                                     >{{ $t("dashboard.subscriptions.change-payment-method") }}</a
                                 >
                                 <DangerButton @click="modalOpen = 'subscriptionCancel'">
@@ -405,7 +411,9 @@ onMounted(() => {
                                 <button
                                     v-if="activeSubscription !== 'beginner'"
                                     @click="modalOpen = ''"
-                                    class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
+                                    class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition
+                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
+                                        dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
                                 >
                                     {{ $t("dashboard.cancel-modal.lets-downgrade") }}
                                 </button>
@@ -428,7 +436,8 @@ onMounted(() => {
                         >
                             <div
                                 v-if="hover === 'credits'"
-                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md dark:bg-gray-800/45"
+                                class="absolute flex h-full w-full flex-col content-center items-center justify-center gap-4 rounded-lg bg-white/45 p-2 backdrop-blur-md
+                                    dark:bg-gray-800/45"
                             >
                                 <h3
                                     class="justify-items-center text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100"
@@ -446,7 +455,8 @@ onMounted(() => {
                                     <p class="mt-2 text-sm text-gray-300">{{ $t("dashboard.top-up.expiration") }}</p>
                                 </div>
                                 <div
-                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out dark:text-gray-300"
+                                    class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out
+                                        dark:text-gray-300"
                                 >
                                     1 €
                                 </div>

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
@@ -46,8 +45,7 @@ test('guest can generate icsEvent', function () {
     $timeZone = fake()->timezone();
 
     post(route('guest-generate-calendar'),
-        compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)
-        ->assertJson(['reply' => 'ok']);
+        compact('email', 'calendarEvent', 'timeZone'))->assertNoContent();
 
     $user = User::find(1);
     expect($user)->not()->toBeNull()
@@ -104,11 +102,10 @@ test("guest can't generate icsEvent twice", function () {
     $timeZone = fake()->timezone();
 
     post(route('guest-generate-calendar'),
-        compact('email', 'calendarEvent', 'timeZone'))->assertStatus(200)
-        ->assertJson(['reply' => 'ok']);
+        compact('email', 'calendarEvent', 'timeZone'))->assertNoContent();
 
     post(route('guest-generate-calendar'),
-        compact('email', 'calendarEvent', 'timeZone'))->assertStatus(401)
+        compact('email', 'calendarEvent', 'timeZone'))->assertUnauthorized()
         ->assertJson(['error' => 'You need to verify your account to use Calendize!']);
 });
 

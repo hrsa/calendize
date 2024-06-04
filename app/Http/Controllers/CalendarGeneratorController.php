@@ -47,7 +47,7 @@ class CalendarGeneratorController extends Controller
 
         $user->sendEmailVerificationNotification();
 
-        return response()->json(['reply' => 'ok']);
+        return response()->noContent();
     }
 
     /**

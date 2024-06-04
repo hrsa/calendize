@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import NavLink from "@/Components/NavLink.vue";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { Link, usePage } from "@inertiajs/vue3";
-import Modal from "@/Components/Modal.vue";
-import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
+import { onMounted, ref } from "vue"
+import ApplicationLogo from "@/Components/ApplicationLogo.vue"
+import Dropdown from "@/Components/Dropdown.vue"
+import DropdownLink from "@/Components/DropdownLink.vue"
+import NavLink from "@/Components/NavLink.vue"
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue"
+import { Link, usePage } from "@inertiajs/vue3"
+import Modal from "@/Components/Modal.vue"
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue"
 
 const showingNavigationDropdown = ref(false);
 const showingSetPasswordForm = ref(false);
@@ -20,7 +20,7 @@ onMounted(() => {
 
 const hidePasswordReminderForToday = () => {
     showingSetPasswordForm.value = false;
-    window.axios.post(route("hide-password-reminder"));
+    window.axios.post(route("users.hide-password-reminder"));
 };
 </script>
 
@@ -55,14 +55,21 @@ const hidePasswordReminderForToday = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     {{ $t("global.navigation.dashboard") }}
                                 </NavLink>
-                                <a v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')"
-                                class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out">
+                                <a
+                                    v-if="$page.props.auth.user.is_admin"
+                                    :href="route('pulse')"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150
+                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none dark:text-gray-400
+                                        dark:hover:border-gray-700 dark:hover:text-gray-300 dark:focus:border-gray-700 dark:focus:text-gray-300"
+                                >
                                     Pulse
                                 </a>
-                                <a v-if="$page.props.auth.user.is_admin"
-                                   :href="route('horizon.index')"
-                                   :active="route().current('horizon.index')"
-                                   class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300 focus:border-gray-300 dark:focus:border-gray-700 transition duration-150 ease-in-out"
+                                <a
+                                    v-if="$page.props.auth.user.is_admin"
+                                    :href="route('horizon.index')"
+                                    class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150
+                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none dark:text-gray-400
+                                        dark:hover:border-gray-700 dark:hover:text-gray-300 dark:focus:border-gray-700 dark:focus:text-gray-300"
                                 >
                                     Horizon
                                 </a>
@@ -72,7 +79,8 @@ const hidePasswordReminderForToday = () => {
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <div>
                                 <span
-                                    class="text-md inline-flex cursor-default items-center rounded-md border border-transparent bg-white px-3 py-2 font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                    class="text-md inline-flex cursor-default items-center rounded-md border border-transparent bg-white px-3 py-2 font-medium leading-4 text-gray-500
+                                        transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                 >
                                     {{
                                         $tChoice("global.credits.remaining", $page.props.auth.user.credits, {
@@ -88,7 +96,8 @@ const hidePasswordReminderForToday = () => {
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition
+                                                    duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -122,7 +131,9 @@ const hidePasswordReminderForToday = () => {
                         <div class="-me-2 flex items-center sm:hidden">
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
+                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100
+                                    hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900
+                                    dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
                             >
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
@@ -166,14 +177,25 @@ const hidePasswordReminderForToday = () => {
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             {{ $t("global.navigation.dashboard") }}
                         </ResponsiveNavLink>
-                        <a v-if="$page.props.auth.user.is_admin" :href="route('pulse')" :active="route().current('pulse')"
-                        class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out"
+                        <a
+                            v-if="$page.props.auth.user.is_admin"
+                            :href="route('pulse')"
+                            :active="route().current('pulse')"
+                            class="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out
+                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none
+                                dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200 dark:focus:border-gray-600
+                                dark:focus:bg-gray-700 dark:focus:text-gray-200"
                         >
                             Pulse
                         </a>
                         <a
-                            v-if="$page.props.auth.user.is_admin" :href="route('horizon.index')" :active="route().current('horizon.index')"
-                        class="block w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:outline-none focus:text-gray-800 dark:focus:text-gray-200 focus:bg-gray-50 dark:focus:bg-gray-700 focus:border-gray-300 dark:focus:border-gray-600 transition duration-150 ease-in-out"
+                            v-if="$page.props.auth.user.is_admin"
+                            :href="route('horizon.index')"
+                            :active="route().current('horizon.index')"
+                            class="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out
+                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none
+                                dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200 dark:focus:border-gray-600
+                                dark:focus:bg-gray-700 dark:focus:text-gray-200"
                         >
                             Horizon
                         </a>

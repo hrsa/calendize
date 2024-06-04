@@ -31,9 +31,10 @@ Route::group([
 
 Route::group([
     'prefix'     => '/users',
+    'as'         => 'users.',
     'controller' => UserController::class,
 ], function () {
-    Route::post('/check', 'checkEmail')->name('user.check-email');
+    Route::post('/check', 'checkEmail')->name('check-email');
     Route::post('/hide-password-reminder', 'hidePasswordReminder')->middleware('auth')->name('hide-password-reminder');
 });
 

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, router } from "@inertiajs/vue3";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Navigation } from "swiper/modules";
-import type SwiperClass from "swiper";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
+import { Head, router } from "@inertiajs/vue3"
+import { Swiper, SwiperSlide } from "swiper/vue"
+import { Navigation } from "swiper/modules"
+import type SwiperClass from "swiper"
 
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { ref } from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import "swiper/css"
+import "swiper/css/pagination"
+import "swiper/css/navigation"
+import { ref } from "vue"
+import PrimaryButton from "@/Components/PrimaryButton.vue"
 
 interface SwiperElement extends HTMLElement {
     swiper: any;
@@ -31,19 +31,21 @@ const setSlide = (num: number) => {
 
 <template>
     <Head>
-        <title>{{ $t('how-to-use.title') }}</title>
+        <title>{{ $t("how-to-use.title") }}</title>
         <meta name="description" :content="$t('how-to-use.meta')" />
     </Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ $t('how-to-use.title') }}</h1>
+            <h1 class="text-center text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">{{ $t("how-to-use.title") }}</h1>
         </template>
 
         <div class="text-black/50 dark:text-white/50">
             <div class="relative flex min-h-screen flex-col items-center justify-start pt-16 selection:text-white">
                 <div
-                    class="relative w-full max-w-2xl overflow-hidden rounded-lg bg-white p-6 px-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:max-w-7xl lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                    class="relative w-full max-w-2xl overflow-hidden rounded-lg bg-white p-6 px-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05]
+                        transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:max-w-7xl
+                        lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
                     <div class="flex w-full justify-around">
                         <div
@@ -101,7 +103,7 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        {{ $t('how-to-use.find-an-event') }}
+                                        {{ $t("how-to-use.find-an-event") }}
                                     </h2>
                                     <img class="mx-auto block rounded-xl lg:hidden" :src="'/home/usage/tour-mobile.webp'" alt="tour" />
                                     <img class="mx-auto hidden rounded-xl lg:block" :src="'/home/usage/tour.webp'" alt="tour" />
@@ -112,25 +114,25 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        {{ $t('how-to-use.send-to-me') }}
+                                        {{ $t("how-to-use.send-to-me") }}
                                     </h2>
                                     <div class="flex flex-col">
                                         <div
                                             class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                         >
-                                            {{ $t('how-to-use.forward-email', {email: "hey@calendize.it"}) }}
+                                            {{ $t("how-to-use.forward-email", { email: "hey@calendize.it" }) }}
                                         </div>
                                         <div
                                             class="rounded-lg text-center text-lg font-extrabold uppercase tracking-widest text-gray-900 lg:text-2xl dark:text-gray-400"
                                         >
-                                            {{ $t('how-to-use.or') }}
+                                            {{ $t("how-to-use.or") }}
                                         </div>
                                         <div
                                             class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                         >
-                                            <span class="align-middle">{{ $t('how-to-use.copy-paste') }}</span>
+                                            <span class="align-middle">{{ $t("how-to-use.copy-paste") }}</span>
                                             <PrimaryButton @click="router.get(route('generate'))" class="m-auto w-fit">
-                                                {{ $t('how-to-use.button') }}
+                                                {{ $t("how-to-use.button") }}
                                             </PrimaryButton>
                                         </div>
                                     </div>
@@ -147,12 +149,12 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        {{ $t('how-to-use.check-email') }}
+                                        {{ $t("how-to-use.check-email") }}
                                     </h2>
                                     <div
                                         class="rounded-lg text-center text-base font-semibold uppercase tracking-widest text-gray-800 lg:text-xl dark:text-gray-200"
                                     >
-                                        {{ $t('how-to-use.wait-for-it') }}
+                                        {{ $t("how-to-use.wait-for-it") }}
                                     </div>
                                     <img
                                         class="mx-auto block rounded-xl lg:hidden"
@@ -171,7 +173,7 @@ const setSlide = (num: number) => {
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                                     >
-                                        {{ $t('how-to-use.add-to-calendar') }}
+                                        {{ $t("how-to-use.add-to-calendar") }}
                                     </h2>
                                     <img
                                         class="mx-auto block rounded-xl lg:hidden"

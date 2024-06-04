@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { computed, ref } from "vue";
-import { IcsEventProcessed } from "@/types";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
+import { Head, Link, router, usePage } from "@inertiajs/vue3"
+import PrimaryButton from "@/Components/PrimaryButton.vue"
+import { computed, ref } from "vue"
+import { IcsEventProcessed } from "@/types"
+import SecondaryButton from "@/Components/SecondaryButton.vue"
+import EventGenerationTextArea from "@/Components/EventGenerationTextArea.vue"
 
 const calendarEvent = ref<string>("");
 const loading = ref<boolean>(false);
@@ -101,7 +101,9 @@ const downloadIcs = () => {
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                     <div class="flex flex-col gap-6 lg:gap-8">
                         <div
-                            class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                            class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05]
+                                transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10
+                                lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                         >
                             <h3 class="mx-auto px-2 text-center text-lg sm:text-xl">
                                 {{ $t("generate.tagline") }}<br />

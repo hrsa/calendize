@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { Head, Link } from "@inertiajs/vue3"
+import GuestLayout from "@/Layouts/GuestLayout.vue"
 </script>
 
 <template>
@@ -14,7 +14,9 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
     <GuestLayout>
         <div class="flex flex-col gap-6 lg:gap-8">
             <div
-                class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05]
+                    transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10
+                    lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
             >
                 <div class="container mx-auto px-4 py-2">
                     <h1 class="mb-6 text-center text-3xl font-bold">Terms of service</h1>
@@ -58,9 +60,9 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
                         <h2 class="mb-4 text-2xl font-semibold">Data and privacy</h2>
                         <p>
                             All user data is subject to my
-                            <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link
-                            >. The accuracy of the calendized events depends on the data you provide. I do our best to generate accurate and
-                            detailed files though - my goal is to be useful to you!
+                            <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link>. The accuracy of the
+                            calendized events depends on the data you provide. I do our best to generate accurate and detailed files though
+                            - my goal is to be useful to you!
                         </p>
                     </section>
 
@@ -86,9 +88,9 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
                         <h2 class="mb-4 text-2xl font-semibold">Termination</h2>
                         <p>
                             We reserve the right to terminate your account if you don't abide by these Terms of use and the
-                            <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link
-                            >. Upon termination, you will lose access to your account and any remaining credits. Refunds will be issued for
-                            subscriptions or bulk credits <span class="font-extrabold">only if</span>
+                            <Link class="font-semibold underline" :href="route('privacy-policy')">Privacy policy</Link>. Upon termination,
+                            you will lose access to your account and any remaining credits. Refunds will be issued for subscriptions or bulk
+                            credits <span class="font-extrabold">only if</span>
                             they haven't been partially used.
                         </p>
                     </section>

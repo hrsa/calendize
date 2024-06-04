@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3";
-import { ref } from "vue";
-import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
+import { Head, Link } from "@inertiajs/vue3"
+import { ref } from "vue"
+import { Swiper, SwiperSlide } from "swiper/vue"
+import "swiper/css"
 
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import LegalFooter from "@/Components/LegalFooter.vue";
+import "swiper/css/pagination"
+import "swiper/css/navigation"
+import LegalFooter from "@/Components/LegalFooter.vue"
 
 const calendized = ref<boolean>(false);
 </script>
 
 <template>
     <Head>
-        <title>{{ $t('home.title') }}</title>
-        <meta
-            name="description"
-            :content="$t('home.meta')"
-        />
+        <title>{{ $t("home.title") }}</title>
+        <meta name="description" :content="$t('home.meta')" />
     </Head>
     <div class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
         <div
@@ -41,21 +38,22 @@ const calendized = ref<boolean>(false);
                     v-show="!calendized"
                     class="text-center text-lg font-semibold uppercase tracking-widest text-gray-800 md:m-12 lg:text-2xl xl:text-3xl dark:text-gray-200"
                 >
-                    {{ $t('home.problem.tagline') }}
+                    {{ $t("home.problem.tagline") }}
                 </h2>
                 <Link
                     :href="route('try')"
                     v-show="calendized"
-                    class="m-5 w-fit self-center rounded-lg bg-green-700 px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 hover:bg-green-900 md:m-12"
+                    class="m-5 w-fit self-center rounded-lg bg-green-700 px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 hover:bg-green-900
+                        md:m-12"
                 >
-                    {{ $t('home.solution.button.success') }}
+                    {{ $t("home.solution.button.success") }}
                 </Link>
                 <button
                     @click="calendized = !calendized"
                     class="mx-10 mb-5 w-fit self-center rounded-lg px-8 py-3 text-xl font-semibold uppercase tracking-widest text-gray-100 md:mb-12"
                     :class="calendized ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-800 hover:bg-blue-900'"
                 >
-                    {{ calendized ? $t('home.solution.button.back') : $t('home.problem.button') }}
+                    {{ calendized ? $t("home.solution.button.back") : $t("home.problem.button") }}
                 </button>
             </div>
             <div class="h-full flex-1 lg:h-screen lg:min-w-[40rem]">
@@ -71,7 +69,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                {{ $t('home.tours') }}
+                                {{ $t("home.tours") }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -90,7 +88,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                {{ $t('home.flights') }}
+                                {{ $t("home.flights") }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -109,7 +107,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                {{ $t('home.conferences') }}
+                                {{ $t("home.conferences") }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"
@@ -128,7 +126,7 @@ const calendized = ref<boolean>(false);
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
                             >
-                                {{ $t('home.concerts') }}
+                                {{ $t("home.concerts") }}
                             </h2>
                             <img
                                 class="mx-auto block rounded-xl lg:hidden"

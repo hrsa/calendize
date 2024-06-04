@@ -1,4 +1,15 @@
 {
+  "": {
+    "name": null,
+    "domain": null,
+    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
+    "uri": "api/broadcasting/auth",
+    "method": [
+      "GET",
+      "POST",
+      "HEAD"
+    ]
+  },
   "cypress.factory": {
     "name": "cypress.factory",
     "domain": null,
@@ -326,17 +337,6 @@
       "POST"
     ]
   },
-  "": {
-    "name": null,
-    "domain": null,
-    "action": "\\Illuminate\\Broadcasting\\BroadcastController@authenticate",
-    "uri": "api/broadcasting/auth",
-    "method": [
-      "GET",
-      "POST",
-      "HEAD"
-    ]
-  },
   "livewire.upload-file": {
     "name": "livewire.upload-file",
     "domain": null,
@@ -462,8 +462,8 @@
       "HEAD"
     ]
   },
-  "user.check-email": {
-    "name": "user.check-email",
+  "users.check-email": {
+    "name": "users.check-email",
     "domain": null,
     "action": "App\\Http\\Controllers\\UserController@checkEmail",
     "uri": "api/users/check",
@@ -471,8 +471,8 @@
       "POST"
     ]
   },
-  "hide-password-reminder": {
-    "name": "hide-password-reminder",
+  "users.hide-password-reminder": {
+    "name": "users.hide-password-reminder",
     "domain": null,
     "action": "App\\Http\\Controllers\\UserController@hidePasswordReminder",
     "uri": "api/users/hide-password-reminder",

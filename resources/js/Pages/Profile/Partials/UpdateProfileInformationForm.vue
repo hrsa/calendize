@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Link, useForm, usePage } from "@inertiajs/vue3";
+import InputError from "@/Components/InputError.vue"
+import InputLabel from "@/Components/InputLabel.vue"
+import PrimaryButton from "@/Components/PrimaryButton.vue"
+import TextInput from "@/Components/TextInput.vue"
+import { Link, useForm, usePage } from "@inertiajs/vue3"
 
 defineProps<{
     mustVerifyEmail?: Boolean;
@@ -52,7 +52,8 @@ const form = useForm({
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                            dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                     >
                         {{ $t("profile.update.resend-email") }}
                     </Link>

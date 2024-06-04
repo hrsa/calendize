@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import Checkbox from "@/Components/Checkbox.vue";
-import AuthDialogLayout from "@/Layouts/AuthDialogLayout.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { Head, Link, router, useForm } from "@inertiajs/vue3";
-import { watchDebounced } from "@vueuse/core";
-import { ref } from "vue";
-import LegalFooter from "@/Components/LegalFooter.vue";
+import Checkbox from "@/Components/Checkbox.vue"
+import AuthDialogLayout from "@/Layouts/AuthDialogLayout.vue"
+import InputError from "@/Components/InputError.vue"
+import InputLabel from "@/Components/InputLabel.vue"
+import PrimaryButton from "@/Components/PrimaryButton.vue"
+import TextInput from "@/Components/TextInput.vue"
+import { Head, Link, router, useForm } from "@inertiajs/vue3"
+import { watchDebounced } from "@vueuse/core"
+import { ref } from "vue"
+import LegalFooter from "@/Components/LegalFooter.vue"
 
 defineProps<{
     canResetPassword?: boolean;
@@ -47,7 +47,7 @@ watchDebounced(
     emailRef,
     (newValue) => {
         window.axios
-            .post(route("user.check-email"), { email: newValue })
+            .post(route("users.check-email"), { email: newValue })
             .then(() => {
                 emailExists.value = false;
             })

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Link } from '@inertiajs/vue3';
+import ApplicationLogo from "@/Components/ApplicationLogo.vue"
+import { Link } from "@inertiajs/vue3"
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+    <div class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0 dark:bg-gray-900">
         <div>
             <Link :href="route('try')">
                 <ApplicationLogo class="size-36 fill-current text-gray-500" />
@@ -12,7 +12,7 @@ import { Link } from '@inertiajs/vue3';
         </div>
 
         <div
-            class="w-full sm:max-w-md mt-6 px-6 py-4 text-black/50 dark:text-white/50 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg"
+            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 text-black/50 shadow-md sm:max-w-md sm:rounded-lg dark:bg-gray-800 dark:text-white/50"
         >
             <slot />
         </div>
