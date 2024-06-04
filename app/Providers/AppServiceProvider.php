@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        DB::prohibitDestructiveCommands(App::isProduction());
+
         Gate::define('has-credits', fn (User $user) => $user->credits > 0);
 
         Gate::define('errors-under-threshold', fn (User $user) => (!$user->failed_requests) || ($user->failed_requests < $user->credits));

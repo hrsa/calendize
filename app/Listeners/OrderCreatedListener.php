@@ -10,8 +10,6 @@ use LemonSqueezy\Laravel\Order;
 
 class OrderCreatedListener
 {
-
-
     public function __construct(public UserService $userService)
     {
     }

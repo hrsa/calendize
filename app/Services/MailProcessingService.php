@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Mail;
 
 class MailProcessingService
 {
-
-
     public function __construct(public IcsEventService $icsEventService)
     {
     }
