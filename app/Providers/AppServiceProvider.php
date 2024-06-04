@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('errors-under-threshold', fn (User $user) => (!$user->failed_requests) || ($user->failed_requests < $user->credits));
 
-        Gate::define('is-admin', fn (User $user) => $user->email === config('app.admin.email'));
+        Gate::define('is-admin', fn (User $user) => $user->email === Config::string('app.admin.email'));
 
         Http::macro('mistral', function () {
             return Http::withHeaders([

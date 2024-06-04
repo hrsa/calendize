@@ -4,6 +4,7 @@ namespace App\Notifications\Telegram\Admin;
 
 use App\Models\User;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 
@@ -21,7 +22,7 @@ class NewUserCreated extends Notification
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         return TelegramMessage::create()
-            ->to(config('app.admin.telegram_chat_id'))
+            ->to(Config::string('app.admin.telegram_chat_id'))
             ->content('🎉 A new user just signed up! 🎉')
             ->line('')
             ->line("{$this->user->name} ({$this->user->email})");

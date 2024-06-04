@@ -10,10 +10,13 @@ use LemonSqueezy\Laravel\Order;
 
 class OrderCreatedListener
 {
-    /**
-     * Handle the event.
-     */
-    public function handle(OrderCreated $event, UserService $userService): void
+
+
+    public function __construct(public UserService $userService)
+    {
+    }
+
+    public function handle(OrderCreated $event): void
     {
         /** @var Order $lmSqueezyOrder */
         $lmSqueezyOrder = Order::find($event->order->id);
@@ -22,7 +25,7 @@ class OrderCreatedListener
 
             /** @var User $user */
             $user = $lmSqueezyOrder->billable()->first();
-            $userService->handleTopUp($user, LemonSqueezyProduct::TopUp->credits());
+            $this->userService->handleTopUp($user, LemonSqueezyProduct::TopUp->credits());
         }
 
     }

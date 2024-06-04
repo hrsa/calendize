@@ -7,12 +7,19 @@ use App\Mail\NoMoreCreditsError;
 use App\Models\IcsEvent;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 class MailProcessingService
 {
-    public function process(InboundEmail $email, IcsEventService $icsEventService): void
+
+
+    public function __construct(public IcsEventService $icsEventService)
+    {
+    }
+
+    public function process(InboundEmail $email): void
     {
         $user = User::whereEmail($email->from())->first();
 
@@ -21,15 +28,15 @@ class MailProcessingService
         }
 
         if (Gate::forUser($user)->allows('has-credits')) {
-            $icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id(), dispatchJob: true);
+            $this->icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id(), dispatchJob: true);
         } else {
-            $icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id());
+            $this->icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id());
             Mail::to($user->email)->send(new NoMoreCreditsError());
         }
     }
 
     public function forwardToAdmin(InboundEmail $email): void
     {
-        Mail::to(config('app.admin.email'))->send(new ForwardEmail($email));
+        Mail::to(Config::string('app.admin.email'))->send(new ForwardEmail($email));
     }
 }

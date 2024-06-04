@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Telegram\Admin;
 
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\CleanupHasFailed;
@@ -16,7 +17,7 @@ class CleanupHasFailedNotification extends BaseNotification
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
-            ->to(config('backup.notifications.telegram.chat_id'))
+            ->to(Config::string('backup.notifications.telegram.chat_id'))
             ->content(trans('backup::notifications.cleanup_failed_subject', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.cleanup_failed_body', ['application_name' => $this->applicationName()]))
             ->line(trans('backup::notifications.exception_message', ['message' => $this->event->exception->getMessage()]))

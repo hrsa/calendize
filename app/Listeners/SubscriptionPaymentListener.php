@@ -10,7 +10,11 @@ use LemonSqueezy\Laravel\Subscription;
 
 class SubscriptionPaymentListener
 {
-    public function handle(SubscriptionPaymentSuccess $event, UserService $userService): void
+    public function __construct(public UserService $userService)
+    {
+    }
+
+    public function handle(SubscriptionPaymentSuccess $event): void
     {
         /** @var Subscription $lmSqueezySubscription */
         $lmSqueezySubscription = Subscription::find($event->subscription->id);
@@ -20,7 +24,7 @@ class SubscriptionPaymentListener
 
         foreach (LemonSqueezyProduct::subscriptions() as $product) {
             if ($lmSqueezySubscription->hasVariant($product->variant())) {
-                $userService->handleSubscriptionPayment($user, $product);
+                $this->userService->handleSubscriptionPayment($user, $product);
                 break;
             }
         }

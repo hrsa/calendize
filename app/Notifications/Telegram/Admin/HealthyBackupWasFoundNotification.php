@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Telegram\Admin;
 
+use Illuminate\Support\Facades\Config;
 use NotificationChannels\Telegram\TelegramBase;
 use NotificationChannels\Telegram\TelegramMessage;
 use Spatie\Backup\Events\HealthyBackupWasFound;
@@ -16,7 +17,7 @@ class HealthyBackupWasFoundNotification extends BaseNotification
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {
         $telegramMessage = TelegramMessage::create()
-            ->to(config('backup.notifications.telegram.chat_id'))
+            ->to(Config::string('backup.notifications.telegram.chat_id'))
             ->content(trans('backup::notifications.healthy_backup_found_subject', ['application_name' => $this->applicationName(), 'disk_name' => $this->diskName()]))
             ->line(trans('backup::notifications.healthy_backup_found_body', ['application_name' => $this->applicationName()]));
 

@@ -14,9 +14,6 @@ use LemonSqueezy\Laravel\Order;
  */
 class OrderRefundedListener
 {
-    /**
-     * Handle the event.
-     */
     public function handle(OrderRefunded $event): void
     {
         /** @var Order $lmSqueezyOrder */
