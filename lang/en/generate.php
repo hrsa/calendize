@@ -2,7 +2,7 @@
 
 return [
     'title'           => 'Calendize an event',
-    'meta'            => 'Generate and manage calendar events effortlessly with our intuitive solution. Paste your event details or email us to calendize. Download ICS files easily and get them by email.',
+    'meta'            => 'Generate and manage calendar events effortlessly with Calendize. Paste your event details or email us to calendize. Download ICS files easily or convert your emails into ICS files.',
     'tagline'         => "I'm ready to calendize everything that you paste here!",
     'forward-email'   => "Don't forget - you can forward me an email you want to calendize:",
     'download-button' => 'Download ICS',
