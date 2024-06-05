@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('if-not-guest-redirect-to:generate')->group(function () {
+Route::middleware(['if-not-guest-redirect-to:generate', 'log-views'])->group(function () {
     Route::inertia('/', 'Landing')->name('home');
     Route::inertia('/try', 'Try')->name('try');
 });
@@ -32,9 +32,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
-Route::inertia('pricing', 'Pricing')->middleware('if-not-guest-redirect-to:dashboard')->name('pricing');
-Route::inertia('privacy-policy', 'PrivacyPolicy')->name('privacy-policy');
-Route::inertia('terms-of-service', 'TermsOfService')->name('terms-of-service');
+Route::middleware('log-views')->group(function () {
+    Route::inertia('pricing', 'Pricing')->middleware('if-not-guest-redirect-to:dashboard')->name('pricing');
+    Route::inertia('privacy-policy', 'PrivacyPolicy')->name('privacy-policy');
+    Route::inertia('terms-of-service', 'TermsOfService')->name('terms-of-service');
+});
 
 require __DIR__ . '/auth.php';
 

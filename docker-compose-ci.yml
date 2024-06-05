@@ -189,6 +189,7 @@ services:
       image: "cypress/included:13.10.0"
       depends_on:
         - php
+        - redis
       environment:
         - CYPRESS_baseUrl=http://nginx:8000
       working_dir: /app

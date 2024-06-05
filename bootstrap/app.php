@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\LogViews;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use App\Http\Middleware\RedirectIfNotGuest;
 use App\Providers\GoogleDriveStorageProvider;
@@ -37,6 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'if-not-guest-redirect-to' => RedirectIfNotGuest::class,
             'if-not-admin-redirect'    => RedirectIfNotAdmin::class,
+            'log-views'                => LogViews::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

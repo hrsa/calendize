@@ -1,10 +1,14 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Redis;
 use Inertia\Testing\AssertableInertia;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
+
+beforeEach(function () {
+    Redis::spy();
+});
 
 test('Guest-only pages are displayed to guests and redirect users',
     function (string $route, string $component, string $redirectRoute) {
