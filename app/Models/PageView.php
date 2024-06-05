@@ -13,5 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class PageView extends Model
 {
     public $timestamps = false;
+
     public $fillable = ['date', 'page', 'views'];
 }

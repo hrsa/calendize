@@ -7,6 +7,8 @@ use App\Data\IcsEvent\IcsEventsArray;
 use App\Data\IcsEvent\Person;
 use DateTime;
 use DateTimeZone;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\IcalendarGenerator\Components\Calendar;
 use Spatie\IcalendarGenerator\Components\Event;
@@ -16,7 +18,7 @@ use Spatie\IcalendarGenerator\ValueObjects\RRule;
 class IcsGenerator
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public static function generateEvent(IcsEventData $data): Event
     {
@@ -39,6 +41,13 @@ class IcsGenerator
 
         if ($data->address) {
             $event->address($data->address);
+            try {
+                $googleAddress = AddressProcessor::getCoordinatesFromAddress($data->address);
+                $event->address($googleAddress->address);
+                $event->coordinates((float) $googleAddress->lat, (float) $googleAddress->lng);
+            } catch (Exception $e) {
+                Log::alert("Error getting coordinates for {$data->address} - {$e->getMessage()}");
+            }
         }
 
         if ($data->addressName) {

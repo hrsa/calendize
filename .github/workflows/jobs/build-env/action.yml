@@ -128,6 +128,8 @@ inputs:
     required: true
   GOOGLE_REDIRECT_URI:
     required: true
+  GOOGLE_PLACES_API_KEY:
+    required: true
   LINKEDIN_CLIENT_ID:
     required: true
   LINKEDIN_CLIENT_SECRET:
@@ -211,6 +213,7 @@ runs:
         sed -i "s|GOOGLE_CLIENT_ID=.*|GOOGLE_CLIENT_ID=${{ inputs.GOOGLE_CLIENT_ID }}|" .env
         sed -i "s|GOOGLE_CLIENT_SECRET=.*|GOOGLE_CLIENT_SECRET=${{ inputs.GOOGLE_CLIENT_SECRET }}|" .env
         sed -i "s|GOOGLE_REDIRECT_URI=.*|GOOGLE_REDIRECT_URI=${{ inputs.GOOGLE_REDIRECT_URI }}|" .env
+        sed -i "s|GOOGLE_PLACES_API_KEY=.*|GOOGLE_PLACES_API_KEY=${{ inputs.GOOGLE_PLACES_API_KEY }}|" .env
         sed -i "s|LINKEDIN_CLIENT_ID=.*|LINKEDIN_CLIENT_ID=${{ inputs.LINKEDIN_CLIENT_ID }}|" .env
         sed -i "s|LINKEDIN_CLIENT_SECRET=.*|LINKEDIN_CLIENT_SECRET=${{ inputs.LINKEDIN_CLIENT_SECRET }}|" .env
         sed -i "s|LINKEDIN_REDIRECT_URI=.*|LINKEDIN_REDIRECT_URI=${{ inputs.LINKEDIN_REDIRECT_URI }}|" .env

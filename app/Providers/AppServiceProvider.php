@@ -43,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
             ])->baseUrl('https://api.mistral.ai/v1/');
         });
 
+        Http::macro('googlePlaces', function (array $data = []) {
+            return Http::withQueryParameters(['key' => Config::string('services.google.places_api_key'), ...$data])
+                ->get('https://maps.googleapis.com/maps/api/geocode/json');
+        });
+
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
                 ->subject(config('app.name') . ' - verify your email address')
