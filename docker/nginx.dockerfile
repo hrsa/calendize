@@ -1,4 +1,4 @@
-FROM nginx:stable as base
+FROM nginx:latest as base
 
 ARG UID
 ARG GID

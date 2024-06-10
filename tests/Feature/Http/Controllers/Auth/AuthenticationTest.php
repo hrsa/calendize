@@ -3,6 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;

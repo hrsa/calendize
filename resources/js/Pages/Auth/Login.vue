@@ -13,54 +13,60 @@ import LegalFooter from "@/Components/LegalFooter.vue"
 defineProps<{
     canResetPassword?: boolean;
     status?: string;
-}>();
+}>()
 
-const emailExists = ref(false);
-const emailRef = ref("");
+const emailExists = ref(false)
+const emailRef = ref("")
 
 const form = useForm({
     name: "",
     email: "",
     password: "",
-    remember: false,
-});
+    remember: false
+})
 
 const login = () => {
-    form.email = emailRef.value;
+    form.email = emailRef.value
     form.post(route("login"), {
         onFinish: () => {
-            form.reset("password");
-        },
-    });
-};
+            form.reset("password")
+        }
+    })
+}
 
 const register = () => {
-    form.email = emailRef.value;
+    form.email = emailRef.value
     form.post(route("register"), {
         onFinish: () => {
-            form.reset("password");
-        },
-    });
-};
+            form.reset("password")
+        }
+    })
+}
+
+const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
 watchDebounced(
     emailRef,
     (newValue) => {
-        window.axios
-            .post(route("users.check-email"), { email: newValue })
-            .then(() => {
-                emailExists.value = false;
-            })
-            .catch((error) => {
-                if (error.response.status === 403) {
-                    emailExists.value = true;
-                } else {
-                    console.log(error.response.data.error);
-                }
-            });
+        if (emailPattern.test(newValue)) {
+            window.axios
+                .post(route("users.check-email"), { email: newValue })
+                .then(() => {
+                    emailExists.value = false
+                })
+                .catch((error) => {
+                    if (error.response.status === 403) {
+                        emailExists.value = true
+                    } else {
+                        console.log(error.response.data.error)
+                    }
+                })
+        } else {
+            emailExists.value = false
+        }
     },
-    { debounce: 100, maxWait: 500 },
-);
+    { debounce: 100, maxWait: 500 }
+)
 </script>
 
 <template>
@@ -126,7 +132,8 @@ watchDebounced(
             <div class="mt-4" v-if="!emailExists">
                 <InputLabel for="name" value="Name" />
 
-                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" />
+                <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required
+                           autocomplete="name" />
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>
@@ -142,12 +149,14 @@ watchDebounced(
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                        dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                 >
                     Forgot your password?
                 </Link>
 
-                <PrimaryButton @click="login" class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <PrimaryButton @click="login" class="ms-4" :class="{ 'opacity-25': form.processing }"
+                               :disabled="form.processing">
                     Log in
                 </PrimaryButton>
             </div>
@@ -157,7 +166,8 @@ watchDebounced(
                 </PrimaryButton>
             </div>
 
-            <LegalFooter class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50" />
+            <LegalFooter
+                class="mt-4 justify-between text-center text-sm text-black/50 transition duration-300 dark:text-white/50" />
         </form>
     </AuthDialogLayout>
 </template>
