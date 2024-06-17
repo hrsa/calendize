@@ -1,204 +1,204 @@
 networks:
-    calendize-network:
-        driver: bridge
+  calendize-network:
+    driver: bridge
 
 volumes:
-    postgres_data:
-        driver: local
-    redis_data:
-        driver: local
-    certbot_letsencrypt_data:
-        driver: local
-    certbot_www_data:
-        driver: local
-    public:
-        driver: local
-    bootstrap_cache:
-        driver: local
-    bootstrap_ssr:
-        driver: local
-    logs:
-        driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  certbot_letsencrypt_data:
+    driver: local
+  certbot_www_data:
+    driver: local
+  public:
+    driver: local
+  bootstrap_cache:
+    driver: local
+  bootstrap_ssr:
+    driver: local
+  logs:
+    driver: local
 
 
 services:
 
-    certbot:
-      image: certbot/certbot:latest
-      restart: no
-      container_name: certbot
-      volumes:
-        - certbot_letsencrypt_data:/etc/letsencrypt
-        - certbot_www_data:/tmp/letsencrypt
-      command:
-        - "certonly"
-        - "--webroot"
-        - "--agree-tos"
-        - "--renew-by-default"
-        - "--preferred-challenges"
-        - "http-01"
-        - "--server"
-        - "https://acme-v02.api.letsencrypt.org/directory"
-        - "--text"
-        - "--email=${ADMIN_EMAIL}"
-        - "-w"
-        - "/tmp/letsencrypt"
-        - "-d"
-        - "${REVERB_HOST}"
-      depends_on:
-        nginx:
-          condition: service_started
+  certbot:
+    image: certbot/certbot:latest
+    restart: no
+    container_name: certbot
+    volumes:
+      - certbot_letsencrypt_data:/etc/letsencrypt
+      - certbot_www_data:/tmp/letsencrypt
+    command:
+      - "certonly"
+      - "--webroot"
+      - "--agree-tos"
+      - "--renew-by-default"
+      - "--preferred-challenges"
+      - "http-01"
+      - "--server"
+      - "https://acme-v02.api.letsencrypt.org/directory"
+      - "--text"
+      - "--email=${ADMIN_EMAIL}"
+      - "-w"
+      - "/tmp/letsencrypt"
+      - "-d"
+      - "${REVERB_HOST}"
+    depends_on:
+      nginx:
+        condition: service_started
 
 
-    nginx:
-        image: hrsa/calendize-nginx:first
-        build:
-            context: .
-            dockerfile: ./docker/nginx.dockerfile
-            target: prod
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        restart: unless-stopped
-        container_name: nginx
-        volumes:
-            - certbot_letsencrypt_data:/etc/letsencrypt
-            - certbot_www_data:/var/www/certbot
-            - public:/var/www/public
-            - bootstrap_cache:/var/www/bootstrap/cache
-            - bootstrap_ssr:/var/www/bootstrap/ssr
-            - logs:/var/www/storage/logs
-            - ./.env:/var/www/.env
-        ports:
-            - "80:80"
-            - "443:443"
-        depends_on:
-          db:
-            condition: service_healthy
-          redis:
-            condition: service_healthy
-          php:
-            condition: service_started
-          queue:
-            condition: service_started
-          cron:
-            condition: service_started
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
-        networks:
-            - calendize-network
+  nginx:
+    image: hrsa/calendize-nginx:first
+    build:
+      context: .
+      dockerfile: ./docker/nginx.dockerfile
+      target: prod
+      args:
+        - UID=${UID:-1001}
+        - GID=${GID:-1001}
+        - USER=${USER:-anton}
+    restart: unless-stopped
+    container_name: nginx
+    volumes:
+      - certbot_letsencrypt_data:/etc/letsencrypt
+      - certbot_www_data:/var/www/certbot
+      - public:/var/www/public
+      - bootstrap_cache:/var/www/bootstrap/cache
+      - bootstrap_ssr:/var/www/bootstrap/ssr
+      - logs:/var/www/storage/logs
+      - ./.env:/var/www/.env
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      php:
+        condition: service_started
+      queue:
+        condition: service_started
+      cron:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - calendize-network
 
-    php:
-        image: hrsa/calendize-php:first
-        build:
-            context: .
-            dockerfile: ./docker/php-prod.dockerfile
-            target: php
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: php
-        volumes:
-          - ./.env:/var/www/.env
-          - public:/var/www/public
-          - bootstrap_cache:/var/www/bootstrap/cache
-          - bootstrap_ssr:/var/www/bootstrap/ssr
-          - certbot_letsencrypt_data:/etc/letsencrypt
-          - logs:/var/www/storage/logs
-        depends_on:
-            db:
-                condition: service_healthy
-            redis:
-                condition: service_healthy
-        ports:
-            - "9000:9000"
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
-        networks:
-            - calendize-network
+  php:
+    image: hrsa/calendize-php:first
+    build:
+      context: .
+      dockerfile: ./docker/php-prod.dockerfile
+      target: php
+      args:
+        - UID=${UID:-1001}
+        - GID=${GID:-1001}
+        - USER=${USER:-anton}
+    container_name: php
+    volumes:
+      - ./.env:/var/www/.env
+      - public:/var/www/public
+      - bootstrap_cache:/var/www/bootstrap/cache
+      - bootstrap_ssr:/var/www/bootstrap/ssr
+      - certbot_letsencrypt_data:/etc/letsencrypt
+      - logs:/var/www/storage/logs
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:9000:9000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - calendize-network
 
-    queue:
-        image: hrsa/calendize-queue:first
-        build:
-            context: .
-            dockerfile: ./docker/php-prod.dockerfile
-            target: queue
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: queue
-        volumes:
-          - ./.env:/var/www/.env
-          - public:/var/www/public
-          - bootstrap_cache:/var/www/bootstrap/cache
-          - bootstrap_ssr:/var/www/bootstrap/ssr
-          - certbot_letsencrypt_data:/etc/letsencrypt
-          - logs:/var/www/storage/logs
-        ports:
-            - "8080:8080"
-        depends_on:
-            db:
-                condition: service_healthy
-            redis:
-                condition: service_healthy
-        networks:
-            - calendize-network
+  queue:
+    image: hrsa/calendize-queue:first
+    build:
+      context: .
+      dockerfile: ./docker/php-prod.dockerfile
+      target: queue
+      args:
+        - UID=${UID:-1001}
+        - GID=${GID:-1001}
+        - USER=${USER:-anton}
+    container_name: queue
+    volumes:
+      - ./.env:/var/www/.env
+      - public:/var/www/public
+      - bootstrap_cache:/var/www/bootstrap/cache
+      - bootstrap_ssr:/var/www/bootstrap/ssr
+      - certbot_letsencrypt_data:/etc/letsencrypt
+      - logs:/var/www/storage/logs
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - calendize-network
 
 
-    cron:
-        image: hrsa/calendize-cron:first
-        build:
-            context: .
-            dockerfile: ./docker/php-prod.dockerfile
-            target: cron
-            args:
-                - UID=${UID:-1001}
-                - GID=${GID:-1001}
-                - USER=${USER:-anton}
-        container_name: cron
-        volumes:
-          - ./.env:/var/www/.env
-          - logs:/var/www/storage/logs
-        depends_on:
-          db:
-            condition: service_healthy
-          php:
-            condition: service_started
-        networks:
-            - calendize-network
+  cron:
+    image: hrsa/calendize-cron:first
+    build:
+      context: .
+      dockerfile: ./docker/php-prod.dockerfile
+      target: cron
+      args:
+        - UID=${UID:-1001}
+        - GID=${GID:-1001}
+        - USER=${USER:-anton}
+    container_name: cron
+    volumes:
+      - ./.env:/var/www/.env
+      - logs:/var/www/storage/logs
+    depends_on:
+      db:
+        condition: service_healthy
+      php:
+        condition: service_started
+    networks:
+      - calendize-network
 
-    db:
-        image: postgres:latest
-        container_name: db
-        restart: unless-stopped
-        volumes:
-            - postgres_data:/var/lib/postgresql/data
-        environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-        ports:
-            - "127.0.0.1:5432:5432"
-        healthcheck:
-            test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
-            interval: 5s
-            timeout: 30s
-            retries: 6
-        networks:
-            - calendize-network
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME}" ]
+      interval: 5s
+      timeout: 30s
+      retries: 6
+    networks:
+      - calendize-network
 
-    redis:
-        image: redis:latest
-        container_name: redis
-        volumes:
-            - redis_data:/data
-        healthcheck:
-            test: [ "CMD", "redis-cli", "ping" ]
-            interval: 5s
-            timeout: 30s
-            retries: 6
-        networks:
-            - calendize-network
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 30s
+      retries: 6
+    networks:
+      - calendize-network
