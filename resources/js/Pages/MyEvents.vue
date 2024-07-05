@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import { Head, Link, router, usePage } from "@inertiajs/vue3"
-import { useDateFormat } from "@vueuse/shared"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
+import { useDateFormat } from "@vueuse/shared";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 interface IcsEvent {
     id: number;
@@ -74,8 +74,8 @@ const paginationLinks = (usePage().props.events as EventPagination).links as Lin
                                             secret: event.secret,
                                         })
                                     "
-                                    class="inline-flex items-center rounded-md border border-gray-500 bg-green-600/70 px-4 py-2 text-xs font-semibold uppercase tracking-widest
-                                        text-gray-300 shadow-sm transition duration-150 ease-in-out hover:bg-green-600 disabled:opacity-25"
+                                    class="inline-flex items-center rounded-md bg-green-700 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition
+                                        duration-150 ease-in-out hover:bg-green-600 hover:text-gray-50 disabled:opacity-25 dark:text-gray-200"
                                     >{{ $t("my-events.download") }}</a
                                 >
                             </div>

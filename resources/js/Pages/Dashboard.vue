@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import { Head, router, usePage } from "@inertiajs/vue3"
-import { computed, onMounted, ref } from "vue"
-import Modal from "@/Components/Modal.vue"
-import { User } from "@/types"
-import { useDateFormat } from "@vueuse/shared"
-import DangerButton from "@/Components/DangerButton.vue"
-import TextInput from "@/Components/TextInput.vue"
-import SecondaryButton from "@/Components/SecondaryButton.vue"
-import { trans } from "laravel-vue-i18n"
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { Head, router, usePage } from "@inertiajs/vue3";
+import { computed, onMounted, ref } from "vue";
+import Modal from "@/Components/Modal.vue";
+import { User } from "@/types";
+import { useDateFormat } from "@vueuse/shared";
+import DangerButton from "@/Components/DangerButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import { trans } from "laravel-vue-i18n";
 
 interface PaymentConfirmation {
     title: string;
@@ -187,7 +187,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'beginner'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-100/25 hover:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
                             "
                             @mouseenter="hover = 'beginner'"
                             @mouseleave="hover = ''"
@@ -210,10 +210,10 @@ onMounted(() => {
                                 </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/beginner.png" alt="basic" />
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.credits-per-month", { credits: "10" }) }}
                                     </p>
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.revolving-credits", { credits: "2" }) }}
                                     </p>
                                 </div>
@@ -230,7 +230,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'classic'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-100/25 hover:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
                             "
                             @mouseenter="hover = 'classic'"
                             @mouseleave="hover = ''"
@@ -253,10 +253,10 @@ onMounted(() => {
                                 </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/classic.png" alt="classic" />
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.credits-per-month", { credits: "25" }) }}
                                     </p>
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.revolving-credits", { credits: "5" }) }}
                                     </p>
                                 </div>
@@ -274,7 +274,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'power'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-100/25 hover:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
                             "
                             @mouseenter="hover = 'power'"
                             @mouseleave="hover = ''"
@@ -297,10 +297,10 @@ onMounted(() => {
                                 </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/power.png" alt="power" />
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.credits-per-month", { credits: "100" }) }}
                                     </p>
-                                    <p class="mt-2 text-sm text-gray-300">
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
                                         {{ $t("dashboard.subscriptions.revolving-credits", { credits: "20" }) }}
                                     </p>
                                 </div>
@@ -430,7 +430,8 @@ onMounted(() => {
                     <div class="m-auto flex w-fit items-center gap-6 p-6">
                         <a
                             :href="props.buyCreditsLink"
-                            class="relative max-w-48 cursor-pointer rounded-lg border border-gray-100/25 transition duration-300 hover:border-gray-100/75"
+                            class="relative max-w-48 cursor-pointer rounded-lg border border-gray-600/25 transition duration-300 hover:border-gray-600/75
+                                dark:border-gray-100/25 hover:dark:border-gray-100/75"
                             @mouseenter="hover = 'credits'"
                             @mouseleave="hover = ''"
                         >
@@ -451,8 +452,10 @@ onMounted(() => {
                                 </h3>
                                 <div class="flex flex-col items-center">
                                     <img src="/credits.png" alt="top-up" />
-                                    <p class="mt-2 text-sm text-gray-300">{{ $t("dashboard.top-up.get-credits", { credits: "5" }) }}</p>
-                                    <p class="mt-2 text-sm text-gray-300">{{ $t("dashboard.top-up.expiration") }}</p>
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">
+                                        {{ $t("dashboard.top-up.get-credits", { credits: "5" }) }}
+                                    </p>
+                                    <p class="mt-2 text-sm text-gray-800 dark:text-gray-300">{{ $t("dashboard.top-up.expiration") }}</p>
                                 </div>
                                 <div
                                     class="inline-flex w-full justify-center px-4 py-2 text-2xl font-semibold uppercase text-gray-700 transition duration-150 ease-in-out
