@@ -66,12 +66,14 @@ class IcsGenerator
             $event->microsoftTeams($data->microsoftTeams);
         }
 
-        if ($data->organizer instanceof Person) {
+        if ($data->organizer instanceof Person && $data->organizer->email) {
             $event->organizer($data->organizer->email, $data->organizer->name);
         }
 
         foreach ($data->attendees as $attendee) {
-            $event->attendee($attendee->email, $attendee->name);
+            if ($attendee->email) {
+                $event->attendee($attendee->email, $attendee->name);
+            }
         }
 
         if ($data->rrule?->frequency) {
