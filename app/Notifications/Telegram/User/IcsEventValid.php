@@ -6,6 +6,7 @@ use App\Models\IcsEvent;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 use NotificationChannels\Telegram\TelegramFile;
 
 class IcsEventValid extends Notification implements ShouldQueue
@@ -26,14 +27,14 @@ class IcsEventValid extends Notification implements ShouldQueue
         $textData = $this->message ? "{$this->message} \n ***{$this->icsEvent->getSummary()}***" : $this->icsEvent->getSummary();
         $textData .= "\n\nYou have {$notifiable->credits} credits left!";
 
-        $filename = storage_path($this->icsEvent->getSummary() . '.ics');
+        $filename = storage_path(Str::slug($this->icsEvent->getSummary(), '_') . '.ics');
         $data = $this->icsEvent->ics;
         file_put_contents($filename, $data);
 
         $telegramMessage = TelegramFile::create()
             ->to($notifiable->telegram_id)
             ->content($textData)
-            ->document($filename, $this->icsEvent->getSummary() . '.ics');
+            ->document($filename, Str::slug($this->icsEvent->getSummary(), '_') . '.ics');
 
         unlink($filename);
 
