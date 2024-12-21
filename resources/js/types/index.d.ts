@@ -1,6 +1,6 @@
-import { Config } from 'ziggy-js';
+import { Config } from "ziggy-js";
 
-export interface User {
+export type User = {
     id: number;
     name: string;
     email: string;
@@ -13,16 +13,25 @@ export interface User {
     active_subscription: string;
     hide_pw_reminder: string | undefined;
     days_since_password_reminder: number;
+};
 
-}
+export type IcsEvent = {
+    id: number;
+    summary: string;
+    error: string | null;
+    ics: string | null;
+    created_at: string;
+    token_usage: number | null;
+    secret: string;
+};
 
-export interface IcsEventProcessed extends Event {
-  id: number;
-  ics: string;
-  error: string;
-  secret: string;
-  summary: string;
-}
+export type IcsEventProcessed = {
+    id: number;
+    ics: string;
+    error: string;
+    secret: string;
+    summary: string;
+};
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {

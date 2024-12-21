@@ -3,23 +3,14 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import { useDateFormat } from "@vueuse/shared";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { IcsEvent } from "@/types";
 
-interface IcsEvent {
-    id: number;
-    summary: string;
-    error: string | null;
-    ics: string | null;
-    created_at: string;
-    token_usage: number | null;
-    secret: string;
-}
-
-interface Links {
+type Links = {
     first: string | null;
     prev: string | null;
     next: string | null;
     last: string | null;
-}
+};
 
 interface EventPagination {
     data: IcsEvent[];
