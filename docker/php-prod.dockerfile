@@ -56,9 +56,9 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure intl \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl
 
-RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g npm@10.8.3
+RUN npm install -g npm@11.0.0
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
