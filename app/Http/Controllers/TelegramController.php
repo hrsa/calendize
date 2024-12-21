@@ -8,6 +8,7 @@ use App\Notifications\Telegram\User\CustomMessage;
 use App\Services\Telegram\TelegramService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -42,20 +43,26 @@ class TelegramController extends Controller
         $payload = json_decode(request()->getContent());
         $telegramMessage = $payload->message ?? $payload->edited_message ?? $payload->callback_query;
 
-        $telegramMessageData = new IncomingTelegramMessage(
-            new IncomingTelegramMessageAuthor(
-                $telegramMessage->from->id,
-                $telegramMessage->from->is_bot,
-                $telegramMessage->from->is_premium ?? false,
-                $telegramMessage->from->first_name,
-                $telegramMessage->from->last_name ?? null,
-                $telegramMessage->from->username,
-                $telegramMessage->from->language_code
-            ),
-            $telegramMessage->text ?? null,
-            $telegramMessage->data ?? null,
-        );
-
-        $telegramService->process($telegramMessageData);
+        try {
+            $telegramMessageData = new IncomingTelegramMessage(
+                new IncomingTelegramMessageAuthor(
+                    $telegramMessage->from->id,
+                    $telegramMessage->from->is_bot,
+                    $telegramMessage->from->is_premium ?? false,
+                    $telegramMessage->from->first_name,
+                    $telegramMessage->from->last_name ?? null,
+                    $telegramMessage->from->username,
+                    $telegramMessage->from->language_code
+                ),
+                $telegramMessage->text ?? null,
+                $telegramMessage->data ?? null,
+            );
+            $telegramService->process($telegramMessageData);
+        } catch (\Exception $e) {
+            Log::error('Error creating Telegram message data', [
+            'exception' => $e->getMessage(),
+            'payload' => request()->getContent(),
+        ]);
+        }
     }
 }

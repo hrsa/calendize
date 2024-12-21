@@ -14,7 +14,7 @@ class UserService
     {
         return User::create([
             'email'        => $email,
-            'password'     => bcrypt($password ?? Str::random(10)),
+            'password'     => bcrypt($password ?? Str::password()),
             'has_password' => false,
             'credits'      => $credits,
         ]);

@@ -11,7 +11,6 @@ Route::middleware(['if-not-guest-redirect-to:generate', 'log-views'])->group(fun
 });
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -19,9 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::inertia('/how-to-use', 'HowToUse')->name('how-to-use');
 
     Route::middleware('verified')->group(function () {
-
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
         Route::inertia('/generate', 'Generate', [
             'serverErrorMessage' => request('serverErrorMessage'),
             'serverSuccess'      => request('serverSuccess'),
@@ -32,6 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('event/download/{id}/{secret}', [CalendarGeneratorController::class, 'downloadEvent'])->name('event.download');
+
 Route::middleware('log-views')->group(function () {
     Route::inertia('pricing', 'Pricing')->middleware('if-not-guest-redirect-to:dashboard')->name('pricing');
     Route::inertia('privacy-policy', 'PrivacyPolicy')->name('privacy-policy');

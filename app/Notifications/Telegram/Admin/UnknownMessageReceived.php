@@ -26,7 +26,7 @@ class UnknownMessageReceived extends Notification
             ->content('Unknown command!')
             ->line('')
             ->line("From: {$author->firstName} {$author->lastName} (@{$author->userName})")
-            ->line("Message: \"{$this->incomingMessage->text}\"");
+            ->escapedLine("Message: \"{$this->incomingMessage->text}\"");
 
         if ($author->isBot) {
             $telegramMessage->line("It's a bot, by the way...");
