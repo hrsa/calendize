@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
     libpq-dev \
+    libpq5 \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     locales \
@@ -42,7 +43,7 @@ RUN mkdir -p /usr/share/postgresql-common/pgdg && \
 
 RUN sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-RUN apt update && apt install -y postgresql-16
+RUN apt update && apt install -y postgresql-17
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
