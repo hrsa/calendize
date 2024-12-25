@@ -1,4 +1,4 @@
-FROM nginx:latest as base
+FROM nginx:latest AS base
 
 ARG UID
 ARG GID
@@ -16,9 +16,9 @@ RUN sed -i "s/user nginx/user '${USER}'/g" /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 
 
-FROM base as dev
+FROM base AS dev
 COPY ./docker/nginx-dev.conf /etc/nginx/conf.d/default.conf
 
-FROM base as prod
+FROM base AS prod
 COPY . /var/www
 COPY ./docker/nginx-prod.conf /etc/nginx/conf.d/default.conf

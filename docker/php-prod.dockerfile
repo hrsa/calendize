@@ -1,4 +1,4 @@
-FROM php:8.3-fpm AS base
+FROM php:8.4-fpm AS base
 
 ARG UID
 ARG GID
@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
     libpq-dev \
+    libpq5 \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     locales \
@@ -42,7 +43,7 @@ RUN mkdir -p /usr/share/postgresql-common/pgdg && \
 
 RUN sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-RUN apt update && apt install -y postgresql-16
+RUN apt update && apt install -y postgresql-17
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
@@ -54,7 +55,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl \
+    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
+    && ldconfig
 
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
 RUN apt-get install -y nodejs
