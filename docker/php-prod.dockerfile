@@ -35,9 +35,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     nano \
-    supervisor \
-    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
-    && ldconfig
+    supervisor
 
 RUN mkdir -p /usr/share/postgresql-common/pgdg && \
     curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc && \
@@ -54,6 +52,8 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
+    && ldconfig \
     && docker-php-ext-configure intl \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl
 
