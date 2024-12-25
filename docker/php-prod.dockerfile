@@ -35,7 +35,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     nano \
-    supervisor
+    supervisor \
+    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
+    && ldconfig
 
 RUN mkdir -p /usr/share/postgresql-common/pgdg && \
     curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc && \
@@ -53,9 +55,7 @@ RUN pecl install xdebug \
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl \
-    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
-    && ldconfig
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl
 
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
 RUN apt-get install -y nodejs
