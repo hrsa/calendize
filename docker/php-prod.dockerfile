@@ -7,6 +7,7 @@ ARG USER
 ENV UID=${UID}
 ENV GID=${GID}
 ENV USER=${USER}
+ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 
 WORKDIR /var/www/
 RUN addgroup --gid ${GID} --system ${USER}
