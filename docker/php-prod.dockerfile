@@ -7,7 +7,6 @@ ARG USER
 ENV UID=${UID}
 ENV GID=${GID}
 ENV USER=${USER}
-ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 
 WORKDIR /var/www/
 RUN addgroup --gid ${GID} --system ${USER}
@@ -70,9 +69,6 @@ RUN composer install --no-scripts --no-progress
 RUN chown -R ${UID}:${GID} /var/www
 RUN chmod 777 -R /var/www
 RUN rm .env*
-
-RUN echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
-    && ldconfig
 
 USER ${USER}
 

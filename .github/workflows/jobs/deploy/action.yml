@@ -35,6 +35,9 @@ runs:
         scp -o StrictHostKeyChecking=no .env root@${{ inputs.SERVER_IP }}:/var/www
         scp -o StrictHostKeyChecking=no docker-compose-prod.yml root@${{ inputs.SERVER_IP }}:/var/www
         ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
+        docker exec -u 0 -it php ldconfig
+        docker exec -u 0 -it cron ldconfig
+        docker exec -u 0 -it queue ldconfig
         docker compose -f /var/www/docker-compose-prod.yml up -d nginx
         systemctl start cron
         EOF
