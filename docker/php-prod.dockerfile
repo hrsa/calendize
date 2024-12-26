@@ -43,7 +43,7 @@ RUN mkdir -p /usr/share/postgresql-common/pgdg && \
 
 RUN sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-RUN apt update && apt install -y postgresql-17
+RUN apt update && apt install -y postgresql
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
@@ -52,8 +52,6 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
-    && ldconfig \
     && docker-php-ext-configure intl \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl bcmath gd bz2 sodium zip intl
 
@@ -71,6 +69,9 @@ RUN composer install --no-scripts --no-progress
 RUN chown -R ${UID}:${GID} /var/www
 RUN chmod 777 -R /var/www
 RUN rm .env*
+
+RUN echo "/usr/lib/x86_64-linux-gnu" > /etc/ld.so.conf.d/libpq.conf \
+    && ldconfig
 
 USER ${USER}
 
