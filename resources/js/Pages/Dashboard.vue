@@ -175,7 +175,7 @@ onMounted(() => {
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div
-                    class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-none
+                    class="overflow-hidden bg-white shadow-sm ring-1 ring-white/[0.05] transition duration-300 hover:ring-black/20 focus:outline-hidden
                         focus-visible:ring-[#FF2D20] sm:rounded-lg dark:bg-gray-800 dark:ring-zinc-800 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
                     <div class="pt-6 text-center text-lg uppercase tracking-widest text-gray-900 dark:text-gray-100">
@@ -187,7 +187,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'beginner'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 dark:hover:border-gray-100/75'
                             "
                             @mouseenter="hover = 'beginner'"
                             @mouseleave="hover = ''"
@@ -230,7 +230,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'classic'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 dark:hover:border-gray-100/75'
                             "
                             @mouseenter="hover = 'classic'"
                             @mouseleave="hover = ''"
@@ -274,7 +274,7 @@ onMounted(() => {
                             :class="
                                 activeSubscription === 'power'
                                     ? 'border-green-600/25 bg-green-600/25 hover:border-green-600/75'
-                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 hover:dark:border-gray-100/75'
+                                    : 'border-gray-600/25 hover:border-gray-600/75 dark:border-gray-100/25 dark:hover:border-gray-100/75'
                             "
                             @mouseenter="hover = 'power'"
                             @mouseleave="hover = ''"
@@ -342,7 +342,7 @@ onMounted(() => {
                                 <a
                                     :href="paymentMethodUrl"
                                     class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition
-                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
+                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
                                         dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
                                     >{{ $t("dashboard.subscriptions.change-payment-method") }}</a
                                 >
@@ -375,7 +375,7 @@ onMounted(() => {
                                 <SecondaryButton @click="swapSubscription('at renewal')"
                                     >{{ swapAction }} {{ $t("dashboard.subscriptions.on-renewal") }}
                                 </SecondaryButton>
-                                <SecondaryButton @click="swapSubscription('now')" class="!bg-green-600/50 hover:!bg-green-600/75"
+                                <SecondaryButton @click="swapSubscription('now')" class="bg-green-600/50! hover:bg-green-600/75!"
                                     >{{ swapAction }} {{ $t("dashboard.subscriptions.now") }}
                                 </SecondaryButton>
                             </div>
@@ -412,7 +412,7 @@ onMounted(() => {
                                     v-if="activeSubscription !== 'beginner'"
                                     @click="modalOpen = ''"
                                     class="rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition
-                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
+                                        duration-150 ease-in-out hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500
                                         dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800"
                                 >
                                     {{ $t("dashboard.cancel-modal.lets-downgrade") }}
@@ -431,7 +431,7 @@ onMounted(() => {
                         <a
                             :href="props.buyCreditsLink"
                             class="relative max-w-48 cursor-pointer rounded-lg border border-gray-600/25 transition duration-300 hover:border-gray-600/75
-                                dark:border-gray-100/25 hover:dark:border-gray-100/75"
+                                dark:border-gray-100/25 dark:hover:border-gray-100/75"
                             @mouseenter="hover = 'credits'"
                             @mouseleave="hover = ''"
                         >

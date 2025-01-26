@@ -30,15 +30,15 @@
                 @foreach ($packages as $index => $package)
                     <tr wire:key="{{ $index }}-spacer" class="h-2 first:h-0"></tr>
                     <tr wire:key="{{ $index }}-row" >
-                        <x-pulse::td class="!p-0 truncate max-w-[1px]">
+                        <x-pulse::td class="p-0! truncate max-w-[1px]">
                             <div class="relative">
                                 <div
-                                    class="py-4 text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:theme(colors.gray.500)_transparent] [scrollbar-width:thin]">
+                                    class="py-4 text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:var(--color-gray-500)_transparent] [scrollbar-width:thin]">
                                     <a href="{{ $package['source'] }}"
                                        class="{{ $package['updateType'] === 'minor'
                                             ? 'text-green-500'
                                             : ($package['updateType'] === 'feature'
-                                                ? 'dark:!text-yellow-500'
+                                                ? 'dark:text-yellow-500!'
                                                 : ($package['updateType'] === 'breaking'
                                                     ? 'text-red-500'
                                                     : 'text-gray-300')) }} px-3 font-bold">{{$package['name']}}</a>
@@ -51,7 +51,7 @@
                             <span class="{{ $package['updateType'] === 'minor'
                                             ? 'text-green-500'
                                             : ($package['updateType'] === 'feature'
-                                                ? 'dark:!text-yellow-500'
+                                                ? 'dark:text-yellow-500!'
                                                 : ($package['updateType'] === 'breaking'
                                                     ? 'text-red-500'
                                                     : 'text-gray-300')) }} font-bold">{{ $package['version'] }}</span>
@@ -60,7 +60,7 @@
                             <span class="{{ $package['updateType'] === 'minor'
                                             ? 'text-green-500'
                                             : ($package['updateType'] === 'feature'
-                                                ? 'dark:!text-yellow-500'
+                                                ? 'dark:text-yellow-500!'
                                                 : ($package['updateType'] === 'breaking'
                                                     ? 'text-red-500'
                                                     : 'text-gray-300')) }} font-bold">{{ $package['latest'] }}</span>

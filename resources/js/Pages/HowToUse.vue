@@ -44,7 +44,7 @@ const setSlide = (num: number) => {
             <div class="relative flex min-h-screen flex-col items-center justify-start pt-16 selection:text-white">
                 <div
                     class="relative w-full max-w-2xl overflow-hidden rounded-lg bg-white p-6 px-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05]
-                        transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:max-w-7xl
+                        transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] md:row-span-3 lg:max-w-7xl
                         lg:p-10 lg:pb-10 dark:bg-gray-800 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                 >
                     <div class="flex w-full justify-around">
@@ -98,7 +98,7 @@ const setSlide = (num: number) => {
                             class="how-to-use-swiper cursor-hand h-full"
                             @slideChange="handleProgress"
                         >
-                            <swiper-slide class="flex flex-grow flex-col">
+                            <swiper-slide class="flex grow flex-col">
                                 <div class="flex h-full flex-col justify-center gap-4 p-5 md:p-12">
                                     <h2
                                         class="rounded-lg text-center text-xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"

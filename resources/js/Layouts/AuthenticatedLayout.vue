@@ -59,7 +59,7 @@ const hidePasswordReminderForToday = () => {
                                     v-if="$page.props.auth.user.is_admin"
                                     :href="route('pulse')"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150
-                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none dark:text-gray-400
+                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-hidden dark:text-gray-400
                                         dark:hover:border-gray-700 dark:hover:text-gray-300 dark:focus:border-gray-700 dark:focus:text-gray-300"
                                 >
                                     Pulse
@@ -68,7 +68,7 @@ const hidePasswordReminderForToday = () => {
                                     v-if="$page.props.auth.user.is_admin"
                                     :href="route('horizon.index')"
                                     class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium leading-5 text-gray-500 transition duration-150
-                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-none dark:text-gray-400
+                                        ease-in-out hover:border-gray-300 hover:text-gray-700 focus:border-gray-300 focus:text-gray-700 focus:outline-hidden dark:text-gray-400
                                         dark:hover:border-gray-700 dark:hover:text-gray-300 dark:focus:border-gray-700 dark:focus:text-gray-300"
                                 >
                                     Horizon
@@ -80,7 +80,7 @@ const hidePasswordReminderForToday = () => {
                             <div>
                                 <span
                                     class="text-md inline-flex cursor-default items-center rounded-md border border-transparent bg-white px-3 py-2 font-medium leading-4 text-gray-500
-                                        transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                        transition duration-150 ease-in-out hover:text-gray-700 focus:outline-hidden dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                 >
                                     {{
                                         $tChoice("global.credits.remaining", $page.props.auth.user.credits, {
@@ -97,7 +97,7 @@ const hidePasswordReminderForToday = () => {
                                             <button
                                                 type="button"
                                                 class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition
-                                                    duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
+                                                    duration-150 ease-in-out hover:text-gray-700 focus:outline-hidden dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -132,7 +132,7 @@ const hidePasswordReminderForToday = () => {
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"
                                 class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100
-                                    hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900
+                                    hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-hidden dark:text-gray-500 dark:hover:bg-gray-900
                                     dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
                             >
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@ const hidePasswordReminderForToday = () => {
                             :href="route('pulse')"
                             :active="route().current('pulse')"
                             class="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out
-                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none
+                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-hidden
                                 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200 dark:focus:border-gray-600
                                 dark:focus:bg-gray-700 dark:focus:text-gray-200"
                         >
@@ -193,7 +193,7 @@ const hidePasswordReminderForToday = () => {
                             :href="route('horizon.index')"
                             :active="route().current('horizon.index')"
                             class="block w-full border-l-4 border-transparent py-2 pe-4 ps-3 text-start text-base font-medium text-gray-600 transition duration-150 ease-in-out
-                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-none
+                                hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800 focus:border-gray-300 focus:bg-gray-50 focus:text-gray-800 focus:outline-hidden
                                 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-200 dark:focus:border-gray-600
                                 dark:focus:bg-gray-700 dark:focus:text-gray-200"
                         >
@@ -221,7 +221,7 @@ const hidePasswordReminderForToday = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow dark:bg-gray-800" v-if="$slots.header">
+            <header class="bg-white shadow-sm dark:bg-gray-800" v-if="$slots.header">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
