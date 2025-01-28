@@ -16,13 +16,13 @@ withDefaults(
         placeholder?: string | undefined;
         delay?: number | undefined;
         validation?: string | undefined;
-        validationVisibility?: "submit" | "blur-sm" | "live" | "dirty" | undefined;
+        validationVisibility?: "submit" | "blur" | "live" | "dirty" | undefined;
     }>(),
     {
         placeholder: "",
         delay: 1000,
         validation: "required|email",
-        validationVisibility: "blur-sm",
+        validationVisibility: "blur",
     },
 );
 
