@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\CalendarGeneratorController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\UserController;
@@ -15,6 +16,8 @@ Route::group([
     Route::post('/guest-generate-calendar', 'guestGenerate')->name('guest-generate-calendar');
     Route::post('/generate-calendar', 'generate')->middleware('auth:sanctum')->name('generate-calendar');
 });
+
+Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('auth')->name('feedback');
 
 Route::group([
     'as'         => 'socialite.',
