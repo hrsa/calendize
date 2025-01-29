@@ -59,7 +59,7 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g npm@11.0.0 && npm install -g npm-check-updates
+RUN npm install -g npm@11.1.0 && npm install -g npm-check-updates
 RUN chown -R ${UID}:${GID} /var/www
 RUN chmod 777 -R /var/www
 USER ${USER}
