@@ -36,13 +36,13 @@
                     <tr wire:key="{{ $page }}-row">
                         <x-pulse::td class="truncate max-w-[1px]">
                             <div
-                                class="py-1 px-12 text-wrap text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:theme(colors.gray.500)_transparent] [scrollbar-width:thin]">
+                                class="py-1 px-12 text-wrap text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:var(--color-gray-500)_transparent] [scrollbar-width:thin]">
                                 <p>{{ $page }}</p>
                             </div>
                         </x-pulse::td>
                         <x-pulse::td class=" truncate max-w-[1px]">
                             <div
-                                class="py-1 text-center text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:theme(colors.gray.500)_transparent] [scrollbar-width:thin]">
+                                class="py-1 text-center text-base rounded-md text-gray-700 dark:text-gray-300 block whitespace-nowrap overflow-x-auto [scrollbar-color:var(--color-gray-500)_transparent] [scrollbar-width:thin]">
                                 <p>{{ $stats[$timeline] }}</p>
                             </div>
                         </x-pulse::td>

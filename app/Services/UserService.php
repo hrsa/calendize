@@ -22,7 +22,7 @@ class UserService
 
     public function createSubscriptionLink(User $user, LemonSqueezyProduct $subscription): string
     {
-        if (!Config::string('lemon-squeezy.api_key') && !app()->isProduction()) {
+        if (!Config::string('lemon-squeezy.api_key') || !app()->isProduction()) {
             return 'https://fake.link';
         }
 
@@ -34,7 +34,7 @@ class UserService
 
     public function createTopUpCreditsLink(User $user): string
     {
-        if (!Config::string('lemon-squeezy.api_key') && !app()->isProduction()) {
+        if (!Config::string('lemon-squeezy.api_key') || !app()->isProduction()) {
             return 'https://fake.link';
         }
 

@@ -64,7 +64,7 @@ const calendized = ref<boolean>(false);
                     :loop="true"
                     class="cursor-hand h-full bg-white/85 dark:bg-black/85"
                 >
-                    <swiper-slide class="flex flex-grow flex-col">
+                    <swiper-slide class="flex grow flex-col">
                         <div class="flex h-full flex-col justify-center gap-6 p-5 md:p-12">
                             <h2
                                 class="rounded-lg text-center text-2xl font-semibold uppercase tracking-widest text-gray-800 lg:p-6 lg:text-3xl dark:text-gray-200"
