@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Enums\LemonSqueezyProduct;
+use App\Helpers\AddressProcessor;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class UserService
@@ -93,5 +96,15 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function updateTimezone(string $latitude, string $longitude, User $user): void
+    {
+        try {
+            $timezone = AddressProcessor::getTimezone($latitude, $longitude);
+            $user->update(['timezone' => $timezone]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 }

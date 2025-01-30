@@ -48,6 +48,12 @@ class AppServiceProvider extends ServiceProvider
                 ->get('https://maps.googleapis.com/maps/api/geocode/json');
         });
 
+        Http::macro('timeZone', function (string $latitude, string $longitude) {
+            return Http::withQueryParameters(['key' => Config::string('services.google.places_api_key'),
+                'timestamp' => time(), 'location' => $latitude . ',' . $longitude])
+                ->get('https://maps.googleapis.com/maps/api/timezone/json');
+        });
+
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
                 ->subject(config('app.name') . ' - verify your email address')

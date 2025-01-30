@@ -44,10 +44,12 @@ class GenerateCalendarJob implements ShouldQueue
         $result = null;
         $systemPrompt = config('openai.system_prompt');
         $now = Carbon::now();
-        $systemPrompt .= " As of today, the date is {$now}. Pay attention to the year - if there's no year in the data, but the event seems to be in the past - then it's next year! If not present in my data, add {$user->name} {$user->email} as attendee.";
+        $systemPrompt .= " As of today, the date is {$now}. Pay attention to the year - if there's no year in the data, but the event seems to be in the past - then it's next year! If not present in my data, add {$user->name} {$user->email} as attendee and organizer.";
 
         if ($this->icsEvent->timezone) {
             $systemPrompt .= "User's timezone: {$this->icsEvent->timezone}.";
+        } else if ($user->timezone) {
+            $systemPrompt .= "User's timezone: {$user->timezone}.";
         }
 
         $this->aiMessages = [

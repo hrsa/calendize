@@ -37,6 +37,7 @@ use LemonSqueezy\Laravel\Subscription;
  * @property string|null $telegram_id
  * @property bool $send_tg_notifications
  * @property Carbon|null $hide_pw_reminder
+ * @property string|null $timezone
  * @property IcsEvent $icsEvents
  */
 #[ObservedBy(UserObserver::class)]
@@ -64,6 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'hide_pw_reminder',
         'telegram_id',
         'send_tg_notifications',
+        'timezone',
     ];
 
     /**

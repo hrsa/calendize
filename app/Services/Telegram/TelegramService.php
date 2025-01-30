@@ -7,7 +7,9 @@ use App\Enums\TelegramCommand;
 use App\Models\User;
 use App\Notifications\Telegram\Admin\UnknownMessageReceived;
 use App\Notifications\Telegram\ReplyToUnknownUser;
+use App\Notifications\Telegram\User\CustomMessage;
 use App\Notifications\Telegram\User\ReplyToUnknownCommand;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
@@ -22,6 +24,15 @@ class TelegramService
 
         if (!$user) {
             $this->replyToUnknownUser($telegramMessage);
+
+            return;
+        }
+
+        if ($telegramMessage->hasLocation()) {
+            $userService = new UserService();
+            $userService->updateTimezone($telegramMessage->location->latitude, $telegramMessage->location->longitude, $user);
+
+            $user->notify(new CustomMessage("Your timezone has been updated to: {$user->timezone}"));
 
             return;
         }

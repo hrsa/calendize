@@ -45,7 +45,7 @@ class TelegramController extends Controller
 
         try {
             $telegramMessageData = new IncomingTelegramMessage(
-                new IncomingTelegramMessageAuthor(
+                author: new IncomingTelegramMessageAuthor(
                     $telegramMessage->from->id,
                     $telegramMessage->from->is_bot,
                     $telegramMessage->from->is_premium ?? false,
@@ -54,8 +54,9 @@ class TelegramController extends Controller
                     $telegramMessage->from->username,
                     $telegramMessage->from->language_code
                 ),
-                $telegramMessage->text ?? null,
-                $telegramMessage->data ?? null,
+                text: $telegramMessage->text ?? $telegramMessage->caption ?? null,
+                data: $telegramMessage->data ?? null,
+                location: $telegramMessage->location ?? null,
             );
             $telegramService->process($telegramMessageData);
         } catch (\Exception $e) {

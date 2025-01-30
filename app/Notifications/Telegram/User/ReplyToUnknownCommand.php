@@ -32,6 +32,18 @@ class ReplyToUnknownCommand extends Notification
             ->line("But i don't really know what to do with it...")
             ->line('Do you want me to **calendize** it?');
 
+        if ($notifiable->timezone) {
+            $telegramMessage
+                ->line('')
+                ->line('')
+                ->line("Your timezone is {$notifiable->timezone}. If you want to change it - send me your location **before** clicking the button below.");
+        } else {
+            $telegramMessage
+                ->line('')
+                ->line('')
+                ->line("**I need to know your timezone to respect your calendar.** Please send me your location **before** clicking the button below!");
+        }
+
         try {
             $telegramMessage->buttonWithCallback(
                 text: 'Yes, calendize my message!',

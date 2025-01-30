@@ -12,6 +12,7 @@ class IncomingTelegramMessage extends Data
         public ?string $text,
         public ?string $data,
         public ?TelegramCommand $command = null,
+        public ?IncomingTelegramMessageLocation $location = null,
     ) {
     }
 
@@ -28,5 +29,10 @@ class IncomingTelegramMessage extends Data
     public function hasCallbackData(): bool
     {
         return $this->data !== null;
+    }
+
+    public function hasLocation(): bool
+    {
+        return $this->location !== null;
     }
 }

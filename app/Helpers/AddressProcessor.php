@@ -31,6 +31,20 @@ class AddressProcessor
     /**
      * @throws Exception
      */
+    public static function getTimezone(string $lat, string $lng): string
+    {
+        $response = Http::timeZone($lat, $lng);
+
+        if ($response->successful()) {
+            return $response->json()['timeZoneId'];
+        } else {
+            throw new Exception($response->body());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
     private static function processAddressData(array $data): GooglePlacesAddress
     {
         return !empty($data['results'])
