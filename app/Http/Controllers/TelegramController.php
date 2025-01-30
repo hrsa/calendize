@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Data\Telegram\IncomingTelegramMessageAuthor;
+use App\Data\Telegram\IncomingTelegramMessageLocation;
 use App\Notifications\Telegram\User\CustomMessage;
 use App\Services\Telegram\TelegramService;
 use Illuminate\Http\RedirectResponse;
@@ -27,10 +28,10 @@ class TelegramController extends Controller
         Auth::user()->notifyNow(new CustomMessage('Congratulations! Your Calendize account is now connected 😊'));
 
         return Inertia::render('Generate', [
-            'serverSuccess'      => 'Your Telegram account is successfully connected!',
+            'serverSuccess' => 'Your Telegram account is successfully connected!',
             'serverErrorMessage' => null,
-            'eventId'            => null,
-            'eventSecret'        => null,
+            'eventId' => null,
+            'eventSecret' => null,
         ]);
     }
 
@@ -56,14 +57,19 @@ class TelegramController extends Controller
                 ),
                 text: $telegramMessage->text ?? $telegramMessage->caption ?? null,
                 data: $telegramMessage->data ?? null,
-                location: $telegramMessage->location ?? null,
+                location: isset($telegramMessage->location)
+                    ? new IncomingTelegramMessageLocation(
+                        $telegramMessage->location->latitude,
+                        $telegramMessage->location->longitude
+                    )
+                    : null
             );
             $telegramService->process($telegramMessageData);
         } catch (\Exception $e) {
             Log::error('Error creating Telegram message data', [
-            'exception' => $e->getMessage(),
-            'payload' => request()->getContent(),
-        ]);
+                'exception' => $e->getMessage(),
+                'payload' => request()->getContent(),
+            ]);
         }
     }
 }
