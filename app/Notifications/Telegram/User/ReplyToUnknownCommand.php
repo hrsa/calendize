@@ -13,9 +13,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class ReplyToUnknownCommand extends Notification
 {
-    public function __construct(public IncomingTelegramMessage $incomingMessage)
-    {
-    }
+    public function __construct(public IncomingTelegramMessage $incomingMessage) {}
 
     public function via(): array
     {
@@ -41,7 +39,7 @@ class ReplyToUnknownCommand extends Notification
             $telegramMessage
                 ->line('')
                 ->line('')
-                ->line("**I need to know your timezone to respect your calendar.** Please send me your location **before** clicking the button below!");
+                ->line('**I need to know your timezone to respect your calendar.** Please send me your location **before** clicking the button below!');
         }
 
         try {

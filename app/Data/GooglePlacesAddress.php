@@ -10,6 +10,5 @@ class GooglePlacesAddress extends Data
         public ?string $address = null,
         public ?string $lat = null,
         public ?string $lng = null,
-    ) {
-    }
+    ) {}
 }

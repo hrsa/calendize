@@ -13,9 +13,7 @@ class IcsEventValid extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public IcsEvent $icsEvent, public ?string $message = null)
-    {
-    }
+    public function __construct(public IcsEvent $icsEvent, public ?string $message = null) {}
 
     public function via(): array
     {

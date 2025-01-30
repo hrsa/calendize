@@ -9,9 +9,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class ReplyToUnknownUser extends Notification
 {
-    public function __construct(public IncomingTelegramMessageAuthor $author)
-    {
-    }
+    public function __construct(public IncomingTelegramMessageAuthor $author) {}
 
     public function via(): array
     {

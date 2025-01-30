@@ -29,7 +29,7 @@ class TelegramService
         }
 
         if ($telegramMessage->hasLocation()) {
-            $userService = new UserService();
+            $userService = new UserService;
             $userService->updateTimezone($telegramMessage->location->latitude, $telegramMessage->location->longitude, $user);
 
             $user->notify(new CustomMessage("Your timezone has been updated to: {$user->timezone}"));

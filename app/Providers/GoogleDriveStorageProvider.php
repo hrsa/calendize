@@ -8,10 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class GoogleDriveStorageProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-
-    }
+    public function register(): void {}
 
     public function boot(): void
     {
@@ -27,7 +24,7 @@ class GoogleDriveStorageProvider extends ServiceProvider
                     $options['sharedFolderId'] = $config['sharedFolderId'];
                 }
 
-                $client = new \Google\Client();
+                $client = new \Google\Client;
                 $client->setClientId($config['clientId']);
                 $client->setClientSecret($config['clientSecret']);
                 $client->refreshToken($config['refreshToken']);

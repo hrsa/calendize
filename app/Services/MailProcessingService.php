@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 class MailProcessingService
 {
-    public function __construct(public IcsEventService $icsEventService)
-    {
-    }
+    public function __construct(public IcsEventService $icsEventService) {}
 
     public function process(InboundEmail $email): void
     {
@@ -29,7 +27,7 @@ class MailProcessingService
             $this->icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id(), dispatchJob: true);
         } else {
             $this->icsEventService->createIcsEvent(userId: $user->id, prompt: $email->text(), emailId: $email->id());
-            Mail::to($user->email)->send(new NoMoreCreditsError());
+            Mail::to($user->email)->send(new NoMoreCreditsError);
         }
     }
 

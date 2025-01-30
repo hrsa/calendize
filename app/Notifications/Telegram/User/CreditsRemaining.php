@@ -11,9 +11,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class CreditsRemaining extends Notification
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function via(): array
     {

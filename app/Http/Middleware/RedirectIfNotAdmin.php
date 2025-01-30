@@ -11,10 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfNotAdmin
 {
-    public function __construct(protected Gate $gate)
-    {
-
-    }
+    public function __construct(protected Gate $gate) {}
 
     /**
      * Handle an incoming request.

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Notifications\Telegram\Admin\FeedbackReceived;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Support\Carbon;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\postJson;
 
@@ -30,19 +31,22 @@ test('feedback from author is processed', function () {
 
     expect($feedback)->toBeNull();
 
+    /** @var IcsEvent $icsEvent */
     actingAs($user)->postJson(route('feedback'), [
         'ics_event_id' => $icsEvent->id,
-        'like' => true,
-        'data' => 'test',
+        'like'         => true,
+        'data'         => 'test',
     ])->assertCreated();
 
     $feedback = Feedback::first();
+    /** @var Feedback $feedback */
+    /** @var IcsEvent $icsEvent */
     expect($feedback)->not->toBeNull()
         ->and($feedback->like)->toBeTrue()
         ->and($feedback->data)->toBe('test')
         ->and($feedback)->ics_event_id->toBe($icsEvent->id);
 
-    Notification::assertSentTo(new AnonymousNotifiable(), FeedbackReceived::class);
+    Notification::assertSentTo(new AnonymousNotifiable, FeedbackReceived::class);
 });
 
 test('feedback not from authors is refused', function () {
@@ -60,25 +64,26 @@ test('feedback not from authors is refused', function () {
 
     $icsEvent = IcsEvent::factory()->icsProcessed()->create(['user_id' => $user2->id]);
 
-    actingAs($user1)->postJson(route('feedback'), [
+    actingAs($user1)->postJson(route('feedback'), data: [
         'ics_event_id' => $icsEvent->id,
-        'like' => true,
-        'data' => 'test',
+        'like'         => true,
+        'data'         => 'test',
     ])->assertForbidden();
 
-    Notification::assertNotSentTo(new AnonymousNotifiable(), FeedbackReceived::class);
+    Notification::assertNotSentTo(new AnonymousNotifiable, FeedbackReceived::class);
 });
 
 test('feedback from anonymous users is not processed', function () {
     $icsEvent = IcsEvent::factory()->icsProcessed()->create();
 
+    /** @var IcsEvent $icsEvent */
     postJson(route('feedback'), [
         'ics_event_id' => $icsEvent->id,
-        'like' => true,
-        'data' => 'test',
+        'like'         => true,
+        'data'         => 'test',
     ])->assertUnauthorized();
 
-    Notification::assertNotSentTo(new AnonymousNotifiable(), FeedbackReceived::class);
+    Notification::assertNotSentTo(new AnonymousNotifiable, FeedbackReceived::class);
 });
 
 test('feedback data is validated', function () {
@@ -91,22 +96,24 @@ test('feedback data is validated', function () {
 
     $icsEvent = IcsEvent::factory()->icsProcessed()->create(['user_id' => $user->id]);
 
-    actingAs($user)->postJson(route('feedback'), [
+    /** @var IcsEvent $icsEvent */
+    actingAs($user)->postJson(route('feedback'), data: [
         'ics_event_id' => $icsEvent->id,
-        'data' => 'test',
+        'data'         => 'test',
     ])->assertUnprocessable()->assertJsonValidationErrors(['like']);
 
-    actingAs($user)->postJson(route('feedback'), [
+    /** @var IcsEvent $icsEvent */
+    actingAs($user)->postJson(route('feedback'), data: [
         'ics_event_id' => $icsEvent->id,
-        'like' => true,
+        'like'         => true,
     ])->assertUnprocessable()->assertJsonValidationErrors(['data']);
 
-    actingAs($user)->postJson(route('feedback'), [
+    /** @var IcsEvent $icsEvent */
+    actingAs($user)->postJson(route('feedback'), data: [
         'ics_event_id' => $icsEvent->id,
-        'like' => 'string',
-        'data' => true,
+        'like'         => 'string',
+        'data'         => true,
     ])->assertUnprocessable()->assertJsonValidationErrors(['like', 'data']);
 
-    Notification::assertNotSentTo(new AnonymousNotifiable(), FeedbackReceived::class);
+    Notification::assertNotSentTo(new AnonymousNotifiable, FeedbackReceived::class);
 });
-

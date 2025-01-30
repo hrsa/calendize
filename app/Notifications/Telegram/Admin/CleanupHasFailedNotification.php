@@ -10,9 +10,7 @@ use Spatie\Backup\Notifications\BaseNotification;
 
 class CleanupHasFailedNotification extends BaseNotification
 {
-    public function __construct(public CleanupHasFailed $event)
-    {
-    }
+    public function __construct(public CleanupHasFailed $event) {}
 
     public function toTelegram($notifiable): TelegramBase|TelegramMessage
     {

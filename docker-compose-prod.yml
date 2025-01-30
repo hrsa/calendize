@@ -139,6 +139,8 @@ services:
       - logs:/var/www/storage/logs
     ports:
       - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: [ "CMD", "healthcheck-queue" ]
     depends_on:
       db:
         condition: service_healthy
@@ -162,6 +164,8 @@ services:
     volumes:
       - ./.env:/var/www/.env
       - logs:/var/www/storage/logs
+    healthcheck:
+      test: [ "CMD", "healthcheck-schedule" ]
     depends_on:
       db:
         condition: service_healthy

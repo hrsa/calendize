@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
 
         Http::macro('timeZone', function (string $latitude, string $longitude) {
             return Http::withQueryParameters(['key' => Config::string('services.google.places_api_key'),
-                'timestamp' => time(), 'location' => $latitude . ',' . $longitude])
+                'timestamp'                         => time(), 'location' => $latitude . ',' . $longitude])
                 ->get('https://maps.googleapis.com/maps/api/timezone/json');
         });
 

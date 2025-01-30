@@ -52,7 +52,7 @@ class UserService
         $user->increment('credits', $credits);
         $user->update(['failed_requests' => 0]);
 
-        $icsEventService = new IcsEventService();
+        $icsEventService = new IcsEventService;
         $icsEventService->processPendingEvents($user);
     }
 
@@ -69,7 +69,7 @@ class UserService
         $user->failed_requests = 0;
         $user->save();
 
-        $icsEventService = new IcsEventService();
+        $icsEventService = new IcsEventService;
         $icsEventService->processPendingEvents($user);
     }
 

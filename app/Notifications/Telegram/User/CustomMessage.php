@@ -9,9 +9,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class CustomMessage extends Notification
 {
-    public function __construct(public $message)
-    {
-    }
+    public function __construct(public $message) {}
 
     public function via(): array
     {

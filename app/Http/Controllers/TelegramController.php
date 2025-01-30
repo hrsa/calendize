@@ -28,10 +28,10 @@ class TelegramController extends Controller
         Auth::user()->notifyNow(new CustomMessage('Congratulations! Your Calendize account is now connected 😊'));
 
         return Inertia::render('Generate', [
-            'serverSuccess' => 'Your Telegram account is successfully connected!',
+            'serverSuccess'      => 'Your Telegram account is successfully connected!',
             'serverErrorMessage' => null,
-            'eventId' => null,
-            'eventSecret' => null,
+            'eventId'            => null,
+            'eventSecret'        => null,
         ]);
     }
 
@@ -68,7 +68,7 @@ class TelegramController extends Controller
         } catch (\Exception $e) {
             Log::error('Error creating Telegram message data', [
                 'exception' => $e->getMessage(),
-                'payload' => request()->getContent(),
+                'payload'   => request()->getContent(),
             ]);
         }
     }

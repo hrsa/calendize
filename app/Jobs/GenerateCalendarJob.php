@@ -34,9 +34,7 @@ class GenerateCalendarJob implements ShouldQueue
 
     private array $aiMessages = [];
 
-    public function __construct(public icsEvent $icsEvent)
-    {
-    }
+    public function __construct(public icsEvent $icsEvent) {}
 
     public function handle(): void
     {
@@ -48,7 +46,7 @@ class GenerateCalendarJob implements ShouldQueue
 
         if ($this->icsEvent->timezone) {
             $systemPrompt .= "User's timezone: {$this->icsEvent->timezone}.";
-        } else if ($user->timezone) {
+        } elseif ($user->timezone) {
             $systemPrompt .= "User's timezone: {$user->timezone}.";
         }
 

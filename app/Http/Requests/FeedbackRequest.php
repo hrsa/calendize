@@ -9,9 +9,9 @@ class FeedbackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'like' => ['required', 'boolean'],
+            'like'         => ['required', 'boolean'],
             'ics_event_id' => ['required', 'exists:ics_events,id'],
-            'data' => ['required', 'string'],
+            'data'         => ['required', 'string'],
         ];
     }
 
