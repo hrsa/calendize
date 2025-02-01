@@ -15,10 +15,12 @@ return [
 
     'name'  => env('APP_NAME', 'Laravel'),
     'admin' => [
-        'firstname'        => env('ADMIN_FIRSTNAME'),
-        'lastname'         => env('ADMIN_LASTNAME'),
-        'fullname'         => env('ADMIN_FIRSTNAME') . ' ' . env('ADMIN_LASTNAME'),
-        'email'            => env('ADMIN_EMAIL'),
+        'firstname' => env('ADMIN_FIRSTNAME'),
+        'lastname'  => env('ADMIN_LASTNAME'),
+        'fullname'  => env('ADMIN_FIRSTNAME') . ' ' . env('ADMIN_LASTNAME'),
+        'email'     => env('ADMIN_EMAIL')
+                        ? env('ADMIN_EMAIL')
+                        : '',
         'telegram_chat_id' => env('TELEGRAM_ADMIN_CHAT_ID'),
     ],
 
