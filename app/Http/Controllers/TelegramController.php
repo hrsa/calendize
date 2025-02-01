@@ -42,7 +42,12 @@ class TelegramController extends Controller
         }
 
         $payload = json_decode(request()->getContent());
-        $telegramMessage = $payload->message ?? $payload->edited_message ?? $payload->callback_query;
+        $telegramMessage = $payload->message ?? $payload->edited_message ?? $payload->callback_query ?? null;
+
+        if (!$telegramMessage) {
+            Log::warning('Invalid Telegram message', ['payload' => $payload]);
+            return;
+        }
 
         try {
             $telegramMessageData = new IncomingTelegramMessage(
