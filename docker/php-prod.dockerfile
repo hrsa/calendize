@@ -21,9 +21,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     supervisor \
     nano \
-    locales
+    locales \
+    gnupg
 
 RUN install-php-extensions intl exif bcmath bz2 gd
+
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgresql.gpg && \
+       echo "deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt $(grep VERSION_CODENAME /etc/os-release | cut -d= -f2)-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+       apt-get update && apt-get install -y postgresql-client-17
 
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
 RUN apt-get install -y nodejs
