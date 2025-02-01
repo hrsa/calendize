@@ -32,6 +32,11 @@ class Feedback extends Model
         return $this->belongsTo(IcsEvent::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->icsEvent->user();
+    }
+
     protected function casts(): array
     {
         return [

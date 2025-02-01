@@ -34,10 +34,11 @@ class GenerateCalendarJob implements ShouldQueue
 
     private array $aiMessages = [];
 
-    public function __construct(public icsEvent $icsEvent)
-    {
-    }
+    public function __construct(public icsEvent $icsEvent) {}
 
+    /**
+     * @throws Exception
+     */
     public function handle(): void
     {
         $user = $this->icsEvent->user;
@@ -48,7 +49,7 @@ class GenerateCalendarJob implements ShouldQueue
 
         if ($this->icsEvent->timezone) {
             $systemPrompt .= "User's timezone: {$this->icsEvent->timezone}.";
-        } else if ($user->timezone) {
+        } elseif ($user->timezone) {
             $systemPrompt .= "User's timezone: {$user->timezone}.";
         }
 
@@ -57,26 +58,90 @@ class GenerateCalendarJob implements ShouldQueue
             ['role' => 'user', 'content' => $this->icsEvent->prompt],
         ];
 
-        try {
-            $result = $this->generateOpenAIResponse();
-        } catch (Exception $exception) {
-            Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$exception->getMessage()}");
-        }
+        $maxRetries = 4;
+        $attempts = 0;
 
-        if (!$result instanceof CreateResponse) {
+        while ($attempts < $maxRetries) {
             try {
-                $result = $this->generateMistralResponse();
-            } catch (Exception $e) {
-                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
-                Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
-                IcsEventProcessed::dispatch($this->icsEvent);
-                $this->notifyUserError($this->icsEvent->user);
-                $this->fail("{$e->getCode()} : {$e->getMessage()}");
+                $result = $this->generateOpenAIResponse();
 
-                return;
+                if ($this->isErrorJson($result)) {
+                    $attempts++;
+                    Log::warning("OpenAI Retry #{$attempts} for IcsEvent #{$this->icsEvent->id}. Reason: {$result->choices[0]->message->content}");
+
+                    continue;
+                }
+
+                break;
+            } catch (Exception $exception) {
+                Log::alert("OpenAI error generating IcsEvent #{$this->icsEvent->id}: {$exception->getMessage()}");
+                break;
             }
         }
 
+        if (!isset($result)) {
+            $attempts = 0;
+
+            while ($attempts < $maxRetries) {
+                try {
+                    $result = $this->generateMistralResponse();
+
+                    if ($this->isErrorJson($result)) {
+                        $attempts++;
+                        Log::warning("Mistral Retry #{$attempts} for IcsEvent #{$this->icsEvent->id}. Reason: " . json_encode($result));
+
+                        continue;
+                    }
+
+                    break;
+                } catch (Exception $e) {
+                    Log::alert("Mistral error generating IcsEvent #{$this->icsEvent->id}: {$e->getMessage()}");
+                    break;
+                }
+            }
+        }
+
+        if (!isset($result) || $this->isErrorJson($result)) {
+            if (isset($result) && $this->isErrorJson($result)) {
+                $errorContent = json_decode($result->choices[0]->message->content, true)['error'] ?? 'Unexpected error';
+                $this->icsEvent->update(['error' => $errorContent]);
+            } else {
+                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
+            }
+
+            Log::alert("Max retries reached for IcsEvent #{$this->icsEvent->id}");
+            IcsEventProcessed::dispatch($this->icsEvent);
+            $this->notifyUserError($this->icsEvent->user);
+            $this->fail("Max retries reached for IcsEvent #{$this->icsEvent->id}");
+
+            return;
+        }
+
+        $this->processResponse($result, $user);
+    }
+
+    private function isErrorJson(mixed $result): bool
+    {
+        if (!$result) {
+            return false;
+        }
+
+        $content = $result->choices[0]->message->content ?? null;
+
+        if ($content) {
+            $decoded = json_decode($content, true);
+
+            return array_key_exists('error', $decoded) && isset($decoded['error']);
+        }
+
+        return false;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function processResponse(mixed $result, User $user): void
+    {
         $jsonIcs = $result->choices[0]->message->content;
 
         if (!$jsonIcs) {
@@ -95,48 +160,33 @@ class GenerateCalendarJob implements ShouldQueue
 
         $decodedReply = json_decode($jsonIcs, true);
 
-        if (array_key_exists('error', $decodedReply) && isset($decodedReply['error'])) {
-            $this->icsEvent->update(['error' => $decodedReply['error']]);
-            $user->increment('failed_requests');
-
-            if ($user->failed_requests >= $user->credits) {
-                $user->decrement('credits');
-            }
-
-            $this->notifyUserError($user);
-            IcsEventProcessed::dispatch($this->icsEvent);
-
-            return;
-        }
-
-        if (array_key_exists('events', $decodedReply) && isset($decodedReply['events'])) {
-            try {
-                $events = IcsEventsArray::from($decodedReply);
-                $this->generateAndSaveIcs(event: null, events: $events, user: $user);
-            } catch (Exception $e) {
-                Log::error("Ics {$this->icsEvent->id} error: {$e->getMessage()}", $decodedReply);
-                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
-                Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
-                IcsEventProcessed::dispatch($this->icsEvent);
-                $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
-
-                return;
-            }
+        if (isset($decodedReply['events'])) {
+            $this->handleEvents($decodedReply, $user);
         } else {
-            try {
-                $event = IcsEventData::from($decodedReply);
-                $this->generateAndSaveIcs(event: $event, events: null, user: $user);
-            } catch (Exception $e) {
-                Log::error("Ics {$this->icsEvent->id} error: {$e->getMessage()}", $decodedReply);
-                $this->icsEvent->update(['error' => "I'm sorry, my servers are having hiccups. Please try again in 30-60 minutes!"]);
-                Log::alert("Total failure for IcsEvent #{$this->icsEvent->id}");
-                IcsEventProcessed::dispatch($this->icsEvent);
-                $this->notifyUserError($this->icsEvent->user);
-                $this->fail("Total failure for IcsEvent #{$this->icsEvent->id}");
-
-                return;
-            }
+            $this->handleEvent($decodedReply, $user);
         }
+    }
+
+    /**
+     * Handle the case where multiple events are returned
+     *
+     * @throws Exception
+     */
+    private function handleEvents(array $decodedReply, User $user): void
+    {
+        $events = IcsEventsArray::from($decodedReply);
+        $this->generateAndSaveIcs(event: null, events: $events, user: $user);
+    }
+
+    /**
+     * Handle the case where a single event is returned
+     *
+     * @throws Exception
+     */
+    private function handleEvent(array $decodedReply, User $user): void
+    {
+        $event = IcsEventData::from($decodedReply);
+        $this->generateAndSaveIcs(event: $event, events: null, user: $user);
     }
 
     private function generateOpenAIResponse(): CreateResponse

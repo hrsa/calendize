@@ -14,9 +14,7 @@ class IcsEventError extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public IcsEvent $icsEvent)
-    {
-    }
+    public function __construct(public IcsEvent $icsEvent) {}
 
     public function via(): array
     {

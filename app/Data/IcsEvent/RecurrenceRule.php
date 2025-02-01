@@ -12,6 +12,5 @@ class RecurrenceRule extends Data
         public ?string $interval = null,
         public ?string $starting = null,
         public ?string $until = null,
-    ) {
-    }
+    ) {}
 }

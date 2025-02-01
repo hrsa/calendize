@@ -9,10 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class MailProcessingServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-
-    }
+    public function register(): void {}
 
     public function boot(MailProcessingService $service): void
     {

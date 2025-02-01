@@ -15,9 +15,7 @@ class IcsValid extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public IcsEvent $icsEvent)
-    {
-    }
+    public function __construct(public IcsEvent $icsEvent) {}
 
     /**
      * @throws NoSummaryException

@@ -37,9 +37,8 @@ class AddressProcessor
 
         if ($response->successful()) {
             return $response->json()['timeZoneId'];
-        } else {
-            throw new Exception($response->body());
         }
+        throw new Exception($response->body());
     }
 
     /**

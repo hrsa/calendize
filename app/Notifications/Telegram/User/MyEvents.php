@@ -13,9 +13,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class MyEvents extends Notification
 {
-    public function __construct(protected LengthAwarePaginator $events)
-    {
-    }
+    public function __construct(protected LengthAwarePaginator $events) {}
 
     /**
      * @return array<string>

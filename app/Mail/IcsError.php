@@ -17,9 +17,7 @@ class IcsError extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public IcsEvent $icsEvent)
-    {
-    }
+    public function __construct(public IcsEvent $icsEvent) {}
 
     /**
      * Get the message envelope.

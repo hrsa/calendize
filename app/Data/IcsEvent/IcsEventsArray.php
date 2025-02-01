@@ -11,6 +11,5 @@ class IcsEventsArray extends Data
 {
     public function __construct(
         public array $events,
-    ) {
-    }
+    ) {}
 }

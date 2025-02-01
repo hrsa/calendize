@@ -75,6 +75,8 @@ services:
             - "8080:8080"
         volumes:
             - ./:/var/www/
+        healthcheck:
+            test: [ "CMD", "healthcheck-queue" ]
         depends_on:
             db:
                 condition: service_healthy

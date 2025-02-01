@@ -13,8 +13,7 @@ class IncomingTelegramMessage extends Data
         public ?string $data,
         public ?TelegramCommand $command = null,
         public ?IncomingTelegramMessageLocation $location = null,
-    ) {
-    }
+    ) {}
 
     public function hasCommand(): bool
     {

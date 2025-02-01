@@ -9,7 +9,5 @@ class IncomingTelegramMessageLocation extends Data
     public function __construct(
         public string $latitude,
         public string $longitude,
-    )
-    {
-    }
+    ) {}
 }

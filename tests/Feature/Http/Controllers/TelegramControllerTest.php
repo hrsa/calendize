@@ -128,8 +128,8 @@ test('telegram webhook is processed only with a valid secret token header', func
     Notification::assertNothingSent();
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo(new AnonymousNotifiable(), UnknownMessageReceived::class);
-    Notification::assertSentTo(new AnonymousNotifiable(), ReplyToUnknownUser::class);
+    Notification::assertSentTo(new AnonymousNotifiable, UnknownMessageReceived::class);
+    Notification::assertSentTo(new AnonymousNotifiable, ReplyToUnknownUser::class);
     Notification::assertCount(2);
 });
 
@@ -138,7 +138,7 @@ test('telegram messages from users are processed', function () {
     Redis::spy();
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo(new AnonymousNotifiable(), UnknownMessageReceived::class);
+    Notification::assertSentTo(new AnonymousNotifiable, UnknownMessageReceived::class);
     Notification::assertSentTo($user, ReplyToUnknownCommand::class);
     Notification::assertCount(2);
 });
@@ -149,7 +149,7 @@ test("unknown command doesn't break anything", function () {
     $this->telegramWebHookData['message']['text'] = '/aclearlyFakeCommand';
 
     postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
-    Notification::assertSentTo(new AnonymousNotifiable(), UnknownMessageReceived::class);
+    Notification::assertSentTo(new AnonymousNotifiable, UnknownMessageReceived::class);
     Notification::assertSentTo($user, ReplyToUnknownCommand::class);
     Notification::assertCount(2);
 });

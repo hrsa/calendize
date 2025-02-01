@@ -10,9 +10,7 @@ use LemonSqueezy\Laravel\Subscription;
 
 class SubscriptionPaymentListener
 {
-    public function __construct(public UserService $userService)
-    {
-    }
+    public function __construct(public UserService $userService) {}
 
     public function handle(SubscriptionPaymentSuccess $event): void
     {

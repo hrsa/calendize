@@ -17,9 +17,7 @@ class IcsEventProcessed implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public IcsEvent $icsEvent)
-    {
-    }
+    public function __construct(public IcsEvent $icsEvent) {}
 
     /**
      * Get the data to broadcast.

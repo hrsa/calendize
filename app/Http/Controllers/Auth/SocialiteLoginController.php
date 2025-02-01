@@ -70,7 +70,7 @@ class SocialiteLoginController extends Controller
 
     public function handleTwitterCallback(UserService $userService)
     {
-        $credentials = new TemporaryCredentials();
+        $credentials = new TemporaryCredentials;
         $credentials->setIdentifier(request()->oauth_token);
         $credentials->setSecret(request()->oauth_verifier);
         request()->session()->put('oauth', ['temp' => $credentials]);

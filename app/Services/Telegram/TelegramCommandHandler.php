@@ -14,9 +14,7 @@ use Illuminate\Support\Str;
 
 class TelegramCommandHandler
 {
-    public function __construct(public User $user, public IncomingTelegramMessage $telegramMessage)
-    {
-    }
+    public function __construct(public User $user, public IncomingTelegramMessage $telegramMessage) {}
 
     public function handleCommand(): void
     {
@@ -50,12 +48,12 @@ class TelegramCommandHandler
         }
 
         if (Gate::forUser($user)->denies('has-credits')) {
-            $user->notify(new CreditsRemaining());
+            $user->notify(new CreditsRemaining);
 
             return;
         }
 
-        $icsEventService = new IcsEventService();
+        $icsEventService = new IcsEventService;
 
         $user->notify(new CustomMessage('Got it! Give me 10 seconds to process that...'));
         $icsEventService->createIcsEvent(userId: $user->id, prompt: $text, dispatchJob: true);
@@ -81,6 +79,6 @@ class TelegramCommandHandler
 
     private function handleMyCredits(User $user): void
     {
-        $user->notify(new CreditsRemaining());
+        $user->notify(new CreditsRemaining);
     }
 }

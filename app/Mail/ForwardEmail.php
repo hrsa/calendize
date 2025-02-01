@@ -15,9 +15,7 @@ class ForwardEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public InboundEmail $inboundEmail)
-    {
-    }
+    public function __construct(public InboundEmail $inboundEmail) {}
 
     public function envelope(): Envelope
     {

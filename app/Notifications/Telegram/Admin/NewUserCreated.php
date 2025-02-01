@@ -10,9 +10,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class NewUserCreated extends Notification
 {
-    public function __construct(public User $user)
-    {
-    }
+    public function __construct(public User $user) {}
 
     public function via(): array
     {

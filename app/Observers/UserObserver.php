@@ -29,7 +29,7 @@ class UserObserver
             && $user->credits < 3
             && $user->telegram_id
             && $user->send_tg_notifications) {
-            $user->notify(new CreditsRemaining());
+            $user->notify(new CreditsRemaining);
         }
     }
 
