@@ -32,9 +32,17 @@ runs:
         cp /var/www/.env /var/www/.env.prev
         EOF
         scp -o StrictHostKeyChecking=no docker/renew-ssl.sh root@${{ inputs.SERVER_IP }}:/var/www
+        scp -o StrictHostKeyChecking=no docker/install-postgres17-client.sh root@${{ inputs.SERVER_IP }}:/var/www
         scp -o StrictHostKeyChecking=no .env root@${{ inputs.SERVER_IP }}:/var/www
         scp -o StrictHostKeyChecking=no docker-compose-prod.yml root@${{ inputs.SERVER_IP }}:/var/www
         ssh -o StrictHostKeyChecking=no root@${{ inputs.SERVER_IP }}  <<EOF
+
+        docker compose -f /var/www/docker-compose-prod.yml up -d php cron queue
+
+        bash /var/www/install-postgres17-client.sh php
+        bash /var/www/install-postgres17-client.sh cron
+        bash /var/www/install-postgres17-client.sh queue
+
         docker compose -f /var/www/docker-compose-prod.yml up -d nginx
         systemctl start cron
         EOF
