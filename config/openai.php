@@ -4,7 +4,7 @@ return [
 
     'api_key'       => env('OPENAI_API_KEY'),
     'organization'  => env('OPENAI_ORGANIZATION'),
-    'model'         => 'o3-mini',
+    'model'         => 'gpt-4o',
     'system_prompt' => env('OPENAI_SYSTEM_PROMPT')
         ? base64_decode(env('OPENAI_SYSTEM_PROMPT'))
         : '',
