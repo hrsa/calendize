@@ -205,7 +205,7 @@ class GenerateCalendarJob implements ShouldQueue
      */
     private function generateMistralResponse(): stdClass
     {
-        $response = Http::mistral()->timeout(10)->post('/chat/completions', [
+        $response = Http::mistral()->timeout(Config::integer('mistral.request_timeout'))->post('/chat/completions', [
             'model'           => Config::string('mistral.model'),
             'messages'        => $this->aiMessages,
             'max_tokens'      => 3700,
