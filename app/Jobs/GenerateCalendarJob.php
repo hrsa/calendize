@@ -12,6 +12,7 @@ use App\Models\IcsEvent;
 use App\Models\User;
 use App\Notifications\Telegram\User\IcsEventError;
 use App\Notifications\Telegram\User\IcsEventValid;
+use Config;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -192,7 +193,7 @@ class GenerateCalendarJob implements ShouldQueue
     private function generateOpenAIResponse(): CreateResponse
     {
         return OpenAI::chat()->create([
-            'model'           => 'gpt-4o',
+            'model'           => Config::string('openai.model'),
             'messages'        => $this->aiMessages,
             'max_tokens'      => 3700,
             'response_format' => ['type' => 'json_object'],
@@ -205,7 +206,7 @@ class GenerateCalendarJob implements ShouldQueue
     private function generateMistralResponse(): stdClass
     {
         $response = Http::mistral()->timeout(10)->post('/chat/completions', [
-            'model'           => 'mistral-large-latest',
+            'model'           => Config::string('mistral.model'),
             'messages'        => $this->aiMessages,
             'max_tokens'      => 3700,
             'response_format' => ['type' => 'json_object'],
