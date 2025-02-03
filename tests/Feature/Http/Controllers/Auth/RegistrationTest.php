@@ -5,9 +5,9 @@ use function Pest\Laravel\post;
 
 test('registration screen can be rendered', function () {
 
-    get(route('login'))
-        ->assertStatus(200);
-});
+get(route('login'))
+->assertStatus(200);
+    });
 
 test('new users can register', function () {
     post('/register', [

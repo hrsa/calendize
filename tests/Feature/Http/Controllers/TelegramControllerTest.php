@@ -96,7 +96,7 @@ beforeEach(function () {
 
 test('users can add a telegram account, guests cannot', function () {
 
-    get(route('telegram.connect'))->assertRedirectToRoute('login');
+get(route('telegram.connect'))->assertRedirectToRoute('login');
 
     $user = User::factory()->create();
     $telegramId = fake()->randomNumber(6);
@@ -119,7 +119,7 @@ test('users can add a telegram account, guests cannot', function () {
     expect($user->telegram_id)->toEqual($telegramId);
 
     Notification::assertSentTo($user, CustomMessage::class);
-});
+    });
 
 test('telegram webhook is processed only with a valid secret token header', function () {
 
