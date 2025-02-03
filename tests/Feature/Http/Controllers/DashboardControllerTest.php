@@ -9,7 +9,7 @@ use function Pest\Laravel\get;
 
 test('users can access dashboard, guests cannot', function () {
 
-    get(route('dashboard'))->assertRedirect();
+get(route('dashboard'))->assertRedirect();
 
     $user = User::factory()->create();
 
@@ -25,7 +25,7 @@ test('users can access dashboard, guests cannot', function () {
             ->where('buyCreditsLink', 'https://payment.link/topup')
             ->where('paymentConfirmation', null)
         );
-});
+    });
 
 test('dashboard popups are generated correctly from route parameters', function () {
 

@@ -104,6 +104,11 @@ test('feedback data is validated', function () {
 
     /** @var IcsEvent $icsEvent */
     actingAs($user)->postJson(route('feedback'), data: [
+        'data' => '',
+    ])->assertUnprocessable()->assertJsonValidationErrors(['like', 'data', 'ics_event_id']);
+
+    /** @var IcsEvent $icsEvent */
+    actingAs($user)->postJson(route('feedback'), data: [
         'ics_event_id' => $icsEvent->id,
         'like'         => true,
     ])->assertUnprocessable()->assertJsonValidationErrors(['data']);

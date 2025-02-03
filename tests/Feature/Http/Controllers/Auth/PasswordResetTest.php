@@ -8,8 +8,8 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
 test('reset password link screen can be rendered', function () {
-    get('/forgot-password')->assertOk();
-});
+get('/forgot-password')->assertOk();
+    });
 
 test('reset password link can be requested', function () {
     Notification::fake();
@@ -29,10 +29,10 @@ test('reset password screen can be rendered', function () {
     post('/forgot-password', ['email' => $user->email]);
 
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-        get('/reset-password/' . $notification->token)->assertOk();
+    get('/reset-password/' . $notification->token)->assertOk();
 
         return true;
-    });
+        });
 });
 
 test('password can be reset with valid token', function () {

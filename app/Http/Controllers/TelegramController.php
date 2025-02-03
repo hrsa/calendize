@@ -46,6 +46,7 @@ class TelegramController extends Controller
 
         if (!$telegramMessage) {
             Log::warning('Invalid Telegram message', ['payload' => $payload]);
+
             return;
         }
 

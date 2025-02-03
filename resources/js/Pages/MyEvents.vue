@@ -23,6 +23,7 @@ interface EventPagination {
 }
 
 const events = (usePage().props.events as EventPagination).data as IcsEvent[];
+const feedbackEvent = ref<IcsEvent | null>(null);
 const paginationLinks = (usePage().props.events as EventPagination).links as Links;
 </script>
 
@@ -84,16 +85,16 @@ const paginationLinks = (usePage().props.events as EventPagination).links as Lin
                                 >
                             </div>
 
-                            <div @click="feedbackOpen = true">
+                            <div @click="feedbackEvent = event; feedbackOpen = true">
                                 <img
                                     class="rounded-md max-h-10 cursor-pointer text-xs font-semibold uppercase tracking-widest text-white shadow-sm transition
                                         duration-150 ease-in-out hover:text-gray-50 disabled:opacity-25 dark:text-gray-200"
-                                    src="/feedback.png" />
+                                    src="/feedback.png"  alt="feedback"/>
                             </div>
 
                             <Modal :show="feedbackOpen" @close="feedbackOpen = false">
                                 <div class="p-6">
-                                    <FeedbackForm  :event="event" @feedback-sent="feedbackOpen = false" />
+                                    <FeedbackForm v-if="feedbackEvent"  :event="feedbackEvent" @feedback-sent="feedbackOpen = false" />
                                 </div>
                             </Modal>
                         </template>
