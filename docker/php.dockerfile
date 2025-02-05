@@ -4,36 +4,48 @@ ARG UID
 ARG GID
 ARG USER
 
-ENV UID=${UID}
-ENV GID=${GID}
-ENV USER=${USER}
-ENV APP_BASE_DIR='/var/www'
+ENV UID=${UID} \
+    GID=${GID} \
+    USER=${USER} \
+    PHP_OPCACHE_ENABLE=1 \
+    APP_BASE_DIR='/var/www'
 
-WORKDIR /var/www/
+WORKDIR ${APP_BASE_DIR}
 
 USER root
 
-RUN addgroup --gid ${GID} --system ${USER}
-RUN adduser --system --home /home/${USER} --shell /bin/sh --uid ${UID} --ingroup ${USER} ${USER}
+RUN addgroup --gid ${GID} --system ${USER} \
+    && adduser --system --home /home/${USER} --shell /bin/sh --uid ${UID} --ingroup ${USER} ${USER}
 
-RUN apt-get update && apt-get install -y \
-    jpegoptim optipng pngquant gifsicle \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
     curl \
     supervisor \
     nano \
-    locales
+    locales \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN install-php-extensions intl exif bcmath bz2 gd
+RUN install-php-extensions \
+    intl \
+    exif \
+    bcmath \
+    bz2 \
+    gd
 
-RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g npm@11.1.0 && npm install -g npm-check-updates
-RUN chown -R ${UID}:${GID} /var/www
-RUN chmod 777 -R /var/www
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@11.2.0 npm-check-updates \
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN chown -R ${UID}:${GID} /var/www \
+    && chmod 777 -R /var/www
 
 USER ${USER}
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 FROM base AS php
 COPY ./docker/php-fpm.conf /usr/local/etc
