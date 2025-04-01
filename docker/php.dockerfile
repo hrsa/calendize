@@ -37,7 +37,7 @@ RUN install-php-extensions \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_23.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@11.2.0 npm-check-updates \
+    && npm install -g npm@11.2.0
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

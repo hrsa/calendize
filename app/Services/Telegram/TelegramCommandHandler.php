@@ -87,7 +87,6 @@ class TelegramCommandHandler
 
     private function handleSpam(User $user, string $email): void
     {
-        ray($user, $email);
         if ($user->is_admin && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             SpamEmail::create(['email' => $email]);
             $user->notify(new CustomMessage("Thanks for reporting that email! I've added it to the list of spam emails."));
