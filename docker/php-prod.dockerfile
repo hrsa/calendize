@@ -61,7 +61,7 @@ USER ${USER}
 FROM base AS php
 COPY ./docker/php-fpm.conf /usr/local/etc
 COPY ./docker/supervisord-php.conf /etc/supervisor/conf.d/supervisord-php.conf
-CMD ["/var/www/docker/migrate-build-and-run-supervisor.sh", "${USER}", "/etc/supervisor/conf.d/supervisord-php.conf", "migrate-and-build"]
+CMD /var/www/docker/migrate-build-and-run-supervisor.sh "${USER}" /etc/supervisor/conf.d/supervisord-php.conf migrate-and-build
 
 
 FROM base AS cron
@@ -69,5 +69,5 @@ CMD ["php", "/var/www/artisan", "schedule:work"]
 
 FROM base AS queue
 COPY ./docker/supervisord-queue.conf /etc/supervisor/conf.d/supervisord-queue.conf
-CMD ["/var/www/docker/migrate-build-and-run-supervisor.sh", "${USER}", "/etc/supervisor/conf.d/supervisord-queue.conf"]
+CMD /var/www/docker/migrate-build-and-run-supervisor.sh "${USER}" /etc/supervisor/conf.d/supervisord-queue.conf
 
