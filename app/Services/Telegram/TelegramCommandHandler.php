@@ -4,6 +4,7 @@ namespace App\Services\Telegram;
 
 use App\Data\Telegram\IncomingTelegramMessage;
 use App\Enums\TelegramCommand;
+use App\Models\SpamEmail;
 use App\Models\User;
 use App\Notifications\Telegram\User\CreditsRemaining;
 use App\Notifications\Telegram\User\CustomMessage;
@@ -34,6 +35,8 @@ class TelegramCommandHandler
             case TelegramCommand::MyEvents:
                 $this->handleMyEvents($this->user);
                 break;
+            case TelegramCommand::Spam:
+                $this->handleSpam($this->user, $this->telegramMessage->text);
             default:
                 return;
         }
@@ -80,5 +83,14 @@ class TelegramCommandHandler
     private function handleMyCredits(User $user): void
     {
         $user->notify(new CreditsRemaining);
+    }
+
+    private function handleSpam(User $user, string $email): void
+    {
+        ray($user, $email);
+        if ($user->is_admin && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            SpamEmail::create(['email' => $email]);
+            $user->notify(new CustomMessage("Thanks for reporting that email! I've added it to the list of spam emails."));
+        }
     }
 }

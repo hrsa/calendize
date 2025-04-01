@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Mail\ForwardEmail;
 use App\Mail\NoMoreCreditsError;
 use App\Models\IcsEvent;
+use App\Models\SpamEmail;
 use App\Models\User;
 use BeyondCode\Mailbox\InboundEmail;
 use Illuminate\Support\Facades\Config;
@@ -33,6 +34,8 @@ class MailProcessingService
 
     public function forwardToAdmin(InboundEmail $email): void
     {
-        Mail::to(Config::string('app.admin.email'))->send(new ForwardEmail($email));
+        if (SpamEmail::whereEmail($email->from())->doesntExist()) {
+            Mail::to(Config::string('app.admin.email'))->send(new ForwardEmail($email));
+        }
     }
 }

@@ -4,6 +4,7 @@ use App\Enums\TelegramCallback;
 use App\Enums\TelegramCommand;
 use App\Jobs\GenerateCalendarJob;
 use App\Models\IcsEvent;
+use App\Models\SpamEmail;
 use App\Models\User;
 use App\Notifications\Telegram\Admin\UnknownMessageReceived;
 use App\Notifications\Telegram\ReplyToUnknownUser;
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Testing\AssertableInertia;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Laravel\postJson;
@@ -96,7 +96,7 @@ beforeEach(function () {
 
 test('users can add a telegram account, guests cannot', function () {
 
-get(route('telegram.connect'))->assertRedirectToRoute('login');
+    get(route('telegram.connect'))->assertRedirectToRoute('login');
 
     $user = User::factory()->create();
     $telegramId = fake()->randomNumber(6);
@@ -119,7 +119,7 @@ get(route('telegram.connect'))->assertRedirectToRoute('login');
     expect($user->telegram_id)->toEqual($telegramId);
 
     Notification::assertSentTo($user, CustomMessage::class);
-    });
+});
 
 test('telegram webhook is processed only with a valid secret token header', function () {
 
@@ -269,4 +269,26 @@ test('user can calendize its last message by using a callback', function () {
     Notification::assertSentTo($user, CustomMessage::class);
     Notification::assertCount(2);
     Queue::assertPushed(GenerateCalendarJob::class);
+});
+
+test('admin can add emails to spam database', function () {
+    config(['app.admin.email' => 'admin@email.com']);
+    expect(SpamEmail::count())->toBe(0);
+
+    $user = User::factory()->create(['telegram_id' => $this->tgUserId, 'send_tg_notifications' => true, 'credits' => 5]);
+
+    $this->telegramWebHookData['message']['text'] = TelegramCommand::Spam->value . ' spam@email.com';
+
+    postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
+    Notification::assertNothingSentTo($user);
+
+    $admin = User::factory()->create(['telegram_id' => 987654321, 'send_tg_notifications' => true, 'credits' => 5, 'email' => Config::string('app.admin.email')]);
+    $this->telegramWebHookData['message']['from']['id'] = 987654321;
+    $this->telegramWebHookData['message']['text'] = TelegramCommand::Spam->value . ' spam@email.com';
+    postJson(route('telegram.process-webhook'), $this->telegramWebHookData, ['x-telegram-bot-api-secret-token' => $this->secretToken])->assertOk();
+
+    Notification::assertSentTo($admin, CustomMessage::class);
+
+    expect(SpamEmail::count())->toBe(1)
+        ->and(SpamEmail::first()->email)->toBe('spam@email.com');
 });
