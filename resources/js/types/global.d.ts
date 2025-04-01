@@ -1,8 +1,8 @@
-import { PageProps as InertiaPageProps } from "@inertiajs/core";
-import { Page } from "@inertiajs/core";
+import { Page, PageProps as InertiaPageProps } from "@inertiajs/core";
 import { AxiosInstance } from "axios";
 import { route as ziggyRoute } from "ziggy-js";
 import { PageProps as AppPageProps } from "./";
+import { trans, transChoice } from "laravel-vue-i18n";
 
 declare global {
     interface Window {
@@ -19,6 +19,8 @@ declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         route: typeof ziggyRoute;
         $page: Page;
+        $t: typeof trans;
+        $tChoice: typeof transChoice;
     }
 }
 
