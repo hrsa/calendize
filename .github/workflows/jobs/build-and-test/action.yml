@@ -9,6 +9,8 @@ inputs:
     required: true
   APP_DEBUG:
     required: true
+  ADMIN_EMAIL:
+    required: true
   DB_DATABASE:
     required: true
   DB_USERNAME:
@@ -24,6 +26,7 @@ runs:
         sed -i "s|APP_ENV=.*|APP_ENV=${{ inputs.APP_ENV }}|" .env.example
         sed -i "s|APP_KEY=.*|APP_KEY=${{ inputs.APP_KEY }}|" .env.example
         sed -i "s|APP_DEBUG=.*|APP_DEBUG=${{ inputs.APP_DEBUG }}|" .env.example
+        sed -i "s|ADMIN_EMAIL=.*|ADMIN_EMAIL=${{ inputs.ADMIN_EMAIL }}|" .env.example
         sed -i "/^DB_/d" .env.example
         echo "DB_CONNECTION=sqlite" >> .env.example
         cp .env.example .env

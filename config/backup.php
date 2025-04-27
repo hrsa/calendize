@@ -208,10 +208,10 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => env('ADMIN_EMAIL'),
+            'to' => env('ADMIN_EMAIL', 'admin@calendize.it'),
 
             'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+                'address' => env('MAIL_FROM_ADDRESS', 'hello@hotmail.fr'),
                 'name'    => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
