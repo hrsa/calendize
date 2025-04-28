@@ -15,7 +15,7 @@ describe("profile page", () => {
             password: password,
             credits: credits,
             has_password: true,
-            email_verified_at: yesterday,
+            email_verified_at: yesterday
         });
         cy.visit({ route: "profile.edit" });
         cy.contains(credits + " credits remaining")
@@ -30,7 +30,7 @@ describe("profile page", () => {
     });
     context("name and email", () => {
         it("can change name and email for allowed values", () => {
-            cy.intercept("PATCH", "/profile").as("getProfile");
+            cy.intercept({ method: "PATCH", url: "/profile" }).as("getProfile");
 
             cy.get("#name").clear();
             cy.get("#name").type("My New Name");
@@ -57,7 +57,7 @@ describe("profile page", () => {
         });
 
         it("can't change email to another user's email", () => {
-            cy.intercept("PATCH", "/profile").as("getProfile");
+            cy.intercept({ method: "PATCH", url: "/profile" }).as("getProfile");
 
             cy.create("App\\Models\\User", 1, {
                 name: "John",
@@ -65,7 +65,7 @@ describe("profile page", () => {
                 password: password,
                 credits: credits,
                 has_password: true,
-                email_verified_at: yesterday,
+                email_verified_at: yesterday
             });
 
             cy.get("#email").clear();
@@ -79,8 +79,8 @@ describe("profile page", () => {
     });
     context("password", () => {
         it("can change password", () => {
-            cy.intercept("PUT", "/password").as("putPassword");
-            cy.intercept("POST", "/logout").as("postLogout");
+            cy.intercept({ method: "PUT", url: "/password" }).as("putPassword");
+            cy.intercept({ method: "POST", url: "/logout" }).as("postLogout");
 
             cy.get("#password").type("new-password");
             cy.contains("button", "Update Password").click();
@@ -108,7 +108,7 @@ describe("profile page", () => {
         });
 
         it("can't delete account with wrong password", () => {
-            cy.intercept("DELETE", "/profile").as("deleteProfile");
+            cy.intercept({ method: "DELETE", url: "/profile" }).as("deleteProfile");
             cy.contains("button", "Delete Account").click();
             cy.contains("h2", "Are you sure you want to delete your account?").should("be.visible");
             cy.get(":nth-child(5) > #password").type("wrong-password");
@@ -118,7 +118,7 @@ describe("profile page", () => {
         });
 
         it("can delete account with valid password", () => {
-            cy.intercept("DELETE", "/profile").as("deleteProfile");
+            cy.intercept({ method: "DELETE", url: "/profile" }).as("deleteProfile");
             cy.contains("button", "Delete Account").click();
             cy.contains("h2", "Are you sure you want to delete your account?").should("be.visible");
             cy.get(":nth-child(5) > #password").type(password);

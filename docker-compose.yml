@@ -21,7 +21,7 @@ services:
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
         restart: unless-stopped
-        container_name: nginx
+        container_name: calendize-nginx
         volumes:
             - ./:/var/www/
         ports:
@@ -46,7 +46,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: php
+        container_name: calendize-php
         volumes:
             - ./:/var/www/
         depends_on:
@@ -70,7 +70,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: queue
+        container_name: calendize-queue
         ports:
             - "8080:8080"
         volumes:
@@ -95,7 +95,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: cron
+        container_name: calendize-cron
         volumes:
             - ./:/var/www/
         depends_on:
@@ -105,7 +105,7 @@ services:
 
     db:
         image: postgres:17.2
-        container_name: db
+        container_name: calendize-db
         restart: unless-stopped
         volumes:
             - postgres_data:/var/lib/postgresql/data
@@ -125,7 +125,7 @@ services:
 
     redis:
         image: redis:latest
-        container_name: redis
+        container_name: calendize-redis
         volumes:
             - redis_data:/data
         healthcheck:
@@ -146,7 +146,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: composer
+        container_name: calendize-composer
         volumes:
             - ./:/var/www
         working_dir: /var/www
@@ -166,7 +166,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: artisan
+        container_name: calendize-artisan
         volumes:
             - ./:/var/www
         depends_on:
@@ -187,7 +187,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: npm
+        container_name: calendize-npm
         volumes:
             - ./:/var/www
         ports:
@@ -206,7 +206,7 @@ services:
                 - UID=${UID:-1001}
                 - GID=${GID:-1001}
                 - USER=${USER:-anton}
-        container_name: ncu
+        container_name: calendize-ncu
         volumes:
             - ./:/var/www
         networks:
@@ -216,7 +216,7 @@ services:
     ngrok:
         image: ngrok/ngrok:latest
         restart: unless-stopped
-        container_name: ngrok
+        container_name: calendize-ngrok
         command:
             - "start"
             - "--all"
