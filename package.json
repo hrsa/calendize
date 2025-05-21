@@ -6,34 +6,34 @@
         "build": "vue-tsc && vite build && vite build --ssr"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^2.0.8",
+        "@inertiajs/vue3": "^2.0.11",
         "@tailwindcss/forms": "^0.5.10",
-        "@tailwindcss/postcss": "^4.1.4",
-        "@vitejs/plugin-vue": "^5.2.3",
-        "@vue/server-renderer": "^3.5.13",
+        "@tailwindcss/postcss": "^4.1.7",
+        "@vitejs/plugin-vue": "^5.2.4",
+        "@vue/server-renderer": "^3.5.14",
         "axios": "^1.9.0",
-        "cypress": "^14.3.2",
-        "laravel-echo": "^2.0.2",
+        "cypress": "^14.4.0",
+        "laravel-echo": "^2.1.4",
         "laravel-vite-plugin": "^1.2",
         "postcss": "^8.5.3",
         "prettier": "^3.5.3",
-        "prettier-plugin-classnames": "^0.7.7",
-        "prettier-plugin-merge": "^0.7.3",
+        "prettier-plugin-classnames": "^0.7.8",
+        "prettier-plugin-merge": "^0.7.4",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "pusher-js": "^8.4.0",
-        "tailwindcss": "^4.1.4",
+        "tailwindcss": "^4.1.7",
         "typescript": "5.8.3",
         "vite": "^6.3",
-        "vue": "^3.5.13",
+        "vue": "^3.5.14",
         "vue-tsc": "^2.2.10"
     },
     "dependencies": {
         "@formkit/vue": "^1.6.9",
         "@inertiajs/server": "^0.1.0",
-        "@vueuse/core": "^13.1.0",
+        "@vueuse/core": "^13.2.0",
         "laravel-vue-i18n": "^2.8.0",
-        "swiper": "^11.2.6",
-        "vue": "^3.5.13"
+        "swiper": "^11.2.7",
+        "vue": "^3.5.14"
     },
     "prettier": {
         "plugins": [

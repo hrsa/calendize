@@ -42,7 +42,7 @@ class MyEvents extends Notification
                 try {
                     $telegramMessage->buttonWithCallback(
                         text: $event->getSummary(),
-                        callback_data: TelegramCallback::GetEvent->value . '=' . $event->id);
+                        callbackData: TelegramCallback::GetEvent->value . '=' . $event->id);
                 } catch (JsonException $e) {
                     Log::error($e->getMessage(), [$e]);
                 }
@@ -53,7 +53,7 @@ class MyEvents extends Notification
             try {
                 $telegramMessage->buttonWithCallback(
                     text: 'Load more',
-                    callback_data: TelegramCallback::GetEventsOnPage->value . '=' . ($this->events->currentPage() + 1));
+                    callbackData: TelegramCallback::GetEventsOnPage->value . '=' . ($this->events->currentPage() + 1));
             } catch (JsonException $e) {
                 Log::error($e->getMessage(), [$e]);
             }
