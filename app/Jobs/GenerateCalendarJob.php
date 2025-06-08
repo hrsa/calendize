@@ -6,6 +6,7 @@ use App\Data\IcsEvent\IcsEventData;
 use App\Data\IcsEvent\IcsEventsArray;
 use App\Events\IcsEventProcessed;
 use App\Helpers\IcsGenerator;
+use App\Helpers\JsonSchemaGenerator;
 use App\Mail\IcsError;
 use App\Mail\IcsValid;
 use App\Models\IcsEvent;
@@ -65,6 +66,7 @@ class GenerateCalendarJob implements ShouldQueue
         while ($attempts < $maxRetries) {
             try {
                 $result = $this->generateOpenAIResponse();
+                ray($result);
 
                 if ($this->isErrorJson($result)) {
                     $attempts++;
@@ -156,7 +158,7 @@ class GenerateCalendarJob implements ShouldQueue
         }
 
         $this->aiMessages[] = ['role' => 'assistant', 'content' => $jsonIcs];
-        $tokenUsage = $result->usage?->totalTokens ?? $result->usage->total_tokens;
+        $tokenUsage = $result->usage->totalTokens ?? $result->usage->total_tokens;
         $this->icsEvent->update(['token_usage' => $tokenUsage]);
 
         $decodedReply = json_decode($jsonIcs, true);
@@ -196,7 +198,10 @@ class GenerateCalendarJob implements ShouldQueue
             'model'           => Config::string('openai.model'),
             'messages'        => $this->aiMessages,
             'max_tokens'      => 3700,
-            'response_format' => ['type' => 'json_object'],
+            'response_format' => [
+                'type'        => 'json_schema',
+                'json_schema' => JsonSchemaGenerator::getIcsEventsSchema(),
+            ],
         ]);
     }
 
