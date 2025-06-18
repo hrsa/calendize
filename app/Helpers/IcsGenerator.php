@@ -27,7 +27,7 @@ class IcsGenerator
             ->createdAt(now())
             ->description($data->description)
             ->uniqueIdentifier(Str::random(6) . '@Calendize')
-            ->alertMinutesBefore(60)
+            ->alertMinutesBefore(60, '❗')
             ->startsAt(new DateTime($data->starts->at))
             ->endsAt(new DateTime($data->ends->at));
 
