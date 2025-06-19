@@ -143,7 +143,6 @@ services:
         working_dir: /var/www
         depends_on:
             - php
-        profiles: [ "composer" ]
         networks:
             - calendize-network
 
@@ -161,7 +160,6 @@ services:
         volumes:
             - ./:/var/www
         working_dir: /var/www
-        profiles: [ "artisan" ]
         entrypoint: [ 'php', '/var/www/artisan' ]
         networks:
             - calendize-network
@@ -181,7 +179,6 @@ services:
             - ./:/var/www
         ports:
             - "5173:5173"
-        profiles: [ "npm" ]
         networks:
             - calendize-network
 
