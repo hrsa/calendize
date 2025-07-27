@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\CalendarGeneratorController;
+use App\Http\Controllers\EmailParsingController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\TelegramController;
@@ -18,6 +19,8 @@ Route::group([
 });
 
 Route::post('/feedback', [FeedbackController::class, 'store'])->middleware('auth')->name('feedback');
+
+Route::post('/mgwebhook', EmailParsingController::class)->name('mgwebhook');
 
 Route::group([
     'as'         => 'socialite.',

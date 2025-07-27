@@ -57,6 +57,9 @@ jobs:
           MAILBOX_DRIVER: ${{ secrets.MAILBOX_DRIVER }}
           MAILBOX_HTTP_USERNAME: ${{ secrets.MAILBOX_HTTP_USERNAME }}
           MAILBOX_HTTP_PASSWORD: ${{ secrets.MAILBOX_HTTP_PASSWORD }}
+          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          MAILGUN_WEBHOOK_KEY: ${{ secrets.MAILGUN_WEBHOOK_KEY }}
           FILESYSTEM_CLOUD: ${{ secrets.FILESYSTEM_CLOUD }}
           GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
           GOOGLE_DRIVE_FOLDER: ${{ secrets.GOOGLE_DRIVE_FOLDER }}
@@ -140,6 +143,9 @@ jobs:
           MAILBOX_DRIVER: ${{ secrets.MAILBOX_DRIVER }}
           MAILBOX_HTTP_USERNAME: ${{ secrets.MAILBOX_HTTP_USERNAME }}
           MAILBOX_HTTP_PASSWORD: ${{ secrets.MAILBOX_HTTP_PASSWORD }}
+          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          MAILGUN_WEBHOOK_KEY: ${{ secrets.MAILGUN_WEBHOOK_KEY }}
           FILESYSTEM_CLOUD: ${{ secrets.FILESYSTEM_CLOUD }}
           GOOGLE_DRIVE_CLIENT_SECRET: ${{ secrets.GOOGLE_DRIVE_CLIENT_SECRET }}
           GOOGLE_DRIVE_FOLDER: ${{ secrets.GOOGLE_DRIVE_FOLDER }}

@@ -66,7 +66,6 @@ class GenerateCalendarJob implements ShouldQueue
         while ($attempts < $maxRetries) {
             try {
                 $result = $this->generateOpenAIResponse();
-                ray($result);
 
                 if ($this->isErrorJson($result)) {
                     $attempts++;

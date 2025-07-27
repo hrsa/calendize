@@ -46,6 +46,12 @@ inputs:
     required: true
   MAILBOX_HTTP_PASSWORD:
     required: true
+  MAILGUN_DOMAIN:
+    required: true
+  MAILGUN_API_KEY:
+    required: true
+  MAILGUN_WEBHOOK_KEY:
+    required: true
   FILESYSTEM_CLOUD:
     required: true
   GOOGLE_DRIVE_CLIENT_SECRET:
@@ -172,6 +178,9 @@ runs:
         sed -i "s|MAILBOX_DRIVER=.*|MAILBOX_DRIVER=${{ inputs.MAILBOX_DRIVER }}|" .env
         sed -i "s|MAILBOX_HTTP_USERNAME=.*|MAILBOX_HTTP_USERNAME=${{ inputs.MAILBOX_HTTP_USERNAME }}|" .env
         sed -i "s|MAILBOX_HTTP_PASSWORD=.*|MAILBOX_HTTP_PASSWORD=${{ inputs.MAILBOX_HTTP_PASSWORD }}|" .env
+        sed -i "s|MAILGUN_DOMAIN=.*|MAILGUN_DOMAIN=${{ inputs.MAILGUN_DOMAIN }}|" .env
+        sed -i "s|MAILGUN_API_KEY=.*|MAILGUN_API_KEY=${{ inputs.MAILGUN_API_KEY }}|" .env
+        sed -i "s|MAILGUN_WEBHOOK_KEY=.*|MAILGUN_WEBHOOK_KEY=${{ inputs.MAILGUN_WEBHOOK_KEY }}|" .env
         sed -i "s|FILESYSTEM_CLOUD=.*|FILESYSTEM_CLOUD=${{ inputs.FILESYSTEM_CLOUD }}|" .env
         sed -i "s|GOOGLE_DRIVE_CLIENT_SECRET=.*|GOOGLE_DRIVE_CLIENT_SECRET=${{ inputs.GOOGLE_DRIVE_CLIENT_SECRET }}|" .env
         sed -i "s|GOOGLE_DRIVE_FOLDER=.*|GOOGLE_DRIVE_FOLDER=${{ inputs.GOOGLE_DRIVE_FOLDER }}|" .env

@@ -33,6 +33,8 @@ runs:
         rm .dockerignore
         docker compose -f docker-compose-ci.yml up -d db
         docker compose -f docker-compose-ci.yml build php
+        docker compose -f docker-compose-ci.yml build cron
+        docker compose -f docker-compose-ci.yml build queue
         docker compose -f docker-compose-ci.yml build composer
         docker compose -f docker-compose-ci.yml build artisan
         docker compose -f docker-compose-ci.yml build npm

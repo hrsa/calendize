@@ -2,32 +2,31 @@
 
 namespace App\Mail;
 
-use BeyondCode\Mailbox\InboundEmail;
+use App\Data\MailgunEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use ZBateson\MailMimeParser\Message\MessagePart;
 
 class ForwardEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public InboundEmail $inboundEmail) {}
+    public function __construct(public MailgunEmail $inboundEmail) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'FROM: ' . $this->inboundEmail->fromName() . ' (' . $this->inboundEmail->from() . ') - ' . $this->inboundEmail->subject(),
+            subject: 'FROM: ' . $this->inboundEmail->from . ' - ' . $this->inboundEmail->subject,
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            htmlString: $this->inboundEmail->html()
+            htmlString: $this->inboundEmail->bodyHtml
         );
     }
 
@@ -35,11 +34,11 @@ class ForwardEmail extends Mailable
     {
         $attachments = [];
 
-        /** @var MessagePart $attachment */
-        foreach ($this->inboundEmail->attachments() as $attachment) {
-            if ($attachment->getFilename()) {
-                $attachments[] = Attachment::fromData(fn () => $attachment->getContent(), $attachment->getFilename())
-                    ->withMime($attachment->getContentType());
+        for ($i = 1; $i <= 5; $i++) {
+            $attachmentProperty = "attachment{$i}";
+
+            if ($this->inboundEmail->{$attachmentProperty}) {
+                $attachments[] = Attachment::fromUploadedFile($this->inboundEmail->{$attachmentProperty});
             }
         }
 
