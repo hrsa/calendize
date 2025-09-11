@@ -13,7 +13,7 @@ class IcsEventData extends Data
         public Date $starts,
         public Date $ends,
         public string $name,
-        public ?string $description = null,
+        public ?string $description = '---',
         public ?string $address = null,
         public ?string $addressName = null,
         public ?string $url = null,
