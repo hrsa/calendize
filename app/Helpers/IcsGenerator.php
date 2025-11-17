@@ -23,9 +23,9 @@ class IcsGenerator
     public static function generateEvent(IcsEventData $data): Event
     {
         $event = Event::create()
-            ->name($data->name)
+            ->name($data->name ?? '---')
             ->createdAt(now())
-            ->description($data->description)
+            ->description($data->description ?? $data->name ?? '---')
             ->uniqueIdentifier(Str::random(6) . '@Calendize')
             ->alertMinutesBefore(60, '❗')
             ->startsAt(new DateTime($data->starts->at))
